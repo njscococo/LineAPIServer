@@ -9,6 +9,7 @@ const pool = new Pool({
 
 const insertImage = (req, res) => {
     const { userId } = req.body;
+    console.log('UserID:', userId)
     pool.query('insert into lineimage ( userId) values ($1 )', [userId], (err, results) => {
         if (err) {
             throw err;
