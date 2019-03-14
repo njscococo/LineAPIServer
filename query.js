@@ -8,8 +8,8 @@ const pool = new Pool({
 });
 
 const insertImage = (req, res)=>{
-    const {image, userId} = req.body;
-    pool.query('insert into lineimage (drawImage, userId) values ($1, $2)',[image, userId], (err, results)=>{
+    const { userId} = req.body;
+    pool.query('insert into lineimage ( userId) values ($1, )',[ userId], (err, results)=>{
         if(err){
             throw err;
         }
