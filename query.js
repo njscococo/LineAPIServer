@@ -7,10 +7,10 @@ const pool = new Pool({
     port: 5432
 });
 
-const insertImage = (req, res)=>{
-    const { userId} = req.body;
-    pool.query('insert into lineimage ( userId) values ($1, )',[ userId], (err, results)=>{
-        if(err){
+const insertImage = (req, res) => {
+    const { userId } = req.body;
+    pool.query('insert into lineimage ( userId) values ($1 )', [userId], (err, results) => {
+        if (err) {
             throw err;
         }
         console.log('result:', results);
