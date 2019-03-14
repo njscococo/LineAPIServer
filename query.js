@@ -12,7 +12,8 @@ const insertImage = (req, res) => {
     console.log('UserID:', userId)
     pool.query('insert into lineimage ( userId) values ($1 )', [userId], (err, results) => {
         if (err) {
-            throw err;
+            console.log('err', err);
+            return; 
         }
         console.log('result:', results);
         res.status(201).send('image added with userId:')
