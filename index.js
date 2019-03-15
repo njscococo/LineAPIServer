@@ -32,7 +32,8 @@ app.use(
 );
 
 app.get('/',(req, res, next)=>{
-  res.json({info: 'hihi'})
+  //res.json({info: 'hihi'})
+  console.log('first request')
   next();
 },(req, res)=>{
   res.json({info: 'hi2hi2'})
