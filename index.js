@@ -14,14 +14,16 @@
 // });
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 const app = express();
 let port = process.env.PORT;
 if (port == null || port == "") {
   port = 8000;
 }
-
+console.log(port)
 const db = require('./query');
 
+app.use(cors())
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
