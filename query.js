@@ -10,33 +10,34 @@ const pool = new Pool({
 
 const insertImage = (req, res) => {
     const { userId, drawImage } = req.body;
-    console.log('UserID:', userId)
+    //console.log('UserID:', userId)
     pool.query('insert into lineimage ( "userId","drawImage") values ($1 , $2)', [userId, drawImage], (err, results) => {
         if (err) {
             throw err;
         }
-        console.log('result:', results);
-        res.status(201).send('image added with userId:')
+        console.log('result userId:', userId, results);
+        res.status(201).json({id: 1, userId:'test'})
 
     }
 
     )
-
+    
 }
 
 const queryImageById = (req, res) => {
     const userId = req.params.userId;
-    console.log('queryImage:', userId)
+    const id = req.params.id;
+    console.log('queryImage:', userId, id)
     pool.query('select "drawImage" from lineimage where "userId"= $1 order by id desc limit 1', [userId], (err, results) => {
         if (err) {
             throw err;
         }
         
-        console.log(results.rows[0].drawImage.split(',')[1])
+        //console.log(results.rows[0].drawImage.split(',')[1])
         
         var img =  Buffer.from(results.rows[0].drawImage.split(',')[1], 'base64');
 
-        console.log('select result:', img)
+        //console.log('select result:', img)
 
         res.writeHead(200, {
             'Content-Type': 'image/jpeg',

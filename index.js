@@ -38,7 +38,7 @@ app.get('/',(req, res, next)=>{
 },(req, res)=>{
   res.json({info: 'hi2hi2'})
 });
-app.get('/user/:userId', db.queryImageById);
+app.get('/user/:userId/:id', db.queryImageById);
 app.post('/users', db.insertImage);
 
 app.listen(port,()=>{
