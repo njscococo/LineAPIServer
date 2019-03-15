@@ -34,6 +34,7 @@ app.use(
 app.get('/',(req, res)=>{
   res.json({info: 'hihi'})
 });
+app.get('/:userId', db.queryImageById);
 app.post('/users', db.insertImage);
 
 app.listen(port,()=>{

@@ -10,7 +10,7 @@ const pool = new Pool({
 const insertImage = (req, res) => {
     const { userId, drawImage } = req.body;
     console.log('UserID:', userId)
-    pool.query('insert into lineimage ( "userId","drawImage") values ($1 , $2)', [userId,drawImage], (err, results) => {
+    pool.query('insert into lineimage ( "userId","drawImage") values ($1 , $2)', [userId, drawImage], (err, results) => {
         if (err) {
             throw err;
         }
@@ -23,8 +23,23 @@ const insertImage = (req, res) => {
 
 }
 
+const queryImageById = (req, res)=>{
+    const userId = req.params.userId;
+    pool.query('select "drawImage" from lineimage where "userId"= $1 order by id desc limit 1',[userId], (err, results)=>{
+        if(err){
+            throw err;
+        }
+        console.log('select result:', results)
+        response.status(200).json(results.rows)
+
+    })
+
+
+}
+
 
 module.exports = {
-    insertImage
+    insertImage,
+    queryImageById
 
 }
