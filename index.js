@@ -31,8 +31,11 @@ app.use(
   })
 );
 
-app.get('/',(req, res)=>{
+app.get('/',(req, res, next)=>{
   res.json({info: 'hihi'})
+  next();
+},(req, res)=>{
+  res.json({info: 'hi2hi2'})
 });
 app.get('/user/:userId', db.queryImageById);
 app.post('/users', db.insertImage);
