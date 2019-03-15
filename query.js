@@ -30,7 +30,7 @@ const queryImageById = (req, res)=>{
             throw err;
         }
         console.log('select result:', results)
-        response.status(200).json(results.rows)
+        res.status(200).json(results.rows)
 
     })
 
