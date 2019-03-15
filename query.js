@@ -31,13 +31,15 @@ const queryImageById = (req, res) => {
         if (err) {
             throw err;
         }
-        console.log('select result:', results)
-        //res.status(200).json(results.rows[0].drawImage)
         
-        var img =  Buffer.from(results.rows[0].drawImage.replace(/^data:image\/png;base64,/, ''), 'base64');
+        console.log(results.rows[0].drawImage.split(',')[1])
+        
+        var img =  Buffer.from(results.rows[0].drawImage.split(',')[1], 'base64');
+
+        console.log('select result:', img)
 
         res.writeHead(200, {
-            'Content-Type': 'image/jpg',
+            'Content-Type': 'image/jpeg',
             'Content-Length': img.length
         });
         res.end(img);
