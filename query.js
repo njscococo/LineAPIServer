@@ -25,6 +25,7 @@ const insertImage = (req, res) => {
 
 const queryImageById = (req, res)=>{
     const userId = req.params.userId;
+    console.log('queryImage:', userId)
     pool.query('select "drawImage" from lineimage where "userId"= $1 order by id desc limit 1',[userId], (err, results)=>{
         if(err){
             throw err;
