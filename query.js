@@ -11,7 +11,7 @@ const pool = new Pool({
 const insertImage = (req, res) => {
     const { userId, drawImage } = req.body;
     //console.log('UserID:', userId)
-    pool.query('insert into lineimage ( "userId","drawImage") values ($1 , $2)', [userId, drawImage], (err, results) => {
+    pool.query('insert into lineimage ( "userId","drawImage") values ($1 , $2) returning id', [userId, drawImage], (err, results) => {
         if (err) {
             throw err;
         }
