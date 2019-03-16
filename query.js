@@ -16,7 +16,7 @@ const insertImage = (req, res) => {
             throw err;
         }
         console.log('result userId:', userId, results);
-        res.status(201).json(results)
+        res.status(201).json(results.rows[0])
 
     }
 
