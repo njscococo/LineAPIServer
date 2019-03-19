@@ -20,12 +20,12 @@ let bot = linebot({
 });
 
 
-// app.use(bodyParser.json());
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: true,
-//   })
-// );
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 //line webhook
 const parser = bodyParser.json({
@@ -45,6 +45,7 @@ app.post('/linewebhook', parser, function (req, res) {
 
 bot.on('message', function (event) {
   event.reply(event.message.text).then(function (data) {
+    bot.push()
     console.log('Success', data);
   }).catch(function (error) {
     console.log('Error', error);
