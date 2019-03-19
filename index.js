@@ -33,6 +33,12 @@ const parser = bodyParser.json({
     req.rawBody = buf.toString(encoding);
   }
 });
+app.use(parser)
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 app.post('/linewebhook', parser, function (req, res) {
   console.log('linewebhook req:', req)
