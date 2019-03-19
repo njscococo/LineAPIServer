@@ -35,7 +35,8 @@ let bot = linebot({
 
 //console.log('bot:', bot)
 const linebotParser = bot.parser();
-console.log('bot:', bot, linebotParser)
+console.log('bot:', bot)
+console.log('linebotParser', linebotParser)
 //app.use(cors())
 app.use(bodyParser.json());
 app.use(
