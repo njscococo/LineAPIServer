@@ -28,24 +28,24 @@ app.use(
 );
 
 //line webhook
-const parser = bodyParser.json({
-  verify: function (req, res, buf, encoding) {
-    req.rawBody = buf.toString(encoding);
-  }
-});
+// const parser = bodyParser.json({
+//   verify: function (req, res, buf, encoding) {
+//     req.rawBody = buf.toString(encoding);
+//   }
+// });
 
-app.post('/linewebhook', parser, function (req, res) {
-  console.log('linewebhook req:', req)
-  if (!bot.verify(req.rawBody, req.get('X-Line-Signature'))) {
-    return res.sendStatus(400);
-  }
-  bot.parse(req.body);
-  return res.json({});
-});
+// app.post('/linewebhook', parser, function (req, res) {
+//   console.log('linewebhook req:', req)
+//   if (!bot.verify(req.rawBody, req.get('X-Line-Signature'))) {
+//     return res.sendStatus(400);
+//   }
+//   bot.parse(req.body);
+//   return res.json({});
+// });
 
 bot.on('message', function (event) {
   event.reply(event.message.text).then(function (data) {
-    bot.push()
+    //bot.push()
     console.log('Success', data);
   }).catch(function (error) {
     console.log('Error', error);
