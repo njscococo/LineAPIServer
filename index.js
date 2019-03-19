@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-//const cors = require('cors');
+const cors = require('cors');
 const db = require('./query');
 const linebot = require('linebot');
 
@@ -19,7 +19,7 @@ let bot = linebot({
   channelAccessToken: process.env.LINE_CHANNELACCESSTOKEN
 });
 
-
+app.use(cors())
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
