@@ -45,7 +45,14 @@ app.post('/linewebhook', parser, function (req, res) {
   return res.json({});
 });
 
-
+app.post('/line/push/:msg', (req, res)=>{
+  const { msg } = req.body;
+    bot.push('U276656692ad7af2fa0ada7e69f286165',
+    {
+      "type": "text",
+      "text": msg
+  })
+})
 
 bot.on('message', function (event) {
   event.reply(event.message.text).then(function (data) {    
@@ -53,7 +60,7 @@ bot.on('message', function (event) {
   }).catch(function (error) {
     console.log('Error', error);
   });
-});
+}); 
 
 
 app.get('/', (req, res, next) => {
