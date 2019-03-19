@@ -20,12 +20,6 @@ let bot = linebot({
 });
 
 app.use(cors())
-// app.use(bodyParser.json());
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: true,
-//   })
-// );
 
 //line webhook
 const parser = bodyParser.json({
@@ -51,23 +45,27 @@ app.post('/linewebhook', parser, function (req, res) {
 
 bot.on('message', function (event) {
   event.reply(event.message.text).then(function (data) {
-    //bot.push()
+    bot.push('U276656692ad7af2fa0ada7e69f286165',
+      {
+        "type": "text",
+        "text": "畫好囉！"
+      })
     console.log('Success', data);
   }).catch(function (error) {
     console.log('Error', error);
   });
 });
 
-app.get('/',(req, res, next)=>{
+app.get('/', (req, res, next) => {
   //res.json({info: 'hihi'})
   console.log('first request')
   next();
-},(req, res)=>{
-  res.json({info: 'hi2hi2'})
+}, (req, res) => {
+  res.json({ info: 'hi2hi2' })
 });
 app.get('/user/:userId/:id', db.queryImageById);
 app.post('/users', db.insertImage);
 
-app.listen(port,()=>{
+app.listen(port, () => {
   console.log('app is working')
 });
