@@ -34,27 +34,27 @@ app.use(
   })
 );
 
+//line api
 app.post('/linewebhook', parser, function (req, res) {
-  console.log('linewebhook req:', req)
+  
   if (!bot.verify(req.rawBody, req.get('X-Line-Signature'))) {
     return res.sendStatus(400);
   }
+  console.log('linewebhook req:', req.body)
   bot.parse(req.body);
   return res.json({});
 });
 
+
+
 bot.on('message', function (event) {
-  event.reply(event.message.text).then(function (data) {
-    bot.push('U276656692ad7af2fa0ada7e69f286165',
-      {
-        "type": "text",
-        "text": "畫好囉！"
-      })
+  event.reply(event.message.text).then(function (data) {    
     console.log('Success', data);
   }).catch(function (error) {
     console.log('Error', error);
   });
 });
+
 
 app.get('/', (req, res, next) => {
   //res.json({info: 'hihi'})
