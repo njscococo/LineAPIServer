@@ -1,17 +1,3 @@
-// const http = require('http');
-
-// const hostname = '127.0.0.1';
-// const port = 3000;
-
-// const server = http.createServer((req, res) => {
-//   res.statusCode = 200;
-//   res.setHeader('Content-Type', 'text/plain');
-//   res.end('Hello, World!\n');
-// });
-
-// server.listen(port, hostname, () => {
-//   console.log(`Server running at http://${hostname}:${port}/`);
-// });
 const express = require('express');
 const bodyParser = require('body-parser');
 //const cors = require('cors');
@@ -33,20 +19,36 @@ let bot = linebot({
   channelAccessToken: process.env.LINE_CHANNELACCESSTOKEN
 });
 
-//console.log('bot:', bot)
-const linebotParser = bot.parser();
-console.log('bot:', bot)
-console.log('linebotParser', linebotParser)
-//app.use(cors())
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+
+// app.use(bodyParser.json());
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true,
+//   })
+// );
 
 //line webhook
-app.post('/linewebhook', linebotParser);
+const parser = bodyParser.json({
+  verify: function (req, res, buf, encoding) {
+    req.rawBody = buf.toString(encoding);
+  }
+});
+
+app.post('/linewebhook', parser, function (req, res) {
+  if (!bot.verify(req.rawBody, req.get('X-Line-Signature'))) {
+    return res.sendStatus(400);
+  }
+  bot.parse(req.body);
+  return res.json({});
+});
+
+bot.on('message', function (event) {
+  event.reply(event.message.text).then(function (data) {
+    console.log('Success', data);
+  }).catch(function (error) {
+    console.log('Error', error);
+  });
+});
 
 app.get('/',(req, res, next)=>{
   //res.json({info: 'hihi'})
