@@ -13,6 +13,7 @@ let bot = linebot({
 
 console.log('linebot config:', process.env.LINE_CHANNELID)
 bot.on('message', evt=>{
+    console.log('recieve :', evt)
     var replyMsg = `hihi, you said:${evt.message.text}`;
     evt.reply(replyMsg).then(data=>{
         console.log('send msg done:', data);
