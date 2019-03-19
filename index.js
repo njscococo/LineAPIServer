@@ -43,14 +43,14 @@ app.use(
 //   return res.json({});
 // });
 
-bot.on('message', function (event) {
-  event.reply(event.message.text).then(function (data) {
-    //bot.push()
-    console.log('Success', data);
-  }).catch(function (error) {
-    console.log('Error', error);
-  });
-});
+// bot.on('message', function (event) {
+//   event.reply(event.message.text).then(function (data) {
+//     //bot.push()
+//     console.log('Success', data);
+//   }).catch(function (error) {
+//     console.log('Error', error);
+//   });
+// });
 
 app.get('/',(req, res, next)=>{
   //res.json({info: 'hihi'})
