@@ -45,8 +45,9 @@ app.post('/linewebhook', parser, function (req, res) {
   return res.json({});
 });
 
-app.post('/line/push/:msg', (req, res)=>{
+app.post('/line/push', (req, res)=>{
   const { msg } = req.body;
+  console.log('/line/push:', msg)
     bot.push('U276656692ad7af2fa0ada7e69f286165',
     {
       "type": "text",
