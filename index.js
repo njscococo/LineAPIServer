@@ -16,7 +16,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./query');
-const linebot = require('./linebot');
+const linebot = require('linebot');
 
 const app = express();
 
@@ -25,8 +25,15 @@ if (port == null || port == "") {
   port = 8000;
 }
 console.log('port:', port)
-const linebotParser = linebot.bot.parser();
 
+
+let bot = linebot({
+  channelId: process.env.LINE_CHANNELID,
+  channelSecret: process.env.LINE_CHANNELSECRET,
+  channelAccessToken: process.env.LINE_CHANNELACCESSTOKEN
+});
+
+const linebotParser = bot.parser();
 
 app.use(cors())
 app.use(bodyParser.json());
