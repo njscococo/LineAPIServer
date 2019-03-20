@@ -81,7 +81,7 @@ app.get('/token', (req, res) => {
   res.status(201).json({ 'token:': process.env.BTOKEN })
 });
 
-app.get('/tmtoken', (req, res, next) => {
+app.post('/tmtoken', (req, res, next) => {
   let config = {
     //url: 'https://ebptest.tmnewa.com.tw/!carapp/Partner/App/SignIn',
     url: 'https://ebp.tmnewa.com.tw/Partner/App/SignIn',
