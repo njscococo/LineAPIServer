@@ -83,6 +83,7 @@ app.get('/token', (req, res) => {
 
 app.post('/tmtoken', (req, res) => {
   let {client, secret} = req.body;
+  console.log('/tmtoken:', req.body)
   let config = {
     //url: 'https://ebptest.tmnewa.com.tw/!carapp/Partner/App/SignIn',
     url: 'https://ebp.tmnewa.com.tw/Partner/App/SignIn',
@@ -108,10 +109,6 @@ app.post('/tmtoken', (req, res) => {
     res.status(400).json(err)
   })
   
-
-},(req, res)=>{
-  console.log('sec req:', req)
-  console.log('sec res:', res)
 
 })
 
