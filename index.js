@@ -71,8 +71,14 @@ app.get('/', (req, res, next) => {
 }, (req, res) => {
   res.json({ info: 'hi2hi2' })
 });
+
 app.get('/user/:userId/:id', db.queryImageById);
+
 app.post('/users', db.insertImage);
+
+app.get('/token',(req, res)=>{
+  res.status(201).json({'token:': process.env.BTOKEN})
+});
 
 app.listen(port, () => {
   console.log('app is working')
