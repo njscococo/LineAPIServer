@@ -83,8 +83,8 @@ app.get('/token', (req, res) => {
 
 app.get('/tmtoken', (req, res, next) => {
   let config = {
-    url: 'https://ebptest.tmnewa.com.tw/!carapp/Partner/App/SignIn',
-    //url: 'https://ebptest.tmnewa.com.tw/Partner/App/SignIn',
+    //url: 'https://ebptest.tmnewa.com.tw/!carapp/Partner/App/SignIn',
+    url: 'https://ebp.tmnewa.com.tw/Partner/App/SignIn',
     method: 'post',
     //baseURL: 'https://ebp.tmnewa.com.tw/',
     headers: {
