@@ -99,14 +99,18 @@ app.get('/tmtoken', (req, res, next) => {
     }
   };
 
-  axios(config).then(res => {
-    console.log('token:', res.data.access_token)
+  axios(config).then(resp => {
+    console.log('token:', resp.data.access_token)
+    res.json({'token': resp.data.access_token})
   }).catch(err => {
     console.log('tmnewa err:', err)
+    res.status(400).json(err)
   })
-  next();
+  
 
-},()=>{
+},(req, res)=>{
+  console.log('sec req:', req)
+  console.log('sec res:', res)
 
 })
 
