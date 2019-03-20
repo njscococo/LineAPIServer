@@ -37,7 +37,7 @@ app.use(
 
 //line api
 app.post('/linewebhook', parser, function (req, res) {
-  
+
   if (!bot.verify(req.rawBody, req.get('X-Line-Signature'))) {
     return res.sendStatus(400);
   }
@@ -46,23 +46,23 @@ app.post('/linewebhook', parser, function (req, res) {
   return res.json({});
 });
 
-app.post('/line/push', (req, res)=>{
+app.post('/line/push', (req, res) => {
   const { msg } = req.body;
   console.log('/line/push:', msg)
-    bot.push('U276656692ad7af2fa0ada7e69f286165',
+  bot.push('U276656692ad7af2fa0ada7e69f286165',
     {
       "type": "text",
       "text": msg
-  })
+    })
 })
 
 bot.on('message', function (event) {
-  event.reply(event.message.text).then(function (data) {    
+  event.reply(event.message.text).then(function (data) {
     console.log('Success', data);
   }).catch(function (error) {
     console.log('Error', error);
   });
-}); 
+});
 
 
 app.get('/', (req, res, next) => {
@@ -77,33 +77,36 @@ app.get('/user/:userId/:id', db.queryImageById);
 
 app.post('/users', db.insertImage);
 
-app.get('/token',(req, res)=>{
-  res.status(201).json({'token:': process.env.BTOKEN})
+app.get('/token', (req, res) => {
+  res.status(201).json({ 'token:': process.env.BTOKEN })
 });
 
-app.get('/tmtoken',(req, res)=>{
+app.get('/tmtoken', (req, res, next) => {
   let config = {
-    //url: 'https://ebptest.tmnewa.com.tw/!carapp/Partner/App/SignIn',
-    url: 'https://ebp.tmnewa.com.tw/Partner/App/SignIn',
+    url: 'https://ebptest.tmnewa.com.tw/!carapp/Partner/App/SignIn',
+    //url: 'https://ebptest.tmnewa.com.tw/Partner/App/SignIn',
     method: 'post',
     //baseURL: 'https://ebp.tmnewa.com.tw/',
     headers: {
-        'Authorization': 'Basic VE1OZXdhOlRNTmV3YUFwcA==',
-        'Content-Type': 'application/json',
-        //'Host': 'ebp.tmnewa.com.tw'
+      'Authorization': 'Basic VE1OZXdhOlRNTmV3YUFwcA==',
+      'Content-Type': 'application/json',
+      //'Host': 'ebp.tmnewa.com.tw'
     },
     data: {
-        //url: 'https://localhost:5001/api/values',
-        client: '061782',
-        secret: 'Newa1234'
+      //url: 'https://localhost:5001/api/values',
+      client: '061782',
+      secret: 'Newa1234'
     }
-};
+  };
 
-axios(config).then(res=>{
-    console.log('token:', res.data)
-}).catch(err=>{
+  axios(config).then(res => {
+    console.log('token:', res.data.access_token)
+  }).catch(err => {
     console.log('tmnewa err:', err)
-})
+  })
+  next();
+
+},()=>{
 
 })
 
