@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./query');
 const linebot = require('linebot');
+const axios = require('axios');
 
 const app = express();
 
@@ -79,6 +80,32 @@ app.post('/users', db.insertImage);
 app.get('/token',(req, res)=>{
   res.status(201).json({'token:': process.env.BTOKEN})
 });
+
+app.get('/tmtoken',(req, res)=>{
+  let config = {
+    //url: 'https://ebptest.tmnewa.com.tw/!carapp/Partner/App/SignIn',
+    url: 'https://ebp.tmnewa.com.tw/Partner/App/SignIn',
+    method: 'post',
+    //baseURL: 'https://ebp.tmnewa.com.tw/',
+    headers: {
+        'Authorization': 'Basic VE1OZXdhOlRNTmV3YUFwcA==',
+        'Content-Type': 'application/json',
+        //'Host': 'ebp.tmnewa.com.tw'
+    },
+    data: {
+        //url: 'https://localhost:5001/api/values',
+        client: '061782',
+        secret: 'Newa1234'
+    }
+};
+
+axios(config).then(res=>{
+    console.log('token:', res.data)
+}).catch(err=>{
+    console.log('tmnewa err:', err)
+})
+
+})
 
 app.listen(port, () => {
   console.log('app is working')
