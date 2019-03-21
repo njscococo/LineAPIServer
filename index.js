@@ -111,8 +111,9 @@ app.post('/tmtoken', (req, res) => {
       //     'Authorization': 'Bearer ' + resp.data.access_token
       //   }
       // })
-      res.header('Authorization', 'Bearer ' + resp.data.access_token);
-      res.redirect('https://ebp.tmnewa.com.tw/Car/CAQuotation/Index');
+      //res.header('Authorization', 'Bearer ' + resp.data.access_token);
+      //res.redirect('https://ebp.tmnewa.com.tw/Car/CAQuotation/Index');
+      res.redirect('https://www.google.com');
       //res.json({ 'token': resp.data.access_token })
     })
     // .then(resp=>{
