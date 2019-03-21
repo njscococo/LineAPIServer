@@ -104,6 +104,7 @@ app.post('/tmtoken', (req, res) => {
   axios(config)
     .then(resp => {
       console.log('token:', resp.data.access_token)
+      console.log('res', res.header)
       // return axios({
       //   url: 'https://ebp.tmnewa.com.tw/Car/CAQuotation/Index',
       //   method: 'get',
