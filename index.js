@@ -21,6 +21,8 @@ let bot = linebot({
 });
 
 app.use(cors())
+// allow preflight
+app.options('*', cors()) 
 
 //line webhook
 const parser = bodyParser.json({
