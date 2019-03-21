@@ -82,7 +82,7 @@ app.get('/token', (req, res) => {
 });
 
 app.post('/tmtoken', (req, res) => {
-  let {client, secret} = req.body;
+  let { client, secret } = req.body;
   console.log('/tmtoken:', req.body)
   let config = {
     //url: 'https://ebptest.tmnewa.com.tw/!carapp/Partner/App/SignIn',
@@ -101,14 +101,26 @@ app.post('/tmtoken', (req, res) => {
     }
   };
 
-  axios(config).then(resp => {
-    console.log('token:', resp.data.access_token)
-    res.json({'token': resp.data.access_token})
-  }).catch(err => {
-    console.log('tmnewa err:', err)
-    res.status(400).json(err)
-  })
-  
+  axios(config)
+    .then(resp => {
+      console.log('token:', resp.data.access_token)
+      return axios({
+        url: 'https://ebp.tmnewa.com.tw/Car/CAQuotation/Index',
+        method: 'get',
+        headers: {
+          'Authorization': 'Bearer ' + resp.data.access_token
+        }
+      })
+      //res.json({ 'token': resp.data.access_token })
+    })
+    .then(res=>{
+      console.log('tmnewa car:', res)
+    })
+    .catch(err => {
+      console.log('tmnewa err:', err)
+      res.status(400).json(err)
+    })
+
 
 })
 
