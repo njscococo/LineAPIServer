@@ -114,8 +114,8 @@ app.post('/tmtoken', (req, res) => {
       //res.json({ 'token': resp.data.access_token })
     })
     .then(res=>{
-      console.log('tmnewa car:', res)
-      res.render(res)
+      console.log('tmnewa car:', res.data)
+      res.send(res.data)
     })
     .catch(err => {
       console.log('tmnewa err:', err)
