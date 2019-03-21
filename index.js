@@ -115,7 +115,7 @@ app.post('/tmtoken', (req, res) => {
     })
     .then(res=>{
       console.log('tmnewa car:', res.data)
-      res.send(res.data)
+      //res.send(res.data)
     })
     .catch(err => {
       console.log('tmnewa err:', err)
