@@ -22,7 +22,7 @@ let bot = linebot({
 
 app.use(cors())
 // allow preflight
-app.options('*', cors()) 
+//app.options('*', cors()) 
 
 app.use('/static', express.static(__dirname + '/public'));
 
