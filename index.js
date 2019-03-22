@@ -88,8 +88,8 @@ app.post('/tmtoken', (req, res) => {
   let { client, secret } = req.body;
   console.log('/tmtoken:', req.headers)
   let config = {
-    //url: 'https://ebptest.tmnewa.com.tw/!carapp/Partner/App/SignIn',
-    url: 'https://ebp.tmnewa.com.tw/Partner/App/SignIn',
+    url: 'https://ebptest.tmnewa.com.tw/!carapp/Partner/App/SignIn',
+    //url: 'https://ebp.tmnewa.com.tw/Partner/App/SignIn',
     method: 'post',
     //baseURL: 'https://ebp.tmnewa.com.tw/',
     headers: {
@@ -116,7 +116,7 @@ app.post('/tmtoken', (req, res) => {
       //   }
       // })
       //res.header('Authorization', 'Bearer ' + resp.data.access_token);
-      res.redirect('https://ebp.tmnewa.com.tw/Car/CAQuotation/Index');
+      res.redirect('307', 'https://ebp.tmnewa.com.tw/Car/CAQuotation/Index');
       //res.redirect('https://www.heroku.com');
       
       //res.json({ 'token': resp.data.access_token })
