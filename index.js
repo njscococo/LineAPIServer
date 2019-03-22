@@ -61,6 +61,7 @@ app.post('/line/push', (req, res) => {
     })
     .then(resp=>{
       console.log('line push done:', resp)
+      res.json({status: 'done'})
     })
 })
 
