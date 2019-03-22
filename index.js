@@ -24,6 +24,8 @@ app.use(cors())
 // allow preflight
 app.options('*', cors()) 
 
+app.use('/static', express.static(__dirname + '/public'));
+
 //line webhook
 const parser = bodyParser.json({
   verify: function (req, res, buf, encoding) {
@@ -67,12 +69,11 @@ bot.on('message', function (event) {
 });
 
 
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
   //res.json({info: 'hihi'})
   console.log('first request')
-  next();
-}, (req, res) => {
-  res.json({ info: 'hi2hi2' })
+  res.json({'text': 'hey you'})
+  //next();
 });
 
 app.get('/user/:userId/:id', db.queryImageById);
