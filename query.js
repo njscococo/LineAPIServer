@@ -33,7 +33,7 @@ const queryImageById = (req, res) => {
         
         //console.log(results.rows[0].drawImage.split(',')[1])
         
-        var img =  Buffer.from(results.rows[0].drawImage.split(',')[1], 'base64');
+        var img =  Buffer.from(results.rows[0].image.split(',')[1], 'base64');
 
         //console.log('select result:', img)
 
