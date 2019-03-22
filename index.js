@@ -126,7 +126,7 @@ app.post('/tmtoken', (req, res) => {
     //   res.send(resp.data)
     // })
     .catch(err => {
-      console.log('tmnewa err:', err)
+      console.log('nodejs err:', err)
       res.status(400).json(err)
     })
 
