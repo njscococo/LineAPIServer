@@ -116,8 +116,8 @@ app.post('/tmtoken', (req, res) => {
       //   }
       // })
       //res.header('Authorization', 'Bearer ' + resp.data.access_token);
-      //res.redirect('https://ebp.tmnewa.com.tw/Car/CAQuotation/Index');
-      res.redirect('https://www.heroku.com');
+      res.redirect('https://ebp.tmnewa.com.tw/Car/CAQuotation/Index');
+      //res.redirect('https://www.heroku.com');
       
       //res.json({ 'token': resp.data.access_token })
     })
