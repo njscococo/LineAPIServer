@@ -4,6 +4,7 @@ const cors = require('cors');
 const db = require('./query');
 const linebot = require('linebot');
 const axios = require('axios');
+const session = require('express-session');
 
 const app = express();
 
@@ -58,6 +59,9 @@ app.post('/line/push', (req, res) => {
       "type": "text",
       "text": msg
     })
+    .then(resp=>{
+      console.log('line push done:', resp)
+    })
 })
 
 bot.on('message', function (event) {
@@ -88,14 +92,11 @@ app.post('/tmtoken', (req, res) => {
   let { client, secret } = req.body;
   console.log('/tmtoken:', req.headers)
   let config = {
-    url: 'https://ebptest.tmnewa.com.tw/!carapp/Partner/App/SignIn',
-    //url: 'https://ebp.tmnewa.com.tw/Partner/App/SignIn',
+    url: 'https://abc.com.tw/!carapp/SignIn',
     method: 'post',
-    //baseURL: 'https://ebp.tmnewa.com.tw/',
     headers: {
-      'Authorization': 'Basic VE1OZXdhOlRNTmV3YUFwcA==',
+      'Authorization': 'Basic ',
       'Content-Type': 'application/json',
-      //'Host': 'ebp.tmnewa.com.tw'
     },
     data: {
       //url: 'https://localhost:5001/api/values',
@@ -107,24 +108,10 @@ app.post('/tmtoken', (req, res) => {
   axios(config)
     .then(resp => {
       console.log('token:', resp.data.access_token)
-      //console.log('res', res)
-      // return axios({
-      //   url: 'https://ebp.tmnewa.com.tw/Car/CAQuotation/Index',
-      //   method: 'get',
-      //   headers: {
-      //     'Authorization': 'Bearer ' + resp.data.access_token
-      //   }
-      // })
-      //res.header('Authorization', 'Bearer ' + resp.data.access_token);
-      res.redirect('307', 'https://ebp.tmnewa.com.tw/Car/CAQuotation/Index');
-      //res.redirect('https://www.heroku.com');
       
+      res.redirect('307', 'https://abc.com.tw/Car/CAQuotation/Index');
       //res.json({ 'token': resp.data.access_token })
     })
-    // .then(resp=>{
-    //   console.log('tmnewa car:', resp.data)
-    //   res.send(resp.data)
-    // })
     .catch(err => {
       console.log('nodejs err:', err)
       res.status(400).json(err)
