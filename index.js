@@ -66,6 +66,7 @@ app.post('/line/push', (req, res) => {
 })
 
 bot.on('message', function (event) {
+  console.log('bot message:',event.message);
   event.reply(event.message.text).then(function (data) {
     console.log('Success', data);
   }).catch(function (error) {
