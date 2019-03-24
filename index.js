@@ -53,14 +53,14 @@ app.post('/linewebhook', parser, function (req, res) {
 
 app.post('/line/push', (req, res) => {
   const { msg } = req.body;
-  console.log('/line/push:', msg)
+  //console.log('/line/push:', msg)
   bot.push('U276656692ad7af2fa0ada7e69f286165',
     {
       "type": "text",
       "text": msg
     })
     .then(resp=>{
-      console.log('line push done:', resp)
+      //console.log('line push done:', resp)
       res.json({status: 'done'})
     })
 })
