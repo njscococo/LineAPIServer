@@ -47,7 +47,7 @@ app.post('/linewebhook', parser, function (req, res) {
     return res.sendStatus(400);
   }
   console.log('linewebhook req:', req.body.events[0].message)
-  //console.log('incoming message:',bot.parse(req.body));
+  bot.parse(req.body);
   return res.json({'send': 'done'});
 });
 
