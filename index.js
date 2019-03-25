@@ -71,7 +71,9 @@ app.post('/line/linktmnewa', db.linkTmnewaAccount)
 app.get('/line/getAllUserId', db.queryAllLineId)
 
 bot.on('message', function (event) {
-  console.log('bot message:',event.message.content());
+  console.log('bot message:',event.message.content().then(resp=>{
+    console.log('content()', resp)
+  }));
   event.reply(event.message.text).then(function (data) {
     console.log('Success', data);
   }).catch(function (error) {
