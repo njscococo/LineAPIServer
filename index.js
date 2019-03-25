@@ -61,14 +61,17 @@ app.post('/line/push', (req, res) => {
     })
 })
 
+//判斷是否為新安員工
 app.get('/line/istmnewa/:userId', db.queryIsTmnewa)
 
+//將line userid 對應到tmnewa 帳號
 app.post('/line/linktmnewa', db.linkTmnewaAccount)
 
+//取得所有ID
 app.get('/line/getAllUserId', db.queryAllLineId)
 
 bot.on('message', function (event) {
-  console.log('bot message:',event.message);
+  console.log('bot message:',event.message.content);
   event.reply(event.message.text).then(function (data) {
     console.log('Success', data);
   }).catch(function (error) {
@@ -84,6 +87,7 @@ app.get('/', (req, res) => {
   //next();
 });
 
+//取得某userid的第id張圖
 app.get('/user/:userId/:id', db.queryImageById);
 
 app.post('/users', db.insertImage);
