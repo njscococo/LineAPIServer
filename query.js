@@ -52,12 +52,13 @@ const queryAllLineId = (req, res) =>{
 
 const queryIsTmnewa = (req, res)=>{
     const userId = req.params.userId;
+    console.log(req.params)
     pool.query('select count(*) from users where lineuserid=$1', [userId], (err, result)=>{
         if(err){
             throw err;
         }
-        console.log('queryIsTmnewa', result);
-        let isTmnewa = result.rows[0].count == 0 ? true : false;
+        //console.log('queryIsTmnewa', '1' > 0);
+        let isTmnewa = result.rows[0].count > 0 ? true : false;
         res.json({'isTmnewa':isTmnewa})
 
     })

@@ -65,7 +65,7 @@ app.post('/line/push', (req, res) => {
     })
 })
 
-app.get('/line/istmnewa', db.queryIsTmnewa)
+app.get('/line/istmnewa/:userId', db.queryIsTmnewa)
 
 bot.on('message', function (event) {
   console.log('bot message:',event.message);
