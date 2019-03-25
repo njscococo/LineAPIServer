@@ -44,13 +44,28 @@ const queryImageById = (req, res) => {
         res.end(img);
 
     })
+}
 
+const queryAllLineId = (req, res) =>{
 
+}
+
+const queryIsTmnewa = (req, res)=>{
+    const userId = req.params.userId;
+    pool.query('select count(*) from users where lineuserid=$1', [userId], (err, result)=>{
+        if(err){
+            throw err;
+        }
+        console.log('queryIsTmnewa', result);
+        res.json({'isTmnewa':result})
+
+    })
 }
 
 
 module.exports = {
     insertImage,
-    queryImageById
+    queryImageById,
+    queryIsTmnewa
 
 }
