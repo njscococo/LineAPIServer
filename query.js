@@ -64,10 +64,26 @@ const queryIsTmnewa = (req, res)=>{
     })
 }
 
+const linkTmnewaAccount = (req, res)=>{
+    const {tmnewaid, userid} = req.body;
+    //console.log('linktmnewa', tmnewaid, userid)
+
+    pool.query('insert into users (email, lineuserid) values ($1, $2) returning id', [tmnewaid, userid], (err, result)=>{
+        if(err){
+            throw err;
+        }
+        //console.log(result)
+        res.status(201).json(result.rows[0])
+
+    })
+
+}
+
 
 module.exports = {
     insertImage,
     queryImageById,
-    queryIsTmnewa
+    queryIsTmnewa,
+    linkTmnewaAccount
 
 }
