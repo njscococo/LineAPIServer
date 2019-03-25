@@ -57,7 +57,8 @@ const queryIsTmnewa = (req, res)=>{
             throw err;
         }
         console.log('queryIsTmnewa', result);
-        res.json({'isTmnewa':result})
+        let isTmnewa = result.rows[0].count == 0 ? true : false;
+        res.json({'isTmnewa':isTmnewa})
 
     })
 }
