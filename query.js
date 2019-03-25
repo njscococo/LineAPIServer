@@ -47,7 +47,12 @@ const queryImageById = (req, res) => {
 }
 
 const queryAllLineId = (req, res) =>{
-
+    pool.query('select email, lineuserid from users where lineuserid is not null',(err, result)=>{
+        if(err){
+            throw err;
+        }
+        res.status(201).json(result.rows)
+    }) 
 }
 
 const queryIsTmnewa = (req, res)=>{
@@ -84,6 +89,6 @@ module.exports = {
     insertImage,
     queryImageById,
     queryIsTmnewa,
-    linkTmnewaAccount
-
+    linkTmnewaAccount,
+    queryAllLineId
 }

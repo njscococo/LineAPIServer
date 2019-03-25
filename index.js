@@ -69,6 +69,8 @@ app.get('/line/istmnewa/:userId', db.queryIsTmnewa)
 
 app.post('/line/linktmnewa', db.linkTmnewaAccount)
 
+app.get('/line/getAllUserId', db.queryAllLineId)
+
 bot.on('message', function (event) {
   console.log('bot message:',event.message);
   event.reply(event.message.text).then(function (data) {
