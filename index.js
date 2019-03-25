@@ -54,7 +54,7 @@ app.post('/linewebhook', parser, function (req, res) {
 app.post('/line/push', (req, res) => {
   const { msgObject , userIds } = req.body;
   console.log('/line/push:', msgObject, userIds)
-  bot.push(userIds, msgObject)
+  bot.multicast(userIds, msgObject)
     .then(resp=>{
       console.log('line push done:', resp)
       res.json({status: 'done'})
