@@ -45,8 +45,11 @@ app.post('/linewebhook', parser, function (req, res) {
 
   if (!bot.verify(req.rawBody, req.get('X-Line-Signature'))) {
     return res.sendStatus(400);
+  
   }
-  console.log('linewebhook req:', req.body.events[0].message)
+
+  console.log('linewebhook req:', req.body.events)
+  console.log('linewebhook req msg:', req.body.events[0].message)
   bot.parse(req.body);
   return res.json({ 'send': 'done' });
 });
