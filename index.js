@@ -71,7 +71,14 @@ bot.on('message', function (event) {
                   "type": "message",
                   "label": "Yes",
                   "text": "Yes"
-                }],
+                },
+                {  
+                  "type":"postback",
+                  "label":"Buy",
+                  "data":"action=buy&itemid=111",
+                  "text":"Buy"
+               }
+              ],
                 thumbnailImageUrl: `https://linetestingserver.herokuapp.com/productimg/${elm.id}`
               }
             })
