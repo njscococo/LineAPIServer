@@ -63,6 +63,9 @@ bot.on('message', function (event) {
         })
         .then((res) => {
           console.log('product', res.data)
+          res.data.map((elm,idx) => {
+            return 
+          })
         })
         .catch((err) => {
           
@@ -80,16 +83,6 @@ bot.on('message', function (event) {
       break;
     
   }
-  // event.reply({
-  //   type: 'sticker',
-  //   packageId: '1',
-  //   stickerId: '1'
-  // })
-  // .then(function (data) {
-  //   console.log('Success', data);
-  // }).catch(function (error) {
-  //   console.log('Error', error);
-  // });
 });
 
 //broadcast message
@@ -122,7 +115,11 @@ app.get('/', (req, res) => {
 //取得某userid的第id張圖
 app.get('/user/:userId/:id', db.queryImageById);
 
+//upload signature
 app.post('/users', db.insertImage);
+
+//取得product的圖檔
+app.get('/productimg/:prodId', db.queryProductImageById)
 
 app.get('/token', (req, res) => {
   res.status(201).json({ 'token:': process.env.BTOKEN })

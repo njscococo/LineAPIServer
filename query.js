@@ -22,6 +22,24 @@ const insertImage = (req, res) => {
     )    
 }
 
+const queryProductImageById = (req, res) => {
+    const prodId = req.params.prodId;
+    pool.query('select image from products where "id"= $1 ', [prodId], (err, results) => {
+        if (err) {
+            throw err;
+        }
+        
+        var img =  Buffer.from(results.rows[0].image.split(',')[1], 'base64');
+
+        res.writeHead(200, {
+            'Content-Type': 'image/jpeg',
+            'Content-Length': img.length
+        });
+        res.end(img);
+
+    })
+}
+
 const queryImageById = (req, res) => {
     const userId = req.params.userId;
     const id = req.params.id;
@@ -31,11 +49,7 @@ const queryImageById = (req, res) => {
             throw err;
         }
         
-        //console.log(results.rows[0].drawImage.split(',')[1])
-        
         var img =  Buffer.from(results.rows[0].image.split(',')[1], 'base64');
-
-        //console.log('select result:', img)
 
         res.writeHead(200, {
             'Content-Type': 'image/jpeg',
@@ -102,5 +116,6 @@ module.exports = {
     queryIsTmnewa,
     linkTmnewaAccount,
     queryAllLineId,
-    queryProducts
+    queryProducts,
+    queryProductImageById
 }
