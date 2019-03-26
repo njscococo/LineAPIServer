@@ -56,15 +56,29 @@ bot.on('message', function (event) {
   //event.reply(event.message.text)
   switch (event.message.type) {
     case 'text':
-      event.reply(event.message.text)
+      if(event.message.text==='產品清單'){
+        axios({
+          url: 'https://linetestingserver.herokuapp.com/products',
+          method: 'get'
+        })
+        .then((res) => {
+          console.log('product', res.data)
+        })
+        .catch((err) => {
+          
+        })
+
+      }else{
+        event.reply(event.message.text)
         .then(function (data) {
           console.log('Success', data);
         }).catch(function (error) {
           console.log('Error', error);
         });
+      }
+      
       break;
-    default:
-      return;
+    
   }
   // event.reply({
   //   type: 'sticker',
@@ -151,3 +165,5 @@ app.get('/products', db.queryProducts);
 app.listen(port, () => {
   console.log('app is working')
 });
+
+const 
