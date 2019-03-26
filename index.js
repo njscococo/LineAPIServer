@@ -51,6 +51,7 @@ app.post('/linewebhook', parser, function (req, res) {
   return res.json({'send': 'done'});
 });
 
+//broadcast message
 app.post('/line/push', (req, res) => {
   const { msgObject , userIds } = req.body;
   console.log('/line/push:', msgObject, userIds)
@@ -71,9 +72,7 @@ app.post('/line/linktmnewa', db.linkTmnewaAccount)
 app.get('/line/getAllUserId', db.queryAllLineId)
 
 bot.on('message', function (event) {
-  console.log('bot message:',event.message.content().then(resp=>{
-    console.log('content()', resp)
-  }));
+  console.log('bot message:',event.message);
   event.reply(event.message.text).then(function (data) {
     console.log('Success', data);
   }).catch(function (error) {
