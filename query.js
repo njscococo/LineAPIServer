@@ -85,7 +85,7 @@ const linkTmnewaAccount = (req, res)=>{
 }
 
 const queryProducts = (req,res) => {
-    pool.query('select id, title, price from products', (err,result) => {
+    pool.query('select id, title, price from products limit 3', (err,result) => {
         if (err) {
             throw err;
         }
