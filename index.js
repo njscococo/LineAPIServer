@@ -23,7 +23,7 @@ let bot = linebot({
 
 app.use(cors())
 // allow preflight
-app.options('*', cors()) 
+app.options('*', cors())
 
 app.use('/static', express.static(__dirname + '/public'));
 
@@ -48,32 +48,44 @@ app.post('/linewebhook', parser, function (req, res) {
   }
   console.log('linewebhook req:', req.body.events[0].message)
   bot.parse(req.body);
-  return res.json({'send': 'done'});
+  return res.json({ 'send': 'done' });
 });
 
 bot.on('message', function (event) {
-  console.log('bot message:',event.message);
+  console.log('bot message:', event.message);
   //event.reply(event.message.text)
-  event.reply({
-    type: 'sticker',
-    packageId: '1',
-    stickerId: '1'
-  })
-  .then(function (data) {
-    console.log('Success', data);
-  }).catch(function (error) {
-    console.log('Error', error);
-  });
+  switch (event.message.type) {
+    case 'text':
+      event.reply(event.message.text)
+        .then(function (data) {
+          console.log('Success', data);
+        }).catch(function (error) {
+          console.log('Error', error);
+        });
+      break;
+    default:
+      return;
+  }
+  // event.reply({
+  //   type: 'sticker',
+  //   packageId: '1',
+  //   stickerId: '1'
+  // })
+  // .then(function (data) {
+  //   console.log('Success', data);
+  // }).catch(function (error) {
+  //   console.log('Error', error);
+  // });
 });
 
 //broadcast message
 app.post('/line/push', (req, res) => {
-  const { msgObject , userIds } = req.body;
+  const { msgObject, userIds } = req.body;
   console.log('/line/push:', msgObject, userIds)
   bot.multicast(userIds, msgObject)
-    .then(resp=>{
+    .then(resp => {
       console.log('line push done:', resp)
-      res.json({status: 'done'})
+      res.json({ status: 'done' })
     })
 })
 
@@ -89,7 +101,7 @@ app.get('/line/getAllUserId', db.queryAllLineId)
 app.get('/', (req, res) => {
   //res.json({info: 'hihi'})
   console.log('first request')
-  res.json({'text': 'hey you'})
+  res.json({ 'text': 'hey you' })
   //next();
 });
 
@@ -122,7 +134,7 @@ app.post('/tmtoken', (req, res) => {
   axios(config)
     .then(resp => {
       console.log('token:', resp.data.access_token)
-      
+
       res.redirect('307', 'https://abc.com.tw/Car/CAQuotation/Index');
       //res.json({ 'token': resp.data.access_token })
     })
@@ -133,6 +145,8 @@ app.post('/tmtoken', (req, res) => {
 
 
 })
+
+app.get('/products', db.queryProducts);
 
 app.listen(port, () => {
   console.log('app is working')

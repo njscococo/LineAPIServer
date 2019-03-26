@@ -84,11 +84,23 @@ const linkTmnewaAccount = (req, res)=>{
 
 }
 
+const queryProducts = (req,res) => {
+    pool.query('select id, title, price from products', (err,result) => {
+        if (err) {
+            throw err;
+        }
+        //console.log('queryProducts', result)
+        res.status(201).json(result.rows)
+    })
+}
+
+
 
 module.exports = {
     insertImage,
     queryImageById,
     queryIsTmnewa,
     linkTmnewaAccount,
-    queryAllLineId
+    queryAllLineId,
+    queryProducts
 }
