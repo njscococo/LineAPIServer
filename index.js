@@ -40,7 +40,7 @@ app.use(
   })
 );
 
-//line api
+//line webhook
 app.post('/linewebhook', parser, function (req, res) {
 
   if (!bot.verify(req.rawBody, req.get('X-Line-Signature'))) {
@@ -49,6 +49,21 @@ app.post('/linewebhook', parser, function (req, res) {
   console.log('linewebhook req:', req.body.events[0].message)
   bot.parse(req.body);
   return res.json({'send': 'done'});
+});
+
+bot.on('message', function (event) {
+  console.log('bot message:',event.message);
+  //event.reply(event.message.text)
+  event.reply({
+    type: 'sticker',
+    packageId: '1',
+    stickerId: '1'
+  })
+  .then(function (data) {
+    console.log('Success', data);
+  }).catch(function (error) {
+    console.log('Error', error);
+  });
 });
 
 //broadcast message
@@ -70,16 +85,6 @@ app.post('/line/linktmnewa', db.linkTmnewaAccount)
 
 //取得所有ID
 app.get('/line/getAllUserId', db.queryAllLineId)
-
-bot.on('message', function (event) {
-  console.log('bot message:',event.message);
-  event.reply(event.message.text).then(function (data) {
-    console.log('Success', data);
-  }).catch(function (error) {
-    console.log('Error', error);
-  });
-});
-
 
 app.get('/', (req, res) => {
   //res.json({info: 'hihi'})
