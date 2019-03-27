@@ -61,6 +61,7 @@ bot.on('message', function (event) {
     case 'text':
 
       if (event.message.text === '產品清單') {
+        console.log('event.source.userId', event.source.userId)
         db.checkDBIsTmnewa(event.source.userId).then(result => {
           if (result.isTmnewa) {
             axios({
