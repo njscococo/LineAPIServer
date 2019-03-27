@@ -55,17 +55,18 @@ app.post('/linewebhook', parser, function (req, res) {
 });
 
 bot.on('message', function (event) {
-  console.log('bot message:', event.message);
+  console.log('bot message:', event);
   //event.reply(event.message.text)
   switch (event.message.type) {
     case 'text':
+    //db.checkDBIsTmnewa()
       if (event.message.text === '產品清單') {
         axios({
           url: 'https://linetestingserver.herokuapp.com/products',
           method: 'get'
         })
           .then((res) => {
-            console.log('product', res.data)
+            //console.log('product', res.data)
             let columns = res.data.map((elm, idx) => {
               return {
                 title: elm.title,
@@ -191,4 +192,9 @@ app.get('/products', db.queryProducts);
 app.listen(port, () => {
   console.log('app is working')
 });
+
+// db.checkDBIsTmnewa('U276656692ad7af2fa0ada7e69f286165').then((res) => {
+//   console.log('checkDBIsTmnewa', res)
+//   console.log('done')
+// });
 

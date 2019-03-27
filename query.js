@@ -66,21 +66,29 @@ const queryAllLineId = (req, res) =>{
             throw err;
         }
         res.status(201).json(result.rows)
-    }) 
+    })
 }
 
 const queryIsTmnewa = (req, res)=>{
     const userId = req.params.userId;
     console.log(req.params)
-    pool.query('select count(*) from users where lineuserid=$1', [userId], (err, result)=>{
-        if(err){
-            throw err;
-        }
-        //console.log('queryIsTmnewa', '1' > 0);
-        let isTmnewa = result.rows[0].count > 0 ? true : false;
-        res.json({'isTmnewa':isTmnewa})
-
+    checkDBIsTmnewa(userId).then(result=>{
+        res.json({'isTmnewa': result})
     })
+}
+
+const checkDBIsTmnewa = (lineUserId) => {
+    return new Promise((resolve, reject) => {
+        pool.query('select count(*) from users where lineuserid=$1', [lineUserId], (err, result)=>{
+            if(err){
+                reject(err) ;
+                return;
+            }
+            //console.log('queryIsTmnewa', '1' > 0);
+            resolve(result.rows[0].count > 0 ? true : false);
+        })
+    })
+    
 }
 
 const linkTmnewaAccount = (req, res)=>{
@@ -117,5 +125,6 @@ module.exports = {
     linkTmnewaAccount,
     queryAllLineId,
     queryProducts,
-    queryProductImageById
+    queryProductImageById,
+    checkDBIsTmnewa
 }
