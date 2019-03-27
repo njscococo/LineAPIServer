@@ -45,7 +45,7 @@ app.post('/linewebhook', parser, function (req, res) {
 
   if (!bot.verify(req.rawBody, req.get('X-Line-Signature'))) {
     return res.sendStatus(400);
-  
+
   }
 
   console.log('linewebhook req:', req.body.events)
@@ -59,47 +59,54 @@ bot.on('message', function (event) {
   //event.reply(event.message.text)
   switch (event.message.type) {
     case 'text':
-    //db.checkDBIsTmnewa()
-      if (event.message.text === '產品清單') {
-        axios({
-          url: 'https://linetestingserver.herokuapp.com/products',
-          method: 'get'
-        })
-          .then((res) => {
-            //console.log('product', res.data)
-            let columns = res.data.map((elm, idx) => {
-              return {
-                title: elm.title,
-                text: elm.price,
-                actions: [{
-                  "type": "message",
-                  "label": "Yes",
-                  "text": "Yes"
-                },
-                {  
-                  "type":"postback",
-                  "label":"Buy",
-                  "data":"action=buy&itemid=111",
-                  "text":"Buy"
-               }
-              ],
-                thumbnailImageUrl: `https://linetestingserver.herokuapp.com/productimg/${elm.id}`
-              }
-            })
-            event.reply({
-              "type": "template",
-              "altText": "this is a carousel template",
-              "template": {
-                "type": "carousel",
-                "imageAspectRatio": "rectangle",
-                "imageSize": "cover",
-                "columns": columns
-              }
-            })
-          })
-          .catch((err) => {
 
-          })
+      if (event.message.text === '產品清單') {
+        db.checkDBIsTmnewa(event.source.userId).then(result => {
+          if (result.isTmnewa) {
+            axios({
+              url: 'https://linetestingserver.herokuapp.com/products',
+              method: 'get'
+            })
+              .then((res) => {
+                //console.log('product', res.data)
+                let columns = res.data.map((elm, idx) => {
+                  return {
+                    title: elm.title,
+                    text: elm.price,
+                    actions: [{
+                      "type": "message",
+                      "label": "Yes",
+                      "text": "Yes"
+                    },
+                    {
+                      "type": "postback",
+                      "label": "Buy",
+                      "data": "action=buy&itemid=111",
+                      "text": "Buy"
+                    }
+                    ],
+                    thumbnailImageUrl: `https://linetestingserver.herokuapp.com/productimg/${elm.id}`
+                  }
+                })
+                event.reply({
+                  "type": "template",
+                  "altText": "this is a carousel template",
+                  "template": {
+                    "type": "carousel",
+                    "imageAspectRatio": "rectangle",
+                    "imageSize": "cover",
+                    "columns": columns
+                  }
+                })
+              })
+              .catch((err) => {
+
+              })
+
+          }
+
+        })
+
 
       } else {
         event.reply(event.message.text)
