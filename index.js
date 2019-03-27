@@ -55,16 +55,16 @@ app.post('/linewebhook', parser, function (req, res) {
 });
 
 bot.on('message', function (event) {
-  console.log('bot message:', event);
+  console.log('bot message:', event.message);
   //event.reply(event.message.text)
   switch (event.message.type) {
     case 'text':
 
       if (event.message.text === '產品清單') {
-        console.log('event.source.userId', event.source.userId)
+        //console.log('event.source.userId', event.source.userId)
         db.checkDBIsTmnewa(event.source.userId).then(result => {
-          console.log('checkDBIsTmnewa', result);
-          if (result.isTmnewa) {
+          //console.log('checkDBIsTmnewa', result);
+          if (result) {
             axios({
               url: 'https://linetestingserver.herokuapp.com/products',
               method: 'get'
