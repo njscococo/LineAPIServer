@@ -63,7 +63,8 @@ bot.on('message', function (event) {
       if (event.message.text === '產品清單') {
         //console.log('event.source.userId', event.source.userId)
         db.checkDBIsTmnewa(event.source.userId).then(result => {
-          //console.log('checkDBIsTmnewa', result);
+          console.log('checkDBIsTmnewa', result);
+          console.log('damn')
           if (result) {
             axios({
               url: 'https://linetestingserver.herokuapp.com/products',
@@ -105,6 +106,8 @@ bot.on('message', function (event) {
 
               })
 
+          }else{
+            console.log('god damn');
           }
 
         })
