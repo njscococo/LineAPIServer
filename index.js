@@ -62,9 +62,7 @@ bot.on('message', function (event) {
 
       if (event.message.text === '產品清單') {
         //console.log('event.source.userId', event.source.userId)
-        db.checkDBIsTmnewa(event.source.userId).then(result => {
-          console.log('checkDBIsTmnewa', result);
-          console.log('damn')
+        db.checkDBIsTmnewa(event.source.userId).then(result => {                  
           if (result) {
             axios({
               url: 'https://linetestingserver.herokuapp.com/products',
@@ -107,9 +105,7 @@ bot.on('message', function (event) {
               })
 
           }else{
-            event.reply('請先綁定帳號'
-
-            )
+            event.reply('請先綁定帳號')
           }
 
         })
