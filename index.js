@@ -107,7 +107,9 @@ bot.on('message', function (event) {
               })
 
           }else{
-            console.log('god damn');
+            event.reply('請先綁定帳號'
+
+            )
           }
 
         })
