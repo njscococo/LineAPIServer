@@ -20,7 +20,7 @@ let bot = linebot({
   channelSecret: process.env.LINE_CHANNELSECRET,
   channelAccessToken: process.env.LINE_CHANNELACCESSTOKEN
 });
-
+ 
 app.use(cors())
 // allow preflight
 app.options('*', cors())
