@@ -15,7 +15,7 @@ bot.on('message', evt=>{
     }).catch(err=>{
         console.log('err:', err);
     })
-})
+}) 
 
 module.exports = {
     bot
