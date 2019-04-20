@@ -4,7 +4,6 @@ const cors = require('cors');
 const db = require('./query');
 const linebot = require('linebot');
 const axios = require('axios');
-const session = require('express-session');
 
 const app = express();
 
@@ -25,7 +24,7 @@ app.use(cors())
 // allow preflight
 app.options('*', cors())
 
-app.use('/static', express.static(__dirname + '/public'));
+app.use('/www', express.static(__dirname +'/public'));
 
 //line webhook
 const parser = bodyParser.json({
