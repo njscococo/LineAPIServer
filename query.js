@@ -19,7 +19,7 @@ const insertImage = (req, res) => {
         res.status(201).json(results.rows[0])
 
     }
-    )    
+    )
 }
 
 const queryProductImageById = (req, res) => {
@@ -28,8 +28,8 @@ const queryProductImageById = (req, res) => {
         if (err) {
             throw err;
         }
-        
-        var img =  Buffer.from(results.rows[0].image.split(',')[1], 'base64');
+
+        var img = Buffer.from(results.rows[0].image.split(',')[1], 'base64');
 
         res.writeHead(200, {
             'Content-Type': 'image/jpeg',
@@ -48,8 +48,8 @@ const queryImageById = (req, res) => {
         if (err) {
             throw err;
         }
-        
-        var img =  Buffer.from(results.rows[0].image.split(',')[1], 'base64');
+
+        var img = Buffer.from(results.rows[0].image.split(',')[1], 'base64');
 
         res.writeHead(200, {
             'Content-Type': 'image/jpeg',
@@ -60,43 +60,43 @@ const queryImageById = (req, res) => {
     })
 }
 
-const queryAllLineId = (req, res) =>{
-    pool.query('select email, lineuserid from users where lineuserid is not null',(err, result)=>{
-        if(err){
+const queryAllLineId = (req, res) => {
+    pool.query('select email, lineuserid from users where lineuserid is not null', (err, result) => {
+        if (err) {
             throw err;
         }
         res.status(201).json(result.rows)
     })
 }
 
-const queryIsTmnewa = (req, res)=>{
+const queryIsTmnewa = (req, res) => {
     const userId = req.params.userId;
     console.log(req.params)
-    checkDBIsTmnewa(userId).then(result=>{
-        res.json({'isTmnewa': result})
+    checkDBIsTmnewa(userId).then(result => {
+        res.json({ 'isTmnewa': result })
     })
 }
 
 const checkDBIsTmnewa = (lineUserId) => {
     return new Promise((resolve, reject) => {
-        pool.query('select count(*) from users where lineuserid=$1', [lineUserId], (err, result)=>{
-            if(err){
-                reject(err) ;
+        pool.query('select count(*) from users where lineuserid=$1', [lineUserId], (err, result) => {
+            if (err) {
+                reject(err);
                 return;
             }
             //console.log('queryIsTmnewa', '1' > 0);
             resolve(result.rows[0].count > 0 ? true : false);
         })
     })
-    
+
 }
 
-const linkTmnewaAccount = (req, res)=>{
-    const {tmnewaid, userid} = req.body;
+const linkTmnewaAccount = (req, res) => {
+    const { tmnewaid, userid } = req.body;
     //console.log('linktmnewa', tmnewaid, userid)
 
-    pool.query('insert into users (email, lineuserid) values ($1, $2) returning id', [tmnewaid, userid], (err, result)=>{
-        if(err){
+    pool.query('insert into users (email, lineuserid) values ($1, $2) returning id', [tmnewaid, userid], (err, result) => {
+        if (err) {
             throw err;
         }
         //console.log(result)
@@ -106,8 +106,8 @@ const linkTmnewaAccount = (req, res)=>{
 
 }
 
-const queryProducts = (req,res) => {
-    pool.query('select id, title, price from products limit 3', (err,result) => {
+const queryProducts = (req, res) => {
+    pool.query('select id, title, price from products limit 3', (err, result) => {
         if (err) {
             throw err;
         }
@@ -116,15 +116,27 @@ const queryProducts = (req,res) => {
     })
 }
 
+//Todo List db API
+const queryProject = (req, res) => {
+    
+    
+}
+
 
 
 module.exports = {
-    insertImage,
-    queryImageById,
-    queryIsTmnewa,
-    linkTmnewaAccount,
-    queryAllLineId,
-    queryProducts,
-    queryProductImageById,
-    checkDBIsTmnewa
+    linebot: {
+        insertImage,
+        queryImageById,
+        queryIsTmnewa,
+        linkTmnewaAccount,
+        queryAllLineId,
+        queryProducts,
+        queryProductImageById,
+        checkDBIsTmnewa
+    },
+    todolist: {
+
+    }
+
 }

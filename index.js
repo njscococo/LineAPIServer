@@ -61,7 +61,7 @@ bot.on('message', function (event) {
 
       if (event.message.text === '產品清單') {
         //console.log('event.source.userId', event.source.userId)
-        db.checkDBIsTmnewa(event.source.userId).then(result => {                  
+        db.linebot.checkDBIsTmnewa(event.source.userId).then(result => {                  
           if (result) {
             axios({
               url: 'https://linetestingserver.herokuapp.com/products',
@@ -136,13 +136,13 @@ app.post('/line/push', (req, res) => {
 })
 
 //判斷是否為新安員工
-app.get('/line/istmnewa/:userId', db.queryIsTmnewa)
+app.get('/line/istmnewa/:userId', db.linebot.queryIsTmnewa)
 
 //將line userid 對應到tmnewa 帳號
-app.post('/line/linktmnewa', db.linkTmnewaAccount)
+app.post('/line/linktmnewa', db.linebot.linkTmnewaAccount)
 
 //取得所有ID
-app.get('/line/getAllUserId', db.queryAllLineId)
+app.get('/line/getAllUserId', db.linebot.queryAllLineId)
 
 app.get('/', (req, res) => {
   //res.json({info: 'hihi'})
@@ -152,13 +152,13 @@ app.get('/', (req, res) => {
 });
 
 //取得某userid的第id張圖
-app.get('/user/:userId/:id', db.queryImageById);
+app.get('/user/:userId/:id', db.linebot.queryImageById);
 
 //upload signature
-app.post('/users', db.insertImage);
+app.post('/users', db.linebot.insertImage);
 
 //取得product的圖檔
-app.get('/productimg/:prodId', db.queryProductImageById)
+app.get('/productimg/:prodId', db.linebot.queryProductImageById)
 
 app.get('/token', (req, res) => {
   res.status(201).json({ 'token:': process.env.BTOKEN })
@@ -196,7 +196,7 @@ app.post('/tmtoken', (req, res) => {
 
 })
 
-app.get('/products', db.queryProducts);
+app.get('/products', db.linebot.queryProducts);
 
 app.listen(port, () => {
   console.log('app is working')
