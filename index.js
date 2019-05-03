@@ -19,7 +19,7 @@ app.use(cors())
 // allow preflight
 app.options('*', cors())
 
-app.use('/www', express.static(__dirname +'/public'));
+app.use('/binding', express.static(__dirname +'/public'));
 
 //line webhook
 const parser = bodyParser.json({

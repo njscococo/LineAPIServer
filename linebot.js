@@ -80,7 +80,8 @@ myLineBot.on('message', function (event) {
                     }
                   }
                 ).then((result) => {
-                    console.log('token:', result.data)
+                    //取得linkToken
+                    console.log('token:', result.data.linkToken)
                 })
 
               }
