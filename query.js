@@ -75,7 +75,7 @@ const queryIsTmnewa = (req, res) => {
 const checkDBIsTmnewa = (lineUserId) => {
     console.log('checkDBIsTmnewa',lineUserId);
     return new Promise((resolve, reject) => {
-        pool.query('select count(*) from users where lineuserid=$1', [lineUserId], (err, result) => {
+        pool.query('select count(*) from todolist.users where lineuserid=$1', [lineUserId], (err, result) => {
             if (err) {
                 reject(err);
                 return;

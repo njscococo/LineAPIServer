@@ -42,7 +42,7 @@ app.use(
 app.get('/', (req, res) => {
   //res.json({info: 'hihi'})
   console.log('first request')
-  db.linebot.checkDBIsTmnewa('U7c196b903a61cb5b00616265794c7c73')
+  db.linebot.checkDBIsTmnewa('test1')
     .then((result) => {
       console.log('check', result)
     })
@@ -111,11 +111,9 @@ bot.on('message', function (event) {
               .catch((err) => {
 
               })
-
           } else {
             event.reply('請先綁定帳號')
           }
-
         })
 
 
@@ -127,9 +125,7 @@ bot.on('message', function (event) {
             console.log('Error', error);
           });
       }
-
       break;
-
   }
 });
 
