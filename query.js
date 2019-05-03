@@ -129,7 +129,7 @@ const queryIsLinked = (lineUserId) => {
                 reject(err);
                 return;
             }
-            console.log('queryIsLinked', result);
+            //console.log('queryIsLinked', result);
             resolve(result.rows);
         })
     })

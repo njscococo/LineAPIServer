@@ -68,6 +68,22 @@ myLineBot.on('message', function (event) {
           db.linebot.queryIsLinked(event.source.userId)
           .then((result) => {
               console.log('id binding:', result)
+              if(result[0]){
+                  //已經綁定過囉
+                  
+              }else{
+                axios({
+                    url: `https://api.line.me/v2/bot/user/${event.source.userId}/linkToken`,
+                    method: 'post',
+                    headers: {
+                      'Authorization': `Bearer ${process.env.LINE_CHANNELACCESSTOKEN}`,
+                    }
+                  }
+                ).then((result) => {
+                    console.log('token:', result.data)
+                })
+
+              }
           })
 
       } else {
