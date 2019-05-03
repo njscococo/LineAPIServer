@@ -1,13 +1,13 @@
 const linebot = require('linebot');
 
-let bot = linebot({
+let myLineBot = linebot({
     channelId: process.env.LINE_CHANNELID,
     channelSecret: process.env.LINE_CHANNELSECRET,
     channelAccessToken: process.env.LINE_CHANNELACCESSTOKEN
   });
 
-console.log('linebot config:', process.env.LINE_CHANNELID)
-bot.on('message', evt=>{
+//console.log('linebot config:', process.env.LINE_CHANNELID)
+myLineBot.on('message', evt=>{
     console.log('recieve :', evt)
     var replyMsg = `hihi, you said:${evt.message.text}`;
     evt.reply(replyMsg).then(data=>{
@@ -18,5 +18,5 @@ bot.on('message', evt=>{
 }) 
 
 module.exports = {
-    bot
+    myLineBot
 }

@@ -2,8 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./query');
-const linebot = require('linebot');
+//const linebot = require('linebot');
 const axios = require('axios');
+const {myLineBot } = require('./linebot');
 
 const app = express();
 
@@ -11,14 +12,14 @@ let port = process.env.PORT;
 if (port == null || port == "") {
   port = 8000;
 }
-console.log('port:', port)
+console.log('port:', myLineBot)
 
 
-let bot = linebot({
-  channelId: process.env.LINE_CHANNELID,
-  channelSecret: process.env.LINE_CHANNELSECRET,
-  channelAccessToken: process.env.LINE_CHANNELACCESSTOKEN
-});
+// let bot = linebot({
+//   channelId: process.env.LINE_CHANNELID,
+//   channelSecret: process.env.LINE_CHANNELSECRET,
+//   channelAccessToken: process.env.LINE_CHANNELACCESSTOKEN
+// });
  
 app.use(cors())
 // allow preflight
@@ -42,93 +43,93 @@ app.use(
 //line webhook
 app.post('/linewebhook', parser, function (req, res) {
 
-  if (!bot.verify(req.rawBody, req.get('X-Line-Signature'))) {
+  if (!myLineBot.verify(req.rawBody, req.get('X-Line-Signature'))) {
     return res.sendStatus(400);
 
   }
 
   console.log('linewebhook req:', req.body.events)
   console.log('linewebhook req msg:', req.body.events[0].message)
-  bot.parse(req.body);
+  myLineBot.parse(req.body);
   return res.json({ 'send': 'done' });
 });
 
-bot.on('message', function (event) {
-  console.log('bot message:', event.message);
-  //event.reply(event.message.text)
-  switch (event.message.type) {
-    case 'text':
+// bot.on('message', function (event) {
+//   console.log('bot message:', event.message);
+//   //event.reply(event.message.text)
+//   switch (event.message.type) {
+//     case 'text':
 
-      if (event.message.text === '產品清單') {
-        //console.log('event.source.userId', event.source.userId)
-        db.linebot.checkDBIsTmnewa(event.source.userId).then(result => {                  
-          if (result) {
-            axios({
-              url: 'https://linetestingserver.herokuapp.com/products',
-              method: 'get'
-            })
-              .then((res) => {
-                //console.log('product', res.data)
-                let columns = res.data.map((elm, idx) => {
-                  return {
-                    title: elm.title,
-                    text: elm.price,
-                    actions: [{
-                      "type": "message",
-                      "label": "Yes",
-                      "text": "Yes"
-                    },
-                    {
-                      "type": "postback",
-                      "label": "Buy",
-                      "data": "action=buy&itemid=111",
-                      "text": "Buy"
-                    }
-                    ],
-                    thumbnailImageUrl: `https://linetestingserver.herokuapp.com/productimg/${elm.id}`
-                  }
-                })
-                event.reply({
-                  "type": "template",
-                  "altText": "this is a carousel template",
-                  "template": {
-                    "type": "carousel",
-                    "imageAspectRatio": "rectangle",
-                    "imageSize": "cover",
-                    "columns": columns
-                  }
-                })
-              })
-              .catch((err) => {
+//       if (event.message.text === '產品清單') {
+//         //console.log('event.source.userId', event.source.userId)
+//         db.linebot.checkDBIsTmnewa(event.source.userId).then(result => {                  
+//           if (result) {
+//             axios({
+//               url: 'https://linetestingserver.herokuapp.com/products',
+//               method: 'get'
+//             })
+//               .then((res) => {
+//                 //console.log('product', res.data)
+//                 let columns = res.data.map((elm, idx) => {
+//                   return {
+//                     title: elm.title,
+//                     text: elm.price,
+//                     actions: [{
+//                       "type": "message",
+//                       "label": "Yes",
+//                       "text": "Yes"
+//                     },
+//                     {
+//                       "type": "postback",
+//                       "label": "Buy",
+//                       "data": "action=buy&itemid=111",
+//                       "text": "Buy"
+//                     }
+//                     ],
+//                     thumbnailImageUrl: `https://linetestingserver.herokuapp.com/productimg/${elm.id}`
+//                   }
+//                 })
+//                 event.reply({
+//                   "type": "template",
+//                   "altText": "this is a carousel template",
+//                   "template": {
+//                     "type": "carousel",
+//                     "imageAspectRatio": "rectangle",
+//                     "imageSize": "cover",
+//                     "columns": columns
+//                   }
+//                 })
+//               })
+//               .catch((err) => {
 
-              })
+//               })
 
-          }else{
-            event.reply('請先綁定帳號')
-          }
+//           }else{
+//             event.reply('請先綁定帳號')
+//           }
 
-        })
+//         })
 
 
-      } else {
-        event.reply(event.message.text)
-          .then(function (data) {
-            console.log('Success', data);
-          }).catch(function (error) {
-            console.log('Error', error);
-          });
-      }
+//       } else {
+//         event.reply(event.message.text)
+//           .then(function (data) {
+//             console.log('Success', data);
+//           }).catch(function (error) {
+//             console.log('Error', error);
+//           });
+//       }
 
-      break;
+//       break;
 
-  }
-});
+//   }
+// });
 
 //broadcast message
 app.post('/line/push', (req, res) => {
   const { msgObject, userIds } = req.body;
   console.log('/line/push:', msgObject, userIds)
-  bot.multicast(userIds, msgObject)
+  myLineBot.multicast(userIds, msgObject)
     .then(resp => {
       console.log('line push done:', resp)
       res.json({ status: 'done' })
