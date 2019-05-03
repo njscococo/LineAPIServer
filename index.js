@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./query');
 //const linebot = require('linebot');
+const dotenv = require('dotenv');
+dotenv.config();
 const axios = require('axios');
 const {myLineBot } = require('./linebot');
 
@@ -12,7 +14,7 @@ let port = process.env.PORT;
 if (port == null || port == "") {
   port = 8000;
 }
-console.log('port:', myLineBot)
+console.log('port:', port)
 
 
 // let bot = linebot({

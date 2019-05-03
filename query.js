@@ -1,8 +1,16 @@
 const Pool = require('pg').Pool;
-const dbconfig = require('./config.json');
-const pool = new Pool(dbconfig.herokudb.linetest);
+//const dbconfig = require('./config.json');
+let port = process.env.PORT;
+const pool = new Pool({
+    user : process.env.DB_USER,
+    ssl : true,
+    database : process.env.DB_DATABASE,
+    host: process.env.DB_HOST,
+    password: process.env.DB_PW,
+    port: process.env.DB_PORT
+});
 
-console.log('dbconfig:', dbconfig.herokudb.linetest);
+//console.log('dbconfig:', dbconfig.herokudb.linetest);
 const insertImage = (req, res) => {
     const { userId, drawImage } = req.body;
     //console.log('UserID:', userId)
