@@ -1,13 +1,8 @@
 const Pool = require('pg').Pool;
-const pool = new Pool({
-    user: 'ubxeypnqtxjfat',
-    host: 'ec2-50-19-109-120.compute-1.amazonaws.com',
-    database: 'dddbu83hpf94v5',
-    password: 'e82a641952012059ce136a382771f31b8d0c9011087864d59dbff074f570c804',
-    port: 5432,
-    ssl: true
-});
+const dbconfig = require('./config.json');
+const pool = new Pool(dbconfig.herokudb.linetest);
 
+console.log('dbconfig:', dbconfig.herokudb.linetest);
 const insertImage = (req, res) => {
     const { userId, drawImage } = req.body;
     //console.log('UserID:', userId)
@@ -78,6 +73,7 @@ const queryIsTmnewa = (req, res) => {
 }
 
 const checkDBIsTmnewa = (lineUserId) => {
+    console.log('checkDBIsTmnewa',lineUserId);
     return new Promise((resolve, reject) => {
         pool.query('select count(*) from users where lineuserid=$1', [lineUserId], (err, result) => {
             if (err) {
@@ -118,6 +114,7 @@ const queryProducts = (req, res) => {
 
 //Todo List db API
 const queryProject = (req, res) => {
+    pool.query('select * from ')
     
     
 }
