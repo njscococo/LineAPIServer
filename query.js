@@ -10,6 +10,7 @@ const pool = new Pool({
     port: process.env.DB_PORT
 });
 
+
 //console.log('dbconfig:', dbconfig.herokudb.linetest);
 const insertImage = (req, res) => {
     const { userId, drawImage } = req.body;
@@ -120,6 +121,21 @@ const queryProducts = (req, res) => {
     })
 }
 
+//Line link TMNEWA demo
+const queryIsLinked = (lineUserId) => {
+    return new Promise((resolve, reject) => {
+        pool.query('select memberid, lineid from usermapping where lineuserid=$1', [lineUserId], (err, result) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            console.log('queryIsLinked', result);
+            resolve(result);
+        })
+    })
+}
+
+
 //Todo List db API
 const queryProject = (req, res) => {
     pool.query('select * from ')
@@ -138,7 +154,8 @@ module.exports = {
         queryAllLineId,
         queryProducts,
         queryProductImageById,
-        checkDBIsTmnewa
+        checkDBIsTmnewa,
+        queryIsLinked
     },
     todolist: {
 
