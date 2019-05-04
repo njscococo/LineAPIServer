@@ -34,21 +34,6 @@ app.use(
   })
 );
 
-<<<<<<< HEAD
-app.get('/', (req, res) => {
-  //res.json({info: 'hihi'})
-  console.log('first request')
-  db.linebot.checkDBIsTmnewa('test1')
-    .then((result) => {
-      console.log('check', result)
-    })
-  res.json({ 'text': 'hey you34' })
-  //next();
-});
-
-
-=======
->>>>>>> 93066581895e6c51d2b4ffbf7e8829a6c1a7a84e
 //line webhook
 app.post('/linewebhook', parser, function (req, res) {
   if (!myLineBot.verify(req.rawBody, req.get('X-Line-Signature'))) {

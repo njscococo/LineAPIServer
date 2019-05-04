@@ -70,7 +70,10 @@ myLineBot.on('message', function (event) {
               console.log('id binding:', result)
               if(result[0]){
                   //已經綁定過囉
-                  
+                  event.reply({
+                      "type": "text",
+                      "text": `${result[0].memberid} 您好，您的帳號已綁定`
+                  })
               }else{
                 axios({
                     url: `https://api.line.me/v2/bot/user/${event.source.userId}/linkToken`,
@@ -82,6 +85,19 @@ myLineBot.on('message', function (event) {
                 ).then((result) => {
                     //取得linkToken
                     console.log('token:', result.data.linkToken)
+                    event.reply({
+                      "type": "template",
+                      "altText": "Account Link",
+                      "template": {
+                          "type": "buttons",
+                          "text": "Account Link",
+                          "actions": [{
+                              "type": "uri",
+                              "label": "Account Link",
+                              "uri": `http://example.com/link?linkToken=${result.data.linkToken}`
+                          }]
+                      }
+                  })
                 })
 
               }
