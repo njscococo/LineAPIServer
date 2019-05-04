@@ -17,7 +17,6 @@ if (port == null || port == "") {
   port = 8000;
 }
 console.log('port:', port)
-console.log('email:', email); 
 email();
 app.use(cors())
 // allow preflight
