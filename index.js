@@ -6,6 +6,9 @@ const dotenv = require('dotenv');
 dotenv.config();
 const axios = require('axios');
 const {myLineBot } = require('./linebot');
+const email = require('./mailer');
+
+
 
 const app = express();
 
@@ -14,7 +17,8 @@ if (port == null || port == "") {
   port = 8000;
 }
 console.log('port:', port)
- 
+console.log('email:', email); 
+email();
 app.use(cors())
 // allow preflight
 app.options('*', cors())

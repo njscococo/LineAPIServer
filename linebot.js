@@ -90,11 +90,11 @@ myLineBot.on('message', function (event) {
                       "altText": "Account Link",
                       "template": {
                           "type": "buttons",
-                          "text": "Account Link",
+                          "text": "點擊進行帳號綁定",
                           "actions": [{
                               "type": "uri",
-                              "label": "Account Link",
-                              "uri": `http://example.com/link?linkToken=${result.data.linkToken}`
+                              "label": "帳號綁定",
+                              "uri": `https://linetestingserver.herokuapp.com/binding/tmnewalogin.html?linkToken=${result.data.linkToken}`
                           }]
                       }
                   })
