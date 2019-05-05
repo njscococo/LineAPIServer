@@ -2,9 +2,9 @@ const Pool = require('pg').Pool;
 //const dbconfig = require('./config.json');
 let port = process.env.PORT;
 const pool = new Pool({
-    user : process.env.DB_USER,
-    ssl : true,
-    database : process.env.DB_DATABASE,
+    user: process.env.DB_USER,
+    ssl: true,
+    database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
     password: process.env.DB_PW,
     port: process.env.DB_PORT
@@ -82,7 +82,7 @@ const queryIsTmnewa = (req, res) => {
 }
 
 const checkDBIsTmnewa = (lineUserId) => {
-    console.log('checkDBIsTmnewa',lineUserId);
+    console.log('checkDBIsTmnewa', lineUserId);
     return new Promise((resolve, reject) => {
         pool.query('select count(*) from todolist.users where lineuserid=$1', [lineUserId], (err, result) => {
             if (err) {
@@ -93,22 +93,18 @@ const checkDBIsTmnewa = (lineUserId) => {
             resolve(result.rows[0].count > 0 ? true : false);
         })
     })
-
 }
 
 const linkTmnewaAccount = (req, res) => {
     const { tmnewaid, userid } = req.body;
     //console.log('linktmnewa', tmnewaid, userid)
-
     pool.query('insert into users (email, lineuserid) values ($1, $2) returning id', [tmnewaid, userid], (err, result) => {
         if (err) {
             throw err;
         }
         //console.log(result)
         res.status(201).json(result.rows[0])
-
     })
-
 }
 
 const queryProducts = (req, res) => {
@@ -121,7 +117,7 @@ const queryProducts = (req, res) => {
     })
 }
 
-//Line link TMNEWA demo
+/* #region  Line link TMNEWA demo */
 const queryIsLinked = (lineUserId) => {
     return new Promise((resolve, reject) => {
         pool.query('select memberid, lineuserid from usermapping where lineuserid=$1', [lineUserId], (err, result) => {
@@ -135,12 +131,14 @@ const queryIsLinked = (lineUserId) => {
     })
 }
 
+/* #endregion */
+
 
 //Todo List db API
 const queryProject = (req, res) => {
     pool.query('select * from ')
-    
-    
+
+
 }
 
 

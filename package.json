@@ -18,7 +18,9 @@
     "googleapis": "^39.2.0",
     "linebot": "^1.4.1",
     "nodemailer": "^6.1.1",
-    "pg": "^7.8.2"
+    "otplib": "^11.0.0",
+    "pg": "^7.8.2",
+    "redis": "^2.8.0"
   },
   "engines": {
     "node": "10.x"

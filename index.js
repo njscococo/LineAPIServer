@@ -6,9 +6,36 @@ const dotenv = require('dotenv');
 dotenv.config();
 const axios = require('axios');
 const {myLineBot } = require('./linebot');
-const email = require('./mailer');
+const sendEmail = require('./mailer');
+const otplib = require('otplib');
 
+otplib.authenticator.options = {
+  step: 10,
+  window: 1
+};
 
+//const secret = 'KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD';
+// Alternatively: 
+const secret = otplib.authenticator.generateSecret();
+
+const token = otplib.authenticator.generate(secret);
+try {
+  //const isValid = otplib.authenticator.check(token, secret);
+  // or
+  //const isValid = otplib.authenticator.verify({ token, secret });
+  setInterval(checkOTP, 15000, token, secret)
+  
+} catch (err) {
+  // Error possibly thrown by the thirty-two package
+  // 'Invalid input - it is not base32 encoded string'
+  console.error(err);
+}
+
+function checkOTP( token,secret){
+  const isValid = otplib.authenticator.check(token, secret);
+  console.log('otp:', isValid,secret, token);
+
+}
 
 const app = express();
 
@@ -17,7 +44,7 @@ if (port == null || port == "") {
   port = 8000;
 }
 console.log('port:', port)
-email();
+//email();
 app.use(cors())
 // allow preflight
 app.options('*', cors())

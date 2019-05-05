@@ -1,6 +1,8 @@
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
+const redis = require('redis');
+
 
 const oauth2Client = new OAuth2(
     process.env.GMAILID,
@@ -12,7 +14,7 @@ oauth2Client.setCredentials({
     refresh_token: process.env.REFRESH_TOKEN
 });
 
-async function sendMail() {
+async function sendMail(receivers) {
     const tokens = await oauth2Client.refreshAccessToken();
     const accessToken = tokens.credentials.access_token;
 
@@ -30,7 +32,7 @@ async function sendMail() {
 
     let info = await transporter.sendMail({
         from: '"TMNEWA" <foo@example.com>', // sender address
-        to: "voyagerlin@gmail.com", // list of receivers
+        to: receivers, // list of receivers
         subject: "Hello ✔", // Subject line
         text: "Hello world?", // plain text body
         html: "<b>Hello world?</b>" // html body
@@ -39,11 +41,6 @@ async function sendMail() {
         transporter.close();
     });
 
-    //console.log("Message sent: %s", info.messageId);
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-    // Preview only available when sending through an Ethereal account
-    //console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 
 }
 
