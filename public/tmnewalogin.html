@@ -35,6 +35,7 @@
     <script>
         var account = document.querySelector('#userid');
         var pw = document.querySelector('#pw');
+        var otpcode = document.querySelector('#otpcode');
         var btn_binding = document.querySelector('#btn_binding');
         var div_otp = document.querySelector('#div_otp');
         var div_login = document.querySelector('#div_login');
@@ -61,10 +62,10 @@
             axios({
                 url: ' https://linetestingserver.herokuapp.com/verifycode',
                 method: 'post',
-                withCredentials: true,
+                //withCredentials: true,
                 data: {
                     //tmnewaid: account.value,
-                    email: pw.value
+                    code: otpcode.value
                 }
             }).then((result) => {
                 console.log('result:', result);

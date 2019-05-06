@@ -167,7 +167,7 @@ const genOTPByAccount = (req, res) => {
 //驗證OTP CODE是否正確,  add tmnewaid to cookie
 const validateOTP = (req, res) => {
     const { code } = req.body;
-    console.log('validateOTP:', req.cookies.memberid);
+    console.log('validateOTP:', req.cookies.memberid, code);
     const isValid = otp.validateOTP(code, req.cookies.memberid);
     res.status(200).json({"okok": isValid})
 }
