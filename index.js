@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-//const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const db = require('./query');
 const dotenv = require('dotenv');
@@ -21,7 +21,7 @@ if (port == null || port == "") {
 }
 console.log('port:', port)
 //email();
-app.use(cors())
+app.use(cors(corsOptions))
 // allow preflight
 app.options('*', cors())
 
