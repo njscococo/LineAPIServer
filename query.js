@@ -1,17 +1,7 @@
 const Pool = require('pg').Pool;
 const otp = require('./otp');
-const redis = require('redis');
 
-/* #region  Connect to Redis */
-let redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
-
-redisClient.on("error", function (err) {
-    console.log("Error:" + err);
-});
-redisClient.auth(process.env.REDIS_PW);
-
-/* #endregion */
-
+const sendEmail = require('./mailer');
 
 //const dbconfig = require('./config.json');
 let port = process.env.PORT;
@@ -158,9 +148,16 @@ const genOTPByAccount = (req, res)=>{
         }
 
         if(result.rows[0]){
-            otp.genOTP().then((resp) => {
+            otp.genOTP(tmnewaid).then((resp) => {
                 console.log('otp token:', resp);
-                redisClient.SETEX(tmnewaid, 620, resp);
+                
+
+                sendEmail(result.rows[0].email, resp);
+
+                
+
+
+
                 res.status(200).json({'token': resp});
             });
             //res.status(201).json(result.rows[0]);
@@ -172,6 +169,11 @@ const genOTPByAccount = (req, res)=>{
         
 
     })
+}
+
+//驗證OTP CODE是否正確,  add tmnewaid to cookie
+const validateOTP = (req, res) => {
+    
 }
 
 /* #endregion */

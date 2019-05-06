@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
-const redis = require('redis');
+//const redis = require('redis');
 
 
 const oauth2Client = new OAuth2(
@@ -14,7 +14,7 @@ oauth2Client.setCredentials({
     refresh_token: process.env.REFRESH_TOKEN
 });
 
-async function sendMail(receivers) {
+async function sendMail(receivers, otpToken) {
     const tokens = await oauth2Client.refreshAccessToken();
     const accessToken = tokens.credentials.access_token;
 
@@ -34,8 +34,8 @@ async function sendMail(receivers) {
         from: '"TMNEWA" <foo@example.com>', // sender address
         to: receivers, // list of receivers
         subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
-        html: "<b>Hello world?</b>" // html body
+        text: `驗證碼：${otpToken}`, // plain text body
+        html: `<b>驗證碼：${otpToken}</b>` // html body
     }, (err, response) => {
         err ? console.log('mail err:', err) : console.log('mail done:', response);
         transporter.close();
