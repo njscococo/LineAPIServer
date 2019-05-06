@@ -37,6 +37,7 @@
         var pw = document.querySelector('#pw');
         var otpcode = document.querySelector('#otpcode');
         var btn_binding = document.querySelector('#btn_binding');
+        var btn_otp = document.querySelector('#btn_otp');
         var div_otp = document.querySelector('#div_otp');
         var div_login = document.querySelector('#div_login');
 
@@ -58,7 +59,7 @@
         });
 
 
-        div_otp.addEventListener('click', (e) => {
+        btn_otp.addEventListener('click', (e) => {
             axios({
                 url: ' https://linetestingserver.herokuapp.com/verifycode',
                 method: 'post',

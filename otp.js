@@ -29,8 +29,9 @@ const genOTP = function (tmnewaid) {
 
 const validateOTP = function (token, tmnewaid) {
     let secret = redisClient.GET(tmnewaid);
+    console.log('otp1:',  secret, token);
     const isValid = otplib.authenticator.check(token, secret);
-    console.log('otp:', isValid, secret, token);
+    console.log('otp2:', isValid, secret, token);
     return isValid;
 
 }
