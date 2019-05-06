@@ -33,9 +33,11 @@ const validateOTP = function (token, tmnewaid) {
         console.log('otp1:', reply.toString(), token);
         isValid = otplib.authenticator.check(token, reply.toString());
         console.log('otp2:', isValid, reply, token);
+
+        return isValid;
     });
 
-    return isValid;
+    
 
 }
 
