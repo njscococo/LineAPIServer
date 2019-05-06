@@ -145,10 +145,18 @@ const genOTPByAccount = (req, res)=>{
             reject(err);
             return;
         }
-         otp.genOTP().then((resp) => {
-            console.log('otp token:', resp);
-        });
-        res.status(201).json(result);
+
+        if(result.rows[0]){
+            otp.genOTP().then((resp) => {
+                console.log('otp token:', resp);
+            });
+            res.status(201).json(result.rows[0]);
+
+        }else{
+            res.status(201).json('account or email is invalid');
+        }
+         
+        
 
     })
 }
