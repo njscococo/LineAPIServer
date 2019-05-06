@@ -44,30 +44,37 @@
             div_otp.style.display = "inline";
             div_login.style.display = "none";
 
+            axios({
+                url: ' https://linetestingserver.herokuapp.com/linkTmnewa',
+                method: 'post',
+                data: {
+                    tmnewaid: account.value,
+                    email: pw.value
+                }
+            }).then((result) => {
+                console.log('result:', result);
+            })
         });
 
-        let config = {
-            url: ' https://linetestingserver.herokuapp.com/linkTmnewa',
-            method: 'post',
-            
-            data: {
-                //url: 'https://localhost:5001/api/values',
-                tmnewaid: account.value,
-                email: pw.value
-            }
-        };
-        btn_otp.addEventListener('click', (e) => {
-            axios(config).then((result) => {
+
+        div_otp.addEventListener('click', (e) => {
+            axios({
+                url: ' https://linetestingserver.herokuapp.com/verifycode',
+                method: 'post',
+                data: {
+                    tmnewaid: account.value,
+                    email: pw.value
+                }
+            }).then((result) => {
                 console.log('result:', result);
             })
         })
 
-        var cd = countdown(new Dater())
-        console.log('account:', account);
+        var today =new Date();
+        var cd = countdown(today.setMinutes(today.getMinutes()+10),null, countdown.MINUTES  | countdown.SECONDS);
+        console.log('account:', cd);
 
-        function login() {
-
-        }
+        
     </script>
 </body>
 
