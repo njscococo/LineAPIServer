@@ -8,7 +8,10 @@ dotenv.config();
 const axios = require('axios');
 const {myLineBot } = require('./linebot');
 
-
+var corsOptions = {
+  origin: '*',
+  credentials: true
+}
 
 const app = express();
 

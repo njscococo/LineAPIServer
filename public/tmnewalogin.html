@@ -61,6 +61,7 @@
             axios({
                 url: ' https://linetestingserver.herokuapp.com/verifycode',
                 method: 'post',
+                withCredentials: true,
                 data: {
                     tmnewaid: account.value,
                     email: pw.value
