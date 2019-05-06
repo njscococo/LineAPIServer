@@ -156,7 +156,7 @@ const genOTPByAccount = (req, res) => {
 
                 res.cookie('member', result.rows[0].memberid)
 
-                //res.status(200).json({'token': resp});
+                res.status(200).json({'token': resp});
             });
             //res.status(201).json(result.rows[0]);
 
