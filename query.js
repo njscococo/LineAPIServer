@@ -154,19 +154,19 @@ const genOTPByAccount = (req, res) => {
                 sendEmail(result.rows[0].email, resp);
 
                 res.cookie('member', result.rows[0].memberid);
-                res.status(200).json({'token': resp});
+                res.status(200).json({ 'token': resp });
             });
             //res.status(201).json(result.rows[0]);
 
         } else {
-            res.status(200).json({'error':'account or email is invalid'});
+            res.status(200).json({ 'error': 'account or email is invalid' });
         }
     })
 }
 
 //驗證OTP CODE是否正確,  add tmnewaid to cookie
 const validateOTP = (req, res) => {
-
+    console.log('validateOTP:', req);
 }
 
 /* #endregion */
