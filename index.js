@@ -8,10 +8,10 @@ dotenv.config();
 const axios = require('axios');
 const {myLineBot } = require('./linebot');
 
-var corsOptions = {
-  origin: '*',
-  credentials: true
-}
+// var corsOptions = {
+//   origin: '*',
+//   credentials: true
+// }
 
 const app = express();
 app.use(cookieParser())
@@ -22,7 +22,7 @@ if (port == null || port == "") {
 }
 console.log('port:', port)
 //email();
-app.use(cors(corsOptions))
+app.use(cors())
 // allow preflight
 app.options('*', cors())
 

@@ -153,7 +153,7 @@ const genOTPByAccount = (req, res) => {
 
                 sendEmail(result.rows[0].email, resp);
 
-                res.cookie('member', result.rows[0].memberid);
+                res.cookie('memberid', result.rows[0].memberid);
                 res.status(200).json({ 'token': resp });
             });
             //res.status(201).json(result.rows[0]);
@@ -166,8 +166,10 @@ const genOTPByAccount = (req, res) => {
 
 //驗證OTP CODE是否正確,  add tmnewaid to cookie
 const validateOTP = (req, res) => {
-    console.log('validateOTP:', req.cookies);
-    res.status(200).json("okok")
+    const { code } = req.body;
+    console.log('validateOTP:', req.cookies.memberid);
+    const isValid = otp.validateOTP(code, req.cookies.memberid);
+    res.status(200).json({"okok": isValid})
 }
 
 /* #endregion */
