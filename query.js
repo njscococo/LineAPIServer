@@ -139,13 +139,16 @@ const queryIsLinked = (lineUserId) => {
 //用帳號及EMAIL進行驗證，產生OTP CODE
 const genOTPByAccount = (req, res)=>{
     const {tmnewaid, email} =req.body;
-    pool.query('select * from tmnewamember where memberid=$1 and email=$2',[tmnewaid, `${email}@tmnewa.com.tw`], (err, result) => {
+    console.log('genOTPByAccount:', tmnewaid, `${email}@tmnewa.com.tw`);
+    pool.query('select * from tmnewamember where memberid=$1 and LOWER(email)=LOWER($2)',[tmnewaid, `${email}@tmnewa.com.tw`], (err, result) => {
         if(err){
             reject(err);
             return;
         }
-        console.log('otp:', otp);
-        res.status(201).json(result.rows[0]);
+         otp.genOTP().then((resp) => {
+            console.log('otp token:', resp);
+        });
+        res.status(201).json(result);
 
     })
 }
