@@ -47,18 +47,18 @@
         });
 
         let config = {
-            url: ' https://linetestingserver.herokuapp.com/',
+            url: ' https://linetestingserver.herokuapp.com/linkTmnewa',
             method: 'post',
             
             data: {
                 //url: 'https://localhost:5001/api/values',
-                client: client,
-                secret: secret
+                tmnewaid: account.value,
+                email: pw.value
             }
         };
         btn_otp.addEventListener('click', (e) => {
-            axios({
-
+            axios(config).then((result) => {
+                console.log('result:', result);
             })
         })
 
