@@ -16,7 +16,7 @@ const genOTP = function (tmnewaid) {
         step: 20,
         window: 1
     };
-    
+
     return new Promise((resolve, reject) => {
         const secret = otplib.authenticator.generateSecret();
         const token = otplib.authenticator.generate(secret);
@@ -28,10 +28,13 @@ const genOTP = function (tmnewaid) {
 }
 
 const validateOTP = function (token, tmnewaid) {
-    let secret = redisClient.GET(tmnewaid);
-    console.log('otp1:',  secret, token);
-    const isValid = otplib.authenticator.check(token, secret);
-    console.log('otp2:', isValid, secret, token);
+    let isValid = false;
+    redisClient.get(tmnewaid, (err, reply) => {
+        console.log('otp1:', reply.toString(), token);
+        isValid = otplib.authenticator.check(token, secret);
+        console.log('otp2:', isValid, reply, token);
+    });
+
     return isValid;
 
 }
