@@ -149,8 +149,9 @@ const genOTPByAccount = (req, res)=>{
         if(result.rows[0]){
             otp.genOTP().then((resp) => {
                 console.log('otp token:', resp);
+                res.status(200).json({'token': resp});
             });
-            res.status(201).json(result.rows[0]);
+            //res.status(201).json(result.rows[0]);
 
         }else{
             res.status(201).json('account or email is invalid');
