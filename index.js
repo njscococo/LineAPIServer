@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const axios = require('axios');
 const {myLineBot } = require('./linebot');
-const sendEmail = require('./mailer');
+
 
 
 const app = express();
