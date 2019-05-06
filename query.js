@@ -140,7 +140,7 @@ const queryIsLinked = (lineUserId) => {
 const genOTPByAccount = (req, res)=>{
     const {tmnewaid, email} =req.body;
     console.log('genOTPByAccount:', tmnewaid, `${email}@tmnewa.com.tw`);
-    pool.query('select * from tmnewamember where memberid=$1 and email=$2',[tmnewaid, `${email}@tmnewa.com.tw`], (err, result) => {
+    pool.query('select * from tmnewamember where memberid=$1 and LOWER(email)=LOWER($2)',[tmnewaid, `${email}@tmnewa.com.tw`], (err, result) => {
         if(err){
             reject(err);
             return;
@@ -148,7 +148,7 @@ const genOTPByAccount = (req, res)=>{
          otp.genOTP().then((resp) => {
             console.log('otp token:', resp);
         });
-        res.status(201).json(result.rows[0]);
+        res.status(201).json(result);
 
     })
 }
