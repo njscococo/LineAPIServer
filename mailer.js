@@ -25,7 +25,7 @@ async function sendMail(receivers) {
             user: "voyagerlin@gmail.com",
             clientId: process.env.GMAILID,
             clientSecret: process.env.GMAILSECRET,
-            refreshToken: process.env.REFRESH_TOKEN,
+            refreshToken: process.env.GMAIL_REFRESH_TOKEN,
             accessToken: accessToken
         }
     });

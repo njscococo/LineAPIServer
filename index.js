@@ -7,35 +7,7 @@ dotenv.config();
 const axios = require('axios');
 const {myLineBot } = require('./linebot');
 const sendEmail = require('./mailer');
-const otplib = require('otplib');
 
-otplib.authenticator.options = {
-  step: 10,
-  window: 1
-};
-
-//const secret = 'KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD';
-// Alternatively: 
-const secret = otplib.authenticator.generateSecret();
-
-const token = otplib.authenticator.generate(secret);
-try {
-  //const isValid = otplib.authenticator.check(token, secret);
-  // or
-  //const isValid = otplib.authenticator.verify({ token, secret });
-  setInterval(checkOTP, 15000, token, secret)
-  
-} catch (err) {
-  // Error possibly thrown by the thirty-two package
-  // 'Invalid input - it is not base32 encoded string'
-  console.error(err);
-}
-
-function checkOTP( token,secret){
-  const isValid = otplib.authenticator.check(token, secret);
-  console.log('otp:', isValid,secret, token);
-
-}
 
 const app = express();
 
@@ -112,43 +84,45 @@ app.post('/users', db.linebot.insertImage);
 //取得product的圖檔
 app.get('/productimg/:prodId', db.linebot.queryProductImageById)
 
-app.get('/token', (req, res) => {
-  res.status(201).json({ 'token:': process.env.BTOKEN })
-});
+// app.get('/token', (req, res) => {
+//   res.status(201).json({ 'token:': process.env.BTOKEN })
+// });
 
-app.post('/tmtoken', (req, res) => {
-  let { client, secret } = req.body;
-  console.log('/tmtoken:', req.headers)
-  let config = {
-    url: 'https://abc.com.tw/!carapp/SignIn',
-    method: 'post',
-    headers: {
-      'Authorization': 'Basic ',
-      'Content-Type': 'application/json',
-    },
-    data: {
-      //url: 'https://localhost:5001/api/values',
-      client: client,
-      secret: secret
-    }
-  };
+// app.post('/tmtoken', (req, res) => {
+//   let { client, secret } = req.body;
+//   console.log('/tmtoken:', req.headers)
+//   let config = {
+//     url: 'https://abc.com.tw/!carapp/SignIn',
+//     method: 'post',
+//     headers: {
+//       'Authorization': 'Basic ',
+//       'Content-Type': 'application/json',
+//     },
+//     data: {
+//       //url: 'https://localhost:5001/api/values',
+//       client: client,
+//       secret: secret
+//     }
+//   };
 
-  axios(config)
-    .then(resp => {
-      console.log('token:', resp.data.access_token)
+//   axios(config)
+//     .then(resp => {
+//       console.log('token:', resp.data.access_token)
 
-      res.redirect('307', 'https://abc.com.tw/Car/CAQuotation/Index');
-      //res.json({ 'token': resp.data.access_token })
-    })
-    .catch(err => {
-      console.log('nodejs err:', err)
-      res.status(400).json(err)
-    })
+//       res.redirect('307', 'https://abc.com.tw/Car/CAQuotation/Index');
+//       //res.json({ 'token': resp.data.access_token })
+//     })
+//     .catch(err => {
+//       console.log('nodejs err:', err)
+//       res.status(400).json(err)
+//     })
 
 
-})
+// })
 
 app.get('/products', db.linebot.queryProducts);
+
+app.post('/linkTmnewa', db.linebot.genOTPByAccount);
 
 app.listen(port, () => {
   console.log('app is working')

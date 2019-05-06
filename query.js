@@ -1,4 +1,7 @@
 const Pool = require('pg').Pool;
+const otp = require('./otp');
+
+
 //const dbconfig = require('./config.json');
 let port = process.env.PORT;
 const pool = new Pool({
@@ -118,6 +121,8 @@ const queryProducts = (req, res) => {
 }
 
 /* #region  Line link TMNEWA demo */
+
+//判斷是否已經綁定帳號
 const queryIsLinked = (lineUserId) => {
     return new Promise((resolve, reject) => {
         pool.query('select memberid, lineuserid from usermapping where lineuserid=$1', [lineUserId], (err, result) => {
@@ -128,6 +133,20 @@ const queryIsLinked = (lineUserId) => {
             //console.log('queryIsLinked', result);
             resolve(result.rows);
         })
+    })
+}
+
+//用帳號及EMAIL進行驗證，產生OTP CODE
+const genOTPByAccount = (req, res)=>{
+    const {tmnewaid, email} =req.body;
+    pool.query('select * from tmnewamember where memberid=$1 and email=$2',[tmnewaid, `${email}@tmnewa.com.tw`], (err, result) => {
+        if(err){
+            reject(err);
+            return;
+        }
+        console.log('otp:', otp);
+        res.status(201).json(result.rows[0]);
+
     })
 }
 
@@ -153,7 +172,8 @@ module.exports = {
         queryProducts,
         queryProductImageById,
         checkDBIsTmnewa,
-        queryIsLinked
+        queryIsLinked,
+        genOTPByAccount
     },
     todolist: {
 

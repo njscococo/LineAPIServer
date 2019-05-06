@@ -1,12 +1,53 @@
 <html>
+<header>
+    <script src="./lib/axios.min.js"></script>
+    <script src="./lib/countdown.min.js"></script>
+</header>
 
 <body>
-    
-        <form action="" style="display: flex; flex-direction: column">
-            <input type="text" name="userid" id="userid">
-            <input type="text" name="pw" id="pw">
-            <button type="submit">Login</button>
-        </form>
+    <div>
+        <label for="userid">公司帳號:</label>
+        <input type="text" name="userid" id="userid" value="">
+    </div>
+    <div>
+        <label for="pw">Email:</label>
+        <input type="text" name="pw" id="pw" style="text-align: right" value="">@tmnewa.com.tw
+    </div>
+    <div>
+        <button type="submit" id="btn_binding">綁定</button>
+    </div>
+
+    <div id="div_otp" style="display: none">
+        <div>
+            <span>
+                驗證碼已寄發至您的公司EMAIL信箱，請至EMAIL信箱取得驗證碼，並輸入至下方欄位以進行帳號綁定
+            </span>
+        </div>
+
+        <label for="otpcode">請輸入6碼驗證碼</label>
+        <input type="text" name="otpcode" id="otpcode">
+        <span>剩餘時間：</span>
+        <button id="btn_otp">驗證</button>
+    </div>
+    <script>
+        var account = document.querySelector('#userid');
+        var pw = document.querySelector('#pw');
+        var btn_binding = document.querySelector('#btn_binding');
+        var div_otp = document.querySelector('#div_otp');
+
+        btn_binding.addEventListener('click', (e) => {
+            console.log('account:', div_otp.style.display);
+            div_otp.style.display = "inline"
+
+        })
+
+        var cd = countdown(new Dater())
+        console.log('account:', account);
+
+        function login(){
+            
+        }
+    </script>
 </body>
 
 </html>
