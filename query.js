@@ -138,42 +138,40 @@ const queryIsLinked = (lineUserId) => {
 }
 
 //用帳號及EMAIL進行驗證，產生OTP CODE
-const genOTPByAccount = (req, res)=>{
-    const {tmnewaid, email} =req.body;
+const genOTPByAccount = (req, res) => {
+    const { tmnewaid, email } = req.body;
     console.log('genOTPByAccount:', tmnewaid, `${email}@tmnewa.com.tw`);
-    pool.query('select * from tmnewamember where memberid=$1 and LOWER(email)=LOWER($2)',[tmnewaid, `${email}@tmnewa.com.tw`], (err, result) => {
-        if(err){
+    pool.query('select * from tmnewamember where memberid=$1 and LOWER(email)=LOWER($2)', [tmnewaid, `${email}@tmnewa.com.tw`], (err, result) => {
+        if (err) {
             reject(err);
             return;
         }
 
-        if(result.rows[0]){
+        if (result.rows[0]) {
             otp.genOTP(tmnewaid).then((resp) => {
                 console.log('otp token:', resp);
-                
+
 
                 sendEmail(result.rows[0].email, resp);
 
-                
+                res.cookie('member', result.rows[0].memberid)
 
-
-
-                res.status(200).json({'token': resp});
+                //res.status(200).json({'token': resp});
             });
             //res.status(201).json(result.rows[0]);
 
-        }else{
+        } else {
             res.status(201).json('account or email is invalid');
         }
-         
-        
+
+
 
     })
 }
 
 //驗證OTP CODE是否正確,  add tmnewaid to cookie
 const validateOTP = (req, res) => {
-    
+
 }
 
 /* #endregion */
@@ -199,7 +197,8 @@ module.exports = {
         queryProductImageById,
         checkDBIsTmnewa,
         queryIsLinked,
-        genOTPByAccount
+        genOTPByAccount,
+        validateOTP
     },
     todolist: {
 

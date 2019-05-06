@@ -122,14 +122,13 @@ app.get('/productimg/:prodId', db.linebot.queryProductImageById)
 
 app.get('/products', db.linebot.queryProducts);
 
+//帳號綁定，產生OTP CODE
 app.post('/linkTmnewa', db.linebot.genOTPByAccount);
+
+//驗證OTP code
+app.post('/verifycode', db.linebot.validateOTP);
 
 app.listen(port, () => {
   console.log('app is working')
 });
-
-// db.checkDBIsTmnewa('U276656692ad7af2fa0ada7e69f286165').then((res) => {
-//   console.log('checkDBIsTmnewa', res)
-//   console.log('done')
-// });
 

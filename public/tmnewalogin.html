@@ -5,17 +5,20 @@
 </header>
 
 <body>
-    <div>
-        <label for="userid">公司帳號:</label>
-        <input type="text" name="userid" id="userid" value="">
+    <div id="div_login">
+        <div>
+            <label for="userid">公司帳號:</label>
+            <input type="text" name="userid" id="userid" value="">
+        </div>
+        <div>
+            <label for="pw">Email:</label>
+            <input type="text" name="pw" id="pw" style="text-align: right" value="">@tmnewa.com.tw
+        </div>
+        <div>
+            <button id="btn_binding">綁定</button>
+        </div>
     </div>
-    <div>
-        <label for="pw">Email:</label>
-        <input type="text" name="pw" id="pw" style="text-align: right" value="">@tmnewa.com.tw
-    </div>
-    <div>
-        <button type="submit" id="btn_binding">綁定</button>
-    </div>
+
 
     <div id="div_otp" style="display: none">
         <div>
@@ -34,18 +37,36 @@
         var pw = document.querySelector('#pw');
         var btn_binding = document.querySelector('#btn_binding');
         var div_otp = document.querySelector('#div_otp');
+        var div_login = document.querySelector('#div_login');
 
         btn_binding.addEventListener('click', (e) => {
             console.log('account:', div_otp.style.display);
-            div_otp.style.display = "inline"
+            div_otp.style.display = "inline";
+            div_login.style.display = "none";
 
+        });
+
+        let config = {
+            url: ' https://linetestingserver.herokuapp.com/',
+            method: 'post',
+            
+            data: {
+                //url: 'https://localhost:5001/api/values',
+                client: client,
+                secret: secret
+            }
+        };
+        btn_otp.addEventListener('click', (e) => {
+            axios({
+
+            })
         })
 
         var cd = countdown(new Dater())
         console.log('account:', account);
 
-        function login(){
-            
+        function login() {
+
         }
     </script>
 </body>
