@@ -36,7 +36,7 @@ const validateOTP = function (token, tmnewaid) {
             throw err;
         }
         console.log('otp1:', reply, token);
-        isValid = otplib.authenticator.check(token, reply.toString());
+        isValid = otplib.authenticator.check(token, reply);
         console.log('otp2:', isValid, reply, token);
         if(isValid){
             redisClient.del(tmnewaid, (error, result) => {
