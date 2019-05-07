@@ -67,8 +67,9 @@ const validateOTP = function (token, tmnewaid) {
             result.isValid = isValid;
         }
 
-        return result;
+        
     });
+    return result;
 }
 
 module.exports = {
