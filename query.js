@@ -2,6 +2,17 @@ const Pool = require('pg').Pool;
 const otp = require('./otp');
 
 const sendEmail = require('./mailer');
+const redis = require('redis');
+
+/* #region  Connect to Redis */
+let redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
+
+redisClient.on("error", function (err) {
+    console.log("Error:" + err);
+});
+redisClient.auth(process.env.REDIS_PW);
+
+/* #endregion */
 
 //const dbconfig = require('./config.json');
 let port = process.env.PORT;
@@ -140,13 +151,22 @@ const queryIsLinked = (lineUserId) => {
 //將LINE USERID和自己的MEMBERID實際做綁定
 const linkMember = (lineUserId, nonce)=>{
     return new Promise((resolve, reject) => {
-        pool.query('insert into usermapping (memberid, lineuserid, createddt) values ($1, $2, $3) ', [lineUserId, lineUserId,'now()'], (err, result) => {
-            if (err) {
+        redisClient.get(nonce,(err, result) => {
+            if(err){
+                console.log('linkMember err:', err);
                 throw err;
             }
-            //console.log(result)
-            resolve(result.rows)
+            console.log('tmnewaid:', result);
+            pool.query('insert into usermapping (memberid, lineuserid, createddt) values ($1, $2, $3) ', [result, lineUserId,'now()'], (errs, res) => {
+                if (errs) {
+                    throw errs;
+                }
+                //console.log(result)
+                resolve(res.rows)
+            })
+            
         })
+        
     })
 
     

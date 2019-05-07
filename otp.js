@@ -23,6 +23,7 @@ const genOTP = function (tmnewaid) {
 
         redisClient.SETEX(tmnewaid, 620, secret);
         redisClient.set(`nonce-${tmnewaid}`, secret);
+        redisClient.set( secret, tmnewaid);
 
         resolve(token);
     })
