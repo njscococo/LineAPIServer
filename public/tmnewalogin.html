@@ -1,7 +1,7 @@
 <html>
 <header>
     <script src="./lib/axios.min.js"></script>
-    <script src="./lib/countdown.min.js"></script>
+    <!-- <script src="./lib/countdown.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/vconsole@3.3.0/dist/vconsole.min.js"></script>
 
     <script>
@@ -12,6 +12,7 @@
 
 <body>
     <div id="div_login">
+            
         <div>
             <label for="userid">公司帳號:</label>
             <input type="text" name="userid" id="userid" value="">
@@ -35,7 +36,7 @@
         <div>
             <label for="otpcode">請輸入6碼驗證碼</label>
             <input type="text" name="otpcode" id="otpcode">
-            <span>剩餘時間：</span>
+            <span>剩餘時間：</span><span id='countdown'></span>
         </div>
         <button id="btn_otp">驗證</button>
     </div>
@@ -50,12 +51,10 @@
         var btn_otp = document.querySelector('#btn_otp');
         var div_otp = document.querySelector('#div_otp');
         var div_login = document.querySelector('#div_login');
-
+        var countdown = document.querySelector('#countdown');
         var lineurl = document.querySelector('#lineurl');
 
         var urlObj = new URL(window.location.href);
-
-        
 
         btn_binding.addEventListener('click', (e) => {
             axios({
@@ -89,19 +88,40 @@
                 }
             }).then((result) => {
                 console.log('result:', result.data);
-                if(result.data.redirect){
-                    lineurl.href=result.data.redirect;
+                if (result.data.redirect) {
+                    lineurl.href = result.data.redirect;
                     lineurl.style.display = "inline";
                     div_otp.style.display = "none";
+                    countdown();
+                } else {
+                    alert('驗證碼錯誤，請再確認是否正確輸入');
                 }
             })
         })
+        
+        //var today = new Date();
+        //var cd = countdown(today.setMinutes(today.getMinutes() + 10), null, countdown.MINUTES | countdown.SECONDS);
+        //console.log('account:', cd.toHTML());
 
-        var today = new Date();
-        var cd = countdown(today.setMinutes(today.getMinutes() + 10), null, countdown.MINUTES | countdown.SECONDS);
-        console.log('account:', cd);
-
-
+        function countdown() {
+            var today = new Date();
+            deadline = today.setMinutes(today.getMinutes() + 10);
+            console.log('deadline', deadline);
+            var x = setInterval(function () {
+                var now = new Date().getTime();
+                var t = deadline - now;
+                //var days = Math.floor(t / (1000 * 60 * 60 * 24));
+                //var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((t % (1000 * 60)) / 1000);
+                countdown.innerHTML = minutes + "m " + seconds + "s ";
+                if (t < 0) {
+                    clearInterval(x);
+                    countdown.innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        }
+        //countdown();
     </script>
 </body>
 

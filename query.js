@@ -149,27 +149,23 @@ const queryIsLinked = (lineUserId) => {
 }
 
 //將LINE USERID和自己的MEMBERID實際做綁定
-const linkMember = (lineUserId, nonce)=>{
+const linkMember = (lineUserId, nonce) => {
     return new Promise((resolve, reject) => {
-        redisClient.get(nonce,(err, result) => {
-            if(err){
+        redisClient.get(nonce, (err, result) => {
+            if (err) {
                 console.log('linkMember err:', err);
                 throw err;
             }
             console.log('tmnewaid:', result);
-            pool.query('insert into usermapping (memberid, lineuserid, createddt) values ($1, $2, $3) ', [result, lineUserId,'now()'], (errs, res) => {
+            pool.query('insert into usermapping (memberid, lineuserid, createddt) values ($1, $2, $3) ', [result, lineUserId, 'now()'], (errs, res) => {
                 if (errs) {
                     throw errs;
                 }
                 //console.log(result)
                 resolve(res.rows)
             })
-            
         })
-        
     })
-
-    
 }
 
 //用帳號及EMAIL進行驗證，產生OTP CODE
@@ -184,14 +180,11 @@ const genOTPByAccount = (req, res) => {
 
         if (result.rows[0]) {
             otp.genOTP(tmnewaid).then((resp) => {
-                //console.log('otp token:', resp);
-
                 sendEmail(result.rows[0].email, resp);
 
                 res.cookie('memberid', result.rows[0].memberid);
-                res.status(200).json({ 'token': resp });
+                res.status(200).json({ 'genOTP': 'ok' });
             });
-            //res.status(201).json(result.rows[0]);
 
         } else {
             res.status(200).json({ 'error': 'account or email is invalid' });
@@ -199,16 +192,16 @@ const genOTPByAccount = (req, res) => {
     })
 }
 
-//驗證OTP CODE是否正確,  add tmnewaid to cookie
+//驗證OTP CODE是否正確
 const validateOTP = (req, res) => {
     const { code, linkToken } = req.body;
-    console.log('validateOTP:', req.cookies.memberid, code);
+    //console.log('validateOTP:', req.cookies.memberid, code);
     otp.validateOTP(code, req.cookies.memberid).then((resp) => {
-        console.log('validObj:', resp);
+        //console.log('validObj:', resp);
         res.status(200).json(
             resp.isValid ?
                 {
-                    "isValid": resp.isValid ,
+                    "isValid": resp.isValid,
                     "redirect": `https://access.line.me/dialog/bot/accountLink?linkToken=${linkToken}&nonce=${resp.nonce}`
                 } : {
                     "isValid": resp.isValid
