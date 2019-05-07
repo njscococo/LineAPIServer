@@ -30,18 +30,26 @@ const genOTP = function (tmnewaid) {
 const validateOTP = function (token, tmnewaid) {
     let isValid = false;
     redisClient.get(tmnewaid, (err, reply) => {
+        if(err){
+            console.log('redis get key err:', err);
+            throw err;
+        }
         console.log('otp1:', reply.toString(), token);
         isValid = otplib.authenticator.check(token, reply.toString());
         console.log('otp2:', isValid, reply, token);
+        if(isValid){
+            redisClient.del(tmnewaid, (error, result) => {
+                if(error){
+                    console.log('redis del key err:', error);
+                    throw error;
+                }
+                console.log('redis del done:', result);
+            });
+        }
 
         return isValid;
     });
-
-    
-
 }
-
-
 
 module.exports = {
     genOTP,

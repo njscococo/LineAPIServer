@@ -42,10 +42,6 @@
         var div_login = document.querySelector('#div_login');
 
         btn_binding.addEventListener('click', (e) => {
-            console.log('account:', div_otp.style.display);
-            div_otp.style.display = "inline";
-            div_login.style.display = "none";
-
             axios({
                 url: ' https://linetestingserver.herokuapp.com/linkTmnewa',
                 method: 'post',
@@ -54,7 +50,14 @@
                     email: pw.value
                 }
             }).then((result) => {
-                console.log('result:', result);
+                console.log('result:', result.data);
+                if (result.data.error) {
+                    alert('您輸入的帳號或EMAIL有誤，請重新輸入！')
+
+                } else {
+                    div_otp.style.display = "inline";
+                    div_login.style.display = "none";
+                }
             })
         });
 
@@ -65,7 +68,6 @@
                 method: 'post',
                 //withCredentials: true,
                 data: {
-                    //tmnewaid: account.value,
                     code: otpcode.value
                 }
             }).then((result) => {
@@ -73,11 +75,11 @@
             })
         })
 
-        var today =new Date();
-        var cd = countdown(today.setMinutes(today.getMinutes()+10),null, countdown.MINUTES  | countdown.SECONDS);
+        var today = new Date();
+        var cd = countdown(today.setMinutes(today.getMinutes() + 10), null, countdown.MINUTES | countdown.SECONDS);
         console.log('account:', cd);
 
-        
+
     </script>
 </body>
 
