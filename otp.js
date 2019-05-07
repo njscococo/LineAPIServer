@@ -29,6 +29,7 @@ const genOTP = function (tmnewaid) {
 
 const validateOTP = function (token, tmnewaid) {
     let isValid = false;
+    console.log('otp0:', token, tmnewaid);
     redisClient.get(tmnewaid, (err, reply) => {
         if(err){
             console.log('redis get key err:', err);
