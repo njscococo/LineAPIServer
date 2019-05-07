@@ -61,14 +61,14 @@ const validateOTP = function (token, tmnewaid) {
                     console.log('nonce key:', rep);
 
                     result.isValid = isValid;
-                    result.nonce = rep
+                    result.nonce = rep;
+                    resolve( result);
                 })
 
             } else {
                 result.isValid = isValid;
+                resolve( result);
             }
-            resolve( result);
-
         });
 
     })
