@@ -51,7 +51,7 @@ app.post('/linewebhook', parser, function (req, res) {
   console.log('linewebhook req msg:', req.body.events[0].message)
   req.body.events.forEach((evt, idx) => {
     if(evt.type==='accountLink'){
-      myLineBot.linebot.linkMember(evt.source.userId, evt.link.nonce).then((rep) => {
+      db.linebot.linkMember(evt.source.userId, evt.link.nonce).then((rep) => {
         console.log('linkMember:', rep);
       })
     }
