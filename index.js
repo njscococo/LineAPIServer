@@ -8,10 +8,10 @@ dotenv.config();
 const axios = require('axios');
 const {myLineBot } = require('./linebot');
 
-// var corsOptions = {
-//   origin: '*',
-//   credentials: true
-// }
+var corsOptions = {
+  origin: 'https://linetestingserver.herokuapp.com',
+  credentials: true
+}
 
 const app = express();
 app.use(cookieParser())
@@ -20,11 +20,11 @@ let port = process.env.PORT;
 if (port == null || port == "") {
   port = 8000;
 }
-console.log('port:', port)
+//console.log('port:', port)
 //email();
-app.use(cors())
+app.use(cors(corsOptions))
 // allow preflight
-app.options('*', cors())
+app.options('*', cors(corsOptions))
 
 app.use('/binding', express.static(__dirname +'/public'));
 
@@ -49,6 +49,13 @@ app.post('/linewebhook', parser, function (req, res) {
 
   console.log('linewebhook req:', req.body.events)
   console.log('linewebhook req msg:', req.body.events[0].message)
+  req.body.events.forEach((evt, idx) => {
+    if(evt.type==='accountLink'){
+      db.linebot.linkMember(evt.source.userId, evt.link.nonce).then((rep) => {
+        console.log('linkMember:', rep);
+      })
+    }
+  })
   myLineBot.parse(req.body);
   return res.json({ 'send': 'done' });
 });
@@ -75,7 +82,7 @@ app.get('/line/getAllUserId', db.linebot.queryAllLineId)
 
 app.get('/', (req, res) => {
   //res.json({info: 'hihi'})
-  console.log('first request')
+  //console.log('first request')
   res.json({ 'text': 'hey you' })
   //next();
 });
