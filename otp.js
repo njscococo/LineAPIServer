@@ -34,7 +34,7 @@ const validateOTP = function (token, tmnewaid) {
             console.log('redis get key err:', err);
             throw err;
         }
-        console.log('otp1:', reply.toString(), token);
+        console.log('otp1:', reply, token);
         isValid = otplib.authenticator.check(token, reply.toString());
         console.log('otp2:', isValid, reply, token);
         if(isValid){
