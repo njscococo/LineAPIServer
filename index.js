@@ -24,7 +24,7 @@ console.log('port:', port)
 //email();
 app.use(cors(corsOptions))
 // allow preflight
-app.options('*', cors())
+app.options('*', cors(corsOptions))
 
 app.use('/binding', express.static(__dirname +'/public'));
 
