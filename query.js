@@ -137,6 +137,21 @@ const queryIsLinked = (lineUserId) => {
     })
 }
 
+//將LINE USERID和自己的MEMBERID實際做綁定
+const linkMember = (lineUserId, nonce)=>{
+    return new Promise((resolve, reject) => {
+        pool.query('insert into usermapping (memberid, lineuserid, createddt) values ($1, $2, $3) returning id', [tmnewaid, userid,'now()'], (err, result) => {
+            if (err) {
+                throw err;
+            }
+            //console.log(result)
+            resolve(result.rows)
+        })
+    })
+
+    
+}
+
 //用帳號及EMAIL進行驗證，產生OTP CODE
 const genOTPByAccount = (req, res) => {
     const { tmnewaid, email } = req.body;
@@ -205,7 +220,8 @@ module.exports = {
         checkDBIsTmnewa,
         queryIsLinked,
         genOTPByAccount,
-        validateOTP
+        validateOTP,
+        linkMember
     },
     todolist: {
 
