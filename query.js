@@ -166,14 +166,18 @@ const genOTPByAccount = (req, res) => {
 
 //驗證OTP CODE是否正確,  add tmnewaid to cookie
 const validateOTP = (req, res) => {
-    const { code } = req.body;
+    const { code, linkToken } = req.body;
     console.log('validateOTP:', req.cookies.memberid, code);
-    const isValid = otp.validateOTP(code, req.cookies.memberid);
-    res.status(200).json({
-        "isValid": isValid,
-        "redirect": `https://access.line.me/dialog/bot/accountLink?linkToken={link token}&nonce={nonce}`
-    })
-    
+    const validObj = otp.validateOTP(code, req.cookies.memberid);
+    res.status(200).json(
+        validObj.isValid ?
+            {
+                "isValid": validObj.isValid ,
+                "redirect": `https://access.line.me/dialog/bot/accountLink?linkToken=${linkToken}&nonce=${validObj.nonce}`
+            } : {
+                "isValid": validObj.isValid
+            })
+
 }
 
 /* #endregion */
