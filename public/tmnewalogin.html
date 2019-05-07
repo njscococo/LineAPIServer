@@ -44,6 +44,25 @@
 
 
     <script>
+        function countdown() {
+            var today = new Date();
+            deadline = today.setMinutes(today.getMinutes() + 10);
+            //console.log('deadline', deadline);
+            var x = setInterval(function () {
+                var now = new Date().getTime();
+                var t = deadline - now;
+                //var days = Math.floor(t / (1000 * 60 * 60 * 24));
+                //var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((t % (1000 * 60)) / 1000);
+                span_countdown.innerHTML = minutes + "分 " + seconds + "秒 ";
+                if (t < 0) {
+                    clearInterval(x);
+                    span_countdown.innerHTML = "過期";
+                }
+            }, 1000);
+        }
+
         var account = document.querySelector('#userid');
         var pw = document.querySelector('#pw');
         var otpcode = document.querySelector('#otpcode');
@@ -51,12 +70,14 @@
         var btn_otp = document.querySelector('#btn_otp');
         var div_otp = document.querySelector('#div_otp');
         var div_login = document.querySelector('#div_login');
-        var countdown = document.querySelector('#countdown');
+        var span_countdown = document.querySelector('#countdown');
         var lineurl = document.querySelector('#lineurl');
 
         var urlObj = new URL(window.location.href);
 
         btn_binding.addEventListener('click', (e) => {
+            //console.log('countdow', countdown);
+            
             axios({
                 url: ' https://linetestingserver.herokuapp.com/linkTmnewa',
                 method: 'post',
@@ -98,29 +119,8 @@
                 }
             })
         })
-        
-        //var today = new Date();
-        //var cd = countdown(today.setMinutes(today.getMinutes() + 10), null, countdown.MINUTES | countdown.SECONDS);
-        //console.log('account:', cd.toHTML());
 
-        function countdown() {
-            var today = new Date();
-            deadline = today.setMinutes(today.getMinutes() + 10);
-            console.log('deadline', deadline);
-            var x = setInterval(function () {
-                var now = new Date().getTime();
-                var t = deadline - now;
-                //var days = Math.floor(t / (1000 * 60 * 60 * 24));
-                //var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((t % (1000 * 60)) / 1000);
-                countdown.innerHTML = minutes + "m " + seconds + "s ";
-                if (t < 0) {
-                    clearInterval(x);
-                    countdown.innerHTML = "EXPIRED";
-                }
-            }, 1000);
-        }
+        
         //countdown();
     </script>
 </body>
