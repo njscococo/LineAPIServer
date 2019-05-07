@@ -169,7 +169,11 @@ const validateOTP = (req, res) => {
     const { code } = req.body;
     console.log('validateOTP:', req.cookies.memberid, code);
     const isValid = otp.validateOTP(code, req.cookies.memberid);
-    res.status(200).json({"okok": isValid})
+    res.status(200).json({
+        "isValid": isValid,
+        "redirect": `https://access.line.me/dialog/bot/accountLink?linkToken=${link token}&nonce={nonce}`
+    })
+    
 }
 
 /* #endregion */

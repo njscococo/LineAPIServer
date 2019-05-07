@@ -20,7 +20,7 @@ let port = process.env.PORT;
 if (port == null || port == "") {
   port = 8000;
 }
-console.log('port:', port)
+//console.log('port:', port)
 //email();
 app.use(cors(corsOptions))
 // allow preflight
@@ -75,7 +75,7 @@ app.get('/line/getAllUserId', db.linebot.queryAllLineId)
 
 app.get('/', (req, res) => {
   //res.json({info: 'hihi'})
-  console.log('first request')
+  //console.log('first request')
   res.json({ 'text': 'hey you' })
   //next();
 });

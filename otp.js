@@ -13,7 +13,7 @@ redisClient.auth(process.env.REDIS_PW);
 
 const genOTP = function (tmnewaid) {
     otplib.authenticator.options = {
-        step: 20,
+        step: 620,
         window: 1
     };
 
@@ -22,6 +22,7 @@ const genOTP = function (tmnewaid) {
         const token = otplib.authenticator.generate(secret);
 
         redisClient.SETEX(tmnewaid, 620, secret);
+        redisClient.set(`nonce-${tmnewaid}`, secret);
 
         resolve(token);
     })
