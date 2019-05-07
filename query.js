@@ -140,7 +140,7 @@ const queryIsLinked = (lineUserId) => {
 //將LINE USERID和自己的MEMBERID實際做綁定
 const linkMember = (lineUserId, nonce)=>{
     return new Promise((resolve, reject) => {
-        pool.query('insert into usermapping (memberid, lineuserid, createddt) values ($1, $2, $3) returning id', [tmnewaid, userid,'now()'], (err, result) => {
+        pool.query('insert into usermapping (memberid, lineuserid, createddt) values ($1, $2, $3) returning id', [lineUserId, lineUserId,'now()'], (err, result) => {
             if (err) {
                 throw err;
             }
