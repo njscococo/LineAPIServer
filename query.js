@@ -140,7 +140,7 @@ const queryIsLinked = (lineUserId) => {
 //用帳號及EMAIL進行驗證，產生OTP CODE
 const genOTPByAccount = (req, res) => {
     const { tmnewaid, email } = req.body;
-    console.log('genOTPByAccount:', tmnewaid, `${email}@tmnewa.com.tw`);
+    //console.log('genOTPByAccount:', tmnewaid, `${email}@tmnewa.com.tw`);
     pool.query('select * from tmnewamember where memberid=$1 and LOWER(email)=LOWER($2)', [tmnewaid, `${email}@tmnewa.com.tw`], (err, result) => {
         if (err) {
             reject(err);
@@ -149,29 +149,27 @@ const genOTPByAccount = (req, res) => {
 
         if (result.rows[0]) {
             otp.genOTP(tmnewaid).then((resp) => {
-                console.log('otp token:', resp);
-
+                //console.log('otp token:', resp);
 
                 sendEmail(result.rows[0].email, resp);
 
-                res.cookie('member', result.rows[0].memberid)
-
-                //res.status(200).json({'token': resp});
+                res.cookie('memberid', result.rows[0].memberid);
+                res.status(200).json({ 'token': resp });
             });
             //res.status(201).json(result.rows[0]);
 
         } else {
-            res.status(201).json('account or email is invalid');
+            res.status(200).json({ 'error': 'account or email is invalid' });
         }
-
-
-
     })
 }
 
 //驗證OTP CODE是否正確,  add tmnewaid to cookie
 const validateOTP = (req, res) => {
-
+    const { code } = req.body;
+    console.log('validateOTP:', req.cookies.memberid, code);
+    const isValid = otp.validateOTP(code, req.cookies.memberid);
+    res.status(200).json({"okok": isValid})
 }
 
 /* #endregion */

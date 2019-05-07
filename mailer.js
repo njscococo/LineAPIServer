@@ -33,11 +33,11 @@ async function sendMail(receivers, otpToken) {
     let info = await transporter.sendMail({
         from: '"TMNEWA" <foo@example.com>', // sender address
         to: receivers, // list of receivers
-        subject: "Hello ✔", // Subject line
+        subject: "帳號綁定驗證碼", // Subject line
         text: `驗證碼：${otpToken}`, // plain text body
         html: `<b>驗證碼：${otpToken}</b>` // html body
     }, (err, response) => {
-        err ? console.log('mail err:', err) : console.log('mail done:', response);
+        err ? console.log('mail err:', err) : console.log('mail done:');
         transporter.close();
     });
 

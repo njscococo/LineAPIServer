@@ -35,7 +35,9 @@
     <script>
         var account = document.querySelector('#userid');
         var pw = document.querySelector('#pw');
+        var otpcode = document.querySelector('#otpcode');
         var btn_binding = document.querySelector('#btn_binding');
+        var btn_otp = document.querySelector('#btn_otp');
         var div_otp = document.querySelector('#div_otp');
         var div_login = document.querySelector('#div_login');
 
@@ -44,30 +46,38 @@
             div_otp.style.display = "inline";
             div_login.style.display = "none";
 
+            axios({
+                url: ' https://linetestingserver.herokuapp.com/linkTmnewa',
+                method: 'post',
+                data: {
+                    tmnewaid: account.value,
+                    email: pw.value
+                }
+            }).then((result) => {
+                console.log('result:', result);
+            })
         });
 
-        let config = {
-            url: ' https://linetestingserver.herokuapp.com/',
-            method: 'post',
-            
-            data: {
-                //url: 'https://localhost:5001/api/values',
-                client: client,
-                secret: secret
-            }
-        };
+
         btn_otp.addEventListener('click', (e) => {
             axios({
-
+                url: ' https://linetestingserver.herokuapp.com/verifycode',
+                method: 'post',
+                //withCredentials: true,
+                data: {
+                    //tmnewaid: account.value,
+                    code: otpcode.value
+                }
+            }).then((result) => {
+                console.log('result:', result);
             })
         })
 
-        var cd = countdown(new Dater())
-        console.log('account:', account);
+        var today =new Date();
+        var cd = countdown(today.setMinutes(today.getMinutes()+10),null, countdown.MINUTES  | countdown.SECONDS);
+        console.log('account:', cd);
 
-        function login() {
-
-        }
+        
     </script>
 </body>
 

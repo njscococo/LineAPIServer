@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const db = require('./query');
 const dotenv = require('dotenv');
@@ -7,9 +8,13 @@ dotenv.config();
 const axios = require('axios');
 const {myLineBot } = require('./linebot');
 
-
+var corsOptions = {
+  origin: 'https://linetestingserver.herokuapp.com',
+  credentials: true
+}
 
 const app = express();
+app.use(cookieParser())
 
 let port = process.env.PORT;
 if (port == null || port == "") {
@@ -19,7 +24,7 @@ console.log('port:', port)
 //email();
 app.use(cors())
 // allow preflight
-app.options('*', cors())
+app.options('*', cors(corsOptions))
 
 app.use('/binding', express.static(__dirname +'/public'));
 
