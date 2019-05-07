@@ -171,7 +171,7 @@ const validateOTP = (req, res) => {
     const isValid = otp.validateOTP(code, req.cookies.memberid);
     res.status(200).json({
         "isValid": isValid,
-        "redirect": `https://access.line.me/dialog/bot/accountLink?linkToken=${link token}&nonce={nonce}`
+        "redirect": `https://access.line.me/dialog/bot/accountLink?linkToken={link token}&nonce={nonce}`
     })
     
 }
