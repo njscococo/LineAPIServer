@@ -168,17 +168,17 @@ const genOTPByAccount = (req, res) => {
 const validateOTP = (req, res) => {
     const { code, linkToken } = req.body;
     console.log('validateOTP:', req.cookies.memberid, code);
-    const validObj = otp.validateOTP(code, req.cookies.memberid);
-    console.log('validObj:', validObj);
-    res.status(200).json(
-        validObj.isValid ?
-            {
-                "isValid": validObj.isValid ,
-                "redirect": `https://access.line.me/dialog/bot/accountLink?linkToken=${linkToken}&nonce=${validObj.nonce}`
-            } : {
-                "isValid": validObj.isValid
-            })
-
+    otp.validateOTP(code, req.cookies.memberid).then((resp) => {
+        console.log('validObj:', resp);
+        res.status(200).json(
+            resp.isValid ?
+                {
+                    "isValid": resp.isValid ,
+                    "redirect": `https://access.line.me/dialog/bot/accountLink?linkToken=${linkToken}&nonce=${resp.nonce}`
+                } : {
+                    "isValid": resp.isValid
+                })
+    });
 }
 
 /* #endregion */
