@@ -165,7 +165,6 @@ const linkMember = (lineUserId, nonce) => {
                 resolve(res.rows)
             })
         })
-        
     })
 }
 
