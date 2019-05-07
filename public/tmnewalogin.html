@@ -3,7 +3,7 @@
     <script src="./lib/axios.min.js"></script>
     <script src="./lib/countdown.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vconsole@3.3.0/dist/vconsole.min.js"></script>
-    
+
     <script>
         var vConsole = new VConsole();
         //console.log('test123456')
@@ -32,12 +32,16 @@
                 驗證碼已寄發至您的公司EMAIL信箱，請至EMAIL信箱取得驗證碼，並輸入至下方欄位以進行帳號綁定
             </span>
         </div>
-
-        <label for="otpcode">請輸入6碼驗證碼</label>
-        <input type="text" name="otpcode" id="otpcode">
-        <span>剩餘時間：</span>
+        <div>
+            <label for="otpcode">請輸入6碼驗證碼</label>
+            <input type="text" name="otpcode" id="otpcode">
+            <span>剩餘時間：</span>
+        </div>
         <button id="btn_otp">驗證</button>
     </div>
+    <a href="#" id="lineurl" style="display: none">驗證通過，請點我完成帳號綁定</a>
+
+
     <script>
         var account = document.querySelector('#userid');
         var pw = document.querySelector('#pw');
@@ -46,7 +50,12 @@
         var btn_otp = document.querySelector('#btn_otp');
         var div_otp = document.querySelector('#div_otp');
         var div_login = document.querySelector('#div_login');
+
+        var lineurl = document.querySelector('#lineurl');
+
         var urlObj = new URL(window.location.href);
+
+        
 
         btn_binding.addEventListener('click', (e) => {
             axios({
@@ -80,6 +89,11 @@
                 }
             }).then((result) => {
                 console.log('result:', result.data);
+                if(result.data.redirect){
+                    lineurl.href=result.data.redirect;
+                    lineurl.style.display = "inline";
+                    div_otp.style.display = "none";
+                }
             })
         })
 
