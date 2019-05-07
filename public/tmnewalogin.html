@@ -67,11 +67,11 @@
             }).then((result) => {
                 console.log('result:', result.data);
                 if (result.data.error) {
-                    alert('您輸入的帳號或EMAIL有誤，請重新輸入！')
-
+                    alert('您輸入的帳號或EMAIL有誤，請重新輸入！');
                 } else {
                     div_otp.style.display = "inline";
                     div_login.style.display = "none";
+                    countdown();
                 }
             })
         });
@@ -92,7 +92,7 @@
                     lineurl.href = result.data.redirect;
                     lineurl.style.display = "inline";
                     div_otp.style.display = "none";
-                    countdown();
+                    
                 } else {
                     alert('驗證碼錯誤，請再確認是否正確輸入');
                 }
