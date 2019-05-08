@@ -1,5 +1,6 @@
 <html>
 <header>
+        <link rel="stylesheet" href="./css/style.css">
     <script src="./lib/axios.min.js"></script>
     <!-- <script src="./lib/countdown.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/vconsole@3.3.0/dist/vconsole.min.js"></script>
@@ -11,8 +12,7 @@
 </header>
 
 <body>
-    <div id="div_login">
-            
+    <div id="div_login" class="box box2">            
         <div>
             <label for="userid">公司帳號:</label>
             <input type="text" name="userid" id="userid" value="">
@@ -27,7 +27,7 @@
     </div>
 
 
-    <div id="div_otp" style="display: none">
+    <div id="div_otp" style="display: none" class="box box2">
         <div>
             <span>
                 驗證碼已寄發至您的公司EMAIL信箱，請至EMAIL信箱取得驗證碼，並輸入至下方欄位以進行帳號綁定
@@ -42,23 +42,20 @@
     </div>
     <a href="#" id="lineurl" style="display: none">驗證通過，請點我完成帳號綁定</a>
 
-
     <script>
         function countdown() {
             var today = new Date();
             deadline = today.setMinutes(today.getMinutes() + 10);
-            //console.log('deadline', deadline);
             var x = setInterval(function () {
                 var now = new Date().getTime();
                 var t = deadline - now;
-                //var days = Math.floor(t / (1000 * 60 * 60 * 24));
-                //var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                
                 var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
                 var seconds = Math.floor((t % (1000 * 60)) / 1000);
                 span_countdown.innerHTML = minutes + "分 " + seconds + "秒 ";
                 if (t < 0) {
                     clearInterval(x);
-                    span_countdown.innerHTML = "過期";
+                    span_countdown.innerHTML = "Token過期";
                 }
             }, 1000);
         }
@@ -76,8 +73,7 @@
         var urlObj = new URL(window.location.href);
 
         btn_binding.addEventListener('click', (e) => {
-            //console.log('countdow', countdown);
-            
+            //console.log('countdow', countdown);            
             axios({
                 url: ' https://linetestingserver.herokuapp.com/linkTmnewa',
                 method: 'post',
@@ -86,7 +82,7 @@
                     email: pw.value
                 }
             }).then((result) => {
-                console.log('result:', result.data);
+                //console.log('result:', result.data);
                 if (result.data.error) {
                     alert('您輸入的帳號或EMAIL有誤，請重新輸入！');
                 } else {
@@ -112,8 +108,7 @@
                 if (result.data.redirect) {
                     lineurl.href = result.data.redirect;
                     lineurl.style.display = "inline";
-                    div_otp.style.display = "none";
-                    
+                    div_otp.style.display = "none";                    
                 } else {
                     alert('驗證碼錯誤，請再確認是否正確輸入');
                 }

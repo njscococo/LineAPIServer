@@ -43,3 +43,19 @@ img {
 button {
     margin: 4px;
 }
+
+.box{
+    width: 500px;
+    /* border: 1px solid #f00; */
+    margin: auto;
+    line-height: 50px;
+    text-align: left;
+  }
+  .box2 .content{
+    display: inline-block;
+    height: auto;
+    line-height:1;
+    width: 400px;
+    background: #ccc;
+      vertical-align: middle;
+  }
