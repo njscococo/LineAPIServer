@@ -72,7 +72,7 @@ myLineBot.on('message', function (event) {
                   //已經綁定過囉
                   event.reply({
                       "type": "text",
-                      "text": `${result[0].memberid} 您好，您的帳號已綁定`
+                      "text": `${result[0].name} 您好，您的帳號已綁定`
                   })
               }else{
                 axios({
