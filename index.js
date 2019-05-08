@@ -6,10 +6,10 @@ const db = require('./query');
 const dotenv = require('dotenv');
 dotenv.config();
 const axios = require('axios');
-const {myLineBot } = require('./linebot');
+const { myLineBot } = require('./linebot');
 
 var corsOptions = {
-  origin: ['https://linetestingserver.herokuapp.com','http://localhost:3000'],
+  origin: ['https://linetestingserver.herokuapp.com', 'http://localhost:3000', 'https://linemsgplatform.herokuapp.com'],
   credentials: true
 }
 
@@ -26,7 +26,7 @@ app.use(cors(corsOptions))
 // allow preflight
 app.options('*', cors(corsOptions))
 
-app.use('/binding', express.static(__dirname +'/public'));
+app.use('/binding', express.static(__dirname + '/public'));
 
 //line webhook
 const parser = bodyParser.json({
@@ -50,7 +50,7 @@ app.post('/linewebhook', parser, function (req, res) {
   console.log('linewebhook req:', req.body.events)
   console.log('linewebhook req msg:', req.body.events[0].message)
   req.body.events.forEach((evt, idx) => {
-    if(evt.type==='accountLink'){
+    if (evt.type === 'accountLink') {
       db.linebot.linkMember(evt.source.userId, evt.link.nonce).then((rep) => {
         console.log('linkMember:', rep);
       })
@@ -134,11 +134,15 @@ app.get('/productimg/:prodId', db.linebot.queryProductImageById)
 
 app.get('/products', db.linebot.queryProducts);
 
+/* #region  Line Account Link */
 //帳號綁定，產生OTP CODE
 app.post('/linkTmnewa', db.linebot.genOTPByAccount);
 
 //驗證OTP code
 app.post('/verifycode', db.linebot.validateOTP);
+
+app.get('/line/getlinkeduser', db.linebot.queryLinkedUser)
+/* #endregion */
 
 app.listen(port, () => {
   console.log('app is working')
