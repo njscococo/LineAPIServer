@@ -137,7 +137,7 @@ const queryProducts = (req, res) => {
 //判斷是否已經綁定帳號
 const queryIsLinked = (lineUserId) => {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT a.memberid, a.lineuserid, b.email, b.name FROM public.usermapping a, public.tmnewamember b where a.memberid = b.memberid and b.lineuserid=$1', [lineUserId], (err, result) => {
+        pool.query('SELECT a.memberid, a.lineuserid, b.email, b.name FROM public.usermapping a, public.tmnewamember b where a.memberid = b.memberid and a.lineuserid=$1', [lineUserId], (err, result) => {
             if (err) {
                 reject(err);
                 return;
@@ -211,12 +211,14 @@ const validateOTP = (req, res) => {
 
 //查詢已綁定帳號之使用者
 const queryLinkedUser = (req, res) => {
-    pool.query('select memberid, lineuserid, name from public.usermapping', (err, result) => {
-        if (err) {
-            throw err;
-        }
-        res.status(201).json(result.rows)
-    })
+    
+    pool.query(`SELECT a.memberid, a.lineuserid, b.email, b.name
+	            FROM public.usermapping a, public.tmnewamember b where a.memberid = b.memberid`, (err, result) => {
+            if (err) {
+                throw err;
+            }
+            res.status(201).json(result.rows)
+        })
 }
 
 /* #endregion */
