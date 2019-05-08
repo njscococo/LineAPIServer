@@ -137,7 +137,7 @@ const queryProducts = (req, res) => {
 //判斷是否已經綁定帳號
 const queryIsLinked = (lineUserId) => {
     return new Promise((resolve, reject) => {
-        pool.query('select memberid, lineuserid from usermapping where lineuserid=$1', [lineUserId], (err, result) => {
+        pool.query('select name,memberid, lineuserid from usermapping where lineuserid=$1', [lineUserId], (err, result) => {
             if (err) {
                 reject(err);
                 return;
@@ -209,6 +209,16 @@ const validateOTP = (req, res) => {
     });
 }
 
+//查詢已綁定帳號之使用者
+const queryLinkedUser = (req, res) => {
+    pool.query('select memberid, lineuserid, name from public.usermapping', (err, result) => {
+        if (err) {
+            throw err;
+        }
+        res.status(201).json(result.rows)
+    })
+}
+
 /* #endregion */
 
 
@@ -234,7 +244,8 @@ module.exports = {
         queryIsLinked,
         genOTPByAccount,
         validateOTP,
-        linkMember
+        linkMember,
+        queryLinkedUser
     },
     todolist: {
 
