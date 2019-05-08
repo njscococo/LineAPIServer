@@ -9,7 +9,7 @@ const axios = require('axios');
 const {myLineBot } = require('./linebot');
 
 var corsOptions = {
-  origin: 'https://linetestingserver.herokuapp.com',
+  origin: ['https://linetestingserver.herokuapp.com','http://localhost:3000'],
   credentials: true
 }
 
