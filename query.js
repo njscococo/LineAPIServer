@@ -219,23 +219,6 @@ const queryLinkedUser = (req, res) => {
     })
 }
 
-//驗證OTP CODE是否正確
-const validateOTP = (req, res) => {
-    const { code, linkToken } = req.body;
-    //console.log('validateOTP:', req.cookies.memberid, code);
-    otp.validateOTP(code, req.cookies.memberid).then((resp) => {
-        //console.log('validObj:', resp);
-        res.status(200).json(
-            resp.isValid ?
-                {
-                    "isValid": resp.isValid,
-                    "redirect": `https://access.line.me/dialog/bot/accountLink?linkToken=${linkToken}&nonce=${resp.nonce}`
-                } : {
-                    "isValid": resp.isValid
-                })
-    });
-}
-
 //查詢已綁定帳號之使用者
 const queryLinkedUser = (req, res) => {
     
