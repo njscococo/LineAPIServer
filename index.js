@@ -141,7 +141,10 @@ app.post('/linkTmnewa', db.linebot.genOTPByAccount);
 //驗證OTP code
 app.post('/verifycode', db.linebot.validateOTP);
 
+//取得已綁定帳號之使用者
 app.get('/line/getlinkeduser', db.linebot.queryLinkedUser)
+
+app.post('/uploadimage', db.linebot.insertImage);
 /* #endregion */
 
 app.listen(port, () => {

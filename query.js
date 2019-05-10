@@ -3,6 +3,7 @@ const otp = require('./otp');
 
 const sendEmail = require('./mailer');
 const redis = require('redis');
+const imageThumbnail = require('image-thumbnail');
 
 /* #region  Connect to Redis */
 let redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
@@ -29,16 +30,24 @@ const pool = new Pool({
 //console.log('dbconfig:', dbconfig.herokudb.linetest);
 const insertImage = (req, res) => {
     const { userId, drawImage } = req.body;
-    //console.log('UserID:', userId)
-    pool.query('insert into lineimage ( "userid","image") values ($1 , $2) returning id', [userId, drawImage], (err, results) => {
-        if (err) {
-            throw err;
-        }
-        //console.log('result userId:', userId, results);
-        res.status(201).json(results.rows[0])
+    //console.log('drawImage:', userId, drawImage)
+    const options = { percentage: 25, responseType: 'base64' }
+    let base64Data = drawImage.split(',');
+    imageThumbnail(base64Data[1], options)
+        .then(tb => {
+            //console.log('nail', tb);
+            pool.query('insert into lineimage ( "userid","image", "thumbnail") values ($1 , $2, $3) returning id', [userId, drawImage, tb], (err, results) => {
+                if (err) {
+                    throw err;
+                }
+                //console.log('result userId:', userId, results);
+                res.status(201).json(results.rows[0])
 
-    }
-    )
+            }
+            )
+
+        })
+
 }
 
 const queryProductImageById = (req, res) => {
@@ -212,7 +221,7 @@ const validateOTP = (req, res) => {
 
 //查詢已綁定帳號之使用者
 const queryLinkedUser = (req, res) => {
-    
+
     pool.query(`SELECT a.memberid, a.lineuserid, b.email, b.name
 	            FROM public.usermapping a, public.tmnewamember b where a.memberid = b.memberid`, (err, result) => {
             if (err) {
