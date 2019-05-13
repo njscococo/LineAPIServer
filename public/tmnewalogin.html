@@ -1,7 +1,12 @@
 <html>
 <header>
-        <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
     <script src="./lib/axios.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <!-- <script src="./lib/countdown.min.js"></script> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/vconsole@3.3.0/dist/vconsole.min.js"></script>
 
@@ -12,18 +17,21 @@
 </header>
 
 <body>
-    <div id="div_login" class="box box2">    
-        <a href="file:///c:/">gogogo</a>        
-        <div>
-            <label for="userid">公司帳號:</label>
-            <input type="text" name="userid" id="userid" value="">
+    <div id="div_login" class="box box2">
+        <div class="col-md-8">
+            <input type="text" id="userid" class="form-control" placeholder="公司員編" value="" required="true"
+                autofocus="true">
         </div>
-        <div>
-            <label for="pw">Email:</label>
-            <input type="text" name="pw" id="pw" style="text-align: right" value="">@tmnewa.com.tw
+        <div class="col-md-8 input-group">
+            <div class="input-group">
+                <input type="text" class="form-control" id="pw" placeholder="Email" required="">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">@tmnewa.com.tw</span>
+                </div>
+            </div>
         </div>
-        <div>
-            <button id="btn_binding">綁定</button>
+        <div class="col-md-6">
+            <button id="btn_binding" class="btn btn-primary btn-lg btn-block" type="submit">綁定</button>
         </div>
     </div>
 
@@ -50,7 +58,7 @@
             var x = setInterval(function () {
                 var now = new Date().getTime();
                 var t = deadline - now;
-                
+
                 var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
                 var seconds = Math.floor((t % (1000 * 60)) / 1000);
                 span_countdown.innerHTML = minutes + "分 " + seconds + "秒 ";
@@ -109,14 +117,14 @@
                 if (result.data.redirect) {
                     lineurl.href = result.data.redirect;
                     lineurl.style.display = "inline";
-                    div_otp.style.display = "none";                    
+                    div_otp.style.display = "none";
                 } else {
                     alert('驗證碼錯誤，請再確認是否正確輸入');
                 }
             })
         })
 
-        
+
         //countdown();
     </script>
 </body>
