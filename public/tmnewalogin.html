@@ -4,6 +4,12 @@
     <script src="./lib/axios.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
@@ -16,40 +22,43 @@
     </script> -->
 </header>
 
-<body>
-    <div id="div_login" class="box box2">
-        <div class="col-md-8">
-            <input type="text" id="userid" class="form-control" placeholder="公司員編" value="" required="true"
-                autofocus="true">
-        </div>
-        <div class="col-md-8 input-group">
-            <div class="input-group">
-                <input type="text" class="form-control" id="pw" placeholder="Email" required="">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">@tmnewa.com.tw</span>
+<body class="text-center">
+    <form class="form-signin">
+        <div id="div_login" class="box box2">
+            <div class="col-md-8">
+                <input type="text" id="userid" class="form-control" placeholder="公司員編" value="" required="true"
+                    autofocus="true">
+            </div>
+            <div class="col-md-8 input-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="pw" placeholder="Email" required="">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">@tmnewa.com.tw</span>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-6">
+                <button id="btn_binding" class="btn btn-primary btn-lg btn-block">綁定</button>
+            </div>
         </div>
-        <div class="col-md-6">
-            <button id="btn_binding" class="btn btn-primary btn-lg btn-block" type="submit">綁定</button>
-        </div>
-    </div>
 
-
-    <div id="div_otp" style="display: none" class="box box2">
-        <div>
-            <span>
+        <div id="div_otp" style="display: none" class="col-md-6">
+            <div class="col-md-6 mb-3">
                 驗證碼已寄發至您的公司EMAIL信箱，請至EMAIL信箱取得驗證碼，並輸入至下方欄位以進行帳號綁定
-            </span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="otpcode">請輸入6碼驗證碼</label>
+                <input type="text" name="otpcode" id="otpcode" class="form-control">
+                <span>剩餘時間：</span><span id='countdown'></span>
+            </div>
+            <div class="col-md-6">
+                <button id="btn_otp" class="col-md-6 btn btn-primary btn-lg btn-block">驗證</button>
+            </div>
         </div>
-        <div>
-            <label for="otpcode">請輸入6碼驗證碼</label>
-            <input type="text" name="otpcode" id="otpcode">
-            <span>剩餘時間：</span><span id='countdown'></span>
-        </div>
-        <button id="btn_otp">驗證</button>
-    </div>
-    <a href="#" id="lineurl" style="display: none">驗證通過，請點我完成帳號綁定</a>
+        <a href="#" id="lineurl" style="display: none">驗證通過，請點我完成帳號綁定</a>
+
+    </form>
 
     <script>
         function countdown() {
@@ -99,6 +108,10 @@
                     div_login.style.display = "none";
                     countdown();
                 }
+            }).catch((err) => {
+                div_otp.style.display = "inline";
+                div_login.style.display = "none";
+                countdown();
             })
         });
 
