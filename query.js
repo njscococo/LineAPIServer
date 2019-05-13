@@ -207,7 +207,7 @@ const validateOTP = (req, res) => {
     const { code, linkToken } = req.body;
     //console.log('validateOTP:', req.cookies.memberid, code);
     otp.validateOTP(code, req.cookies.memberid).then((resp) => {
-        //console.log('validObj:', resp);
+        console.log('validObj:', resp);
         res.status(200).json(
             resp.isValid ?
                 {
