@@ -114,7 +114,7 @@
 
         btn_otp.addEventListener('click', (e) => {
             axios({
-                url: ' https://linetestingserver.herokuapp.com/verifycode',
+                url: 'https://linetestingserver.herokuapp.com/verifycode',
                 method: 'post',
                 withCredentials: true,
                 data: {
@@ -130,6 +130,8 @@
                 } else {
                     alert('驗證碼錯誤，請再確認是否正確輸入');
                 }
+            }).catch((err) => {
+                console.log('verify code err', err);
             })
         })
 
