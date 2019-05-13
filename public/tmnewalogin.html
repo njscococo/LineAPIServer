@@ -23,42 +23,40 @@
 </header>
 
 <body class="text-center">
-    <form class="form-signin">
-        <div id="div_login" class="box box2">
-            <div class="col-md-8">
-                <input type="text" id="userid" class="form-control" placeholder="公司員編" value="" required="true"
-                    autofocus="true">
-            </div>
-            <div class="col-md-8 input-group">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="pw" placeholder="Email" required="">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">@tmnewa.com.tw</span>
-                    </div>
+    <div id="div_login" class="box box2">
+        <div class="col-md-8">
+            <input type="text" id="userid" class="form-control" placeholder="公司員編" value="" required="true"
+                autofocus="true">
+        </div>
+        <div class="col-md-8 input-group">
+            <div class="input-group">
+                <input type="text" class="form-control" id="pw" placeholder="Email" required="">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">@tmnewa.com.tw</span>
                 </div>
             </div>
-            <div class="col-md-6">
-                <button id="btn_binding" class="btn btn-primary btn-lg btn-block">綁定</button>
-            </div>
+        </div>
+        <div class="col-md-6">
+            <button id="btn_binding" class="btn btn-primary btn-lg btn-block">綁定</button>
+        </div>
+    </div>
+
+    <div id="div_otp" style="display: none" class="col-md-6">
+        <div class="col-md-6 mb-3">
+            驗證碼已寄發至您的公司EMAIL信箱，請至EMAIL信箱取得驗證碼，並輸入至下方欄位以進行帳號綁定
         </div>
 
-        <div id="div_otp" style="display: none" class="col-md-6">
-            <div class="col-md-6 mb-3">
-                驗證碼已寄發至您的公司EMAIL信箱，請至EMAIL信箱取得驗證碼，並輸入至下方欄位以進行帳號綁定
-            </div>
-
-            <div class="col-md-6 mb-3">
-                <label for="otpcode">請輸入6碼驗證碼</label>
-                <input type="text" name="otpcode" id="otpcode" class="form-control">
-                <span>剩餘時間：</span><span id='countdown'></span>
-            </div>
-            <div class="col-md-6">
-                <button id="btn_otp" class="col-md-6 btn btn-primary btn-lg btn-block">驗證</button>
-            </div>
+        <div class="col-md-6 mb-3">
+            <label for="otpcode">請輸入6碼驗證碼</label>
+            <input type="text" name="otpcode" id="otpcode" class="form-control">
+            <span>剩餘時間：</span><span id='countdown'></span>
         </div>
-        <a href="#" id="lineurl" style="display: none">驗證通過，請點我完成帳號綁定</a>
+        <div class="col-md-6">
+            <button id="btn_otp" class="col-md-6 btn btn-primary btn-lg btn-block">驗證</button>
+        </div>
+    </div>
+    <a href="#" id="lineurl" style="display: none">驗證通過，請點我完成帳號綁定</a>
 
-    </form>
 
     <script>
         function countdown() {
@@ -109,9 +107,7 @@
                     countdown();
                 }
             }).catch((err) => {
-                div_otp.style.display = "inline";
-                div_login.style.display = "none";
-                countdown();
+                console.log('binding err:', err);
             })
         });
 
