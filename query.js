@@ -35,7 +35,7 @@ const insertImage = (req, res) => {
     let base64Data = drawImage.split(',');
     imageThumbnail(base64Data[1], options)
         .then(tb => {
-            //console.log('nail', tb);
+            console.log('nail', tb);
             pool.query('insert into lineimage ( "userid","image", "thumbnail") values ($1 , $2, $3) returning id', [userId, drawImage, tb], (err, results) => {
                 if (err) {
                     throw err;
@@ -47,6 +47,7 @@ const insertImage = (req, res) => {
             )
 
         })
+        .catch(err=>console.log('thumbnail err:',err))
 
 }
 
