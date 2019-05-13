@@ -53,6 +53,10 @@ app.post('/linewebhook', parser, function (req, res) {
     if (evt.type === 'accountLink') {
       db.linebot.linkMember(evt.source.userId, evt.link.nonce).then((rep) => {
         console.log('linkMember:', rep);
+        myLineBot.push(evt.source.userId, {
+          "type": "text",
+          "text": `您的帳號已綁定`
+        })
       })
     }
   })

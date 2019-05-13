@@ -112,9 +112,7 @@ myLineBot.on('message', function (event) {
                     });
             }
             break;
-        case 'accountLink':
-            console.log('accountLink done');
-            break;
+        
 
     }
 });
