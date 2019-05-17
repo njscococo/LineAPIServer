@@ -4,7 +4,8 @@ const otp = require('./otp');
 const sendEmail = require('./mailer');
 const redis = require('redis');
 const imageThumbnail = require('image-thumbnail');
-
+const dotenv = require('dotenv');
+dotenv.config();
 /* #region  Connect to Redis */
 let redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
 
@@ -25,7 +26,7 @@ const pool = new Pool({
     password: process.env.DB_PW,
     port: process.env.DB_PORT
 });
-
+console.log('db setting:', process.env.DB_HOST)
 
 //console.log('dbconfig:', dbconfig.herokudb.linetest);
 const insertImage = (req, res) => {

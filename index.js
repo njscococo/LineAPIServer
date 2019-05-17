@@ -9,7 +9,7 @@ const axios = require('axios');
 const { myLineBot } = require('./linebot');
 
 var corsOptions = {
-  origin: ['https://linetestingserver.herokuapp.com', 'http://localhost:3000', 'https://linemsgplatform.herokuapp.com'],
+  origin: ['https://linetestingserver.herokuapp.com', 'http://localhost:3000', 'https://linemsgplatform.herokuapp.com','http://localhost:8000'],
   credentials: true
 }
 
@@ -85,9 +85,21 @@ app.post('/line/linktmnewa', db.linebot.linkTmnewaAccount)
 app.get('/line/getAllUserId', db.linebot.queryAllLineId)
 
 app.get('/', (req, res) => {
+  axios({
+    url: `https://api.line.me/v2/bot/message/quota/consumption`,
+    method: 'get',
+    headers: {
+      'Authorization': `Bearer ${process.env.LINE_CHANNELACCESSTOKEN}`,
+    }
+  }).then((result) => {
+    console.log('quota:', result.data);
+    res.json({ 'text': 'hey you' })
+  }).catch((err) => {
+    console.log('quota err:', err);
+  })
   //res.json({info: 'hihi'})
   //console.log('first request')
-  res.json({ 'text': 'hey you' })
+  
   //next();
 });
 

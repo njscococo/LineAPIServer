@@ -1,6 +1,14 @@
 const linebot = require('linebot');
 const db = require('./query');
+const dotenv = require('dotenv');
+dotenv.config();
+
 const axios = require('axios');
+
+const axiosInstance = axios.create({
+    baseURL: process.env.BASE_URL
+})
+console.log('baseurl', process.env.BASE_URL);
 
 let myLineBot = linebot({
     channelId: process.env.LINE_CHANNELID,
@@ -17,8 +25,8 @@ myLineBot.on('message', function (event) {
                 //console.log('event.source.userId', event.source.userId)
                 db.linebot.checkDBIsTmnewa(event.source.userId).then(result => {
                     if (result) {
-                        axios({
-                            url: 'https://linetestingserver.herokuapp.com/products',
+                        axiosInstance({
+                            url: 'products',
                             method: 'get'
                         })
                             .then((res) => {
@@ -39,7 +47,7 @@ myLineBot.on('message', function (event) {
                                             "text": "Buy"
                                         }
                                         ],
-                                        thumbnailImageUrl: `https://linetestingserver.herokuapp.com/productimg/${elm.id}`
+                                        thumbnailImageUrl: `${process.env.BASE_URL}productimg/${elm.id}`
                                     }
                                 })
                                 event.reply({
@@ -94,7 +102,9 @@ myLineBot.on('message', function (event) {
                                         "actions": [{
                                             "type": "uri",
                                             "label": "帳號綁定",
-                                            "uri": `https://linetestingserver.herokuapp.com/binding/tmnewalogin.html?linkToken=${result.data.linkToken}`
+                                            //"uri":'https://www.tmnewa.com.tw'
+                                            //"uri": `https://linetestingserver.herokuapp.com/binding/tmnewalogin.html?linkToken=${result.data.linkToken}`
+                                            "uri": `${process.env.BASE_URL}binding/tmnewalogin.html?linkToken=${result.data.linkToken}`
                                         }]
                                     }
                                 })

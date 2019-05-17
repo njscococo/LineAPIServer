@@ -14,12 +14,12 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <!-- <script src="./lib/countdown.min.js"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vconsole@3.3.0/dist/vconsole.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vconsole@3.3.0/dist/vconsole.min.js"></script>
 
     <script>
         var vConsole = new VConsole();
         //console.log('test123456')
-    </script> -->
+    </script>
 </header>
 
 <body class="text-center">
@@ -59,9 +59,11 @@
         <a href="#" id="lineurl" style="display: none">驗證通過，請點我完成帳號綁定</a>
     </div>
 
-
-
     <script>
+        var axiosInstance = axios.create({
+            baseURL: 'https://69ccddb7.ngrok.io/'
+            //baseURL:'https://linetestingserver.herokuapp.com/'
+        })
         function countdown() {
             var today = new Date();
             deadline = today.setMinutes(today.getMinutes() + 10);
@@ -93,8 +95,9 @@
 
         btn_binding.addEventListener('click', (e) => {
             //console.log('countdow', countdown);            
-            axios({
-                url: ' https://linetestingserver.herokuapp.com/linkTmnewa',
+            axiosInstance({
+                url: 'linkTmnewa',
+                //url: 'https://linetestingserver.herokuapp.com/linkTmnewa',
                 method: 'post',
                 data: {
                     tmnewaid: account.value,
@@ -116,8 +119,8 @@
 
 
         btn_otp.addEventListener('click', (e) => {
-            axios({
-                url: 'https://linetestingserver.herokuapp.com/verifycode',
+            axiosInstance({
+                url: 'verifycode',
                 method: 'post',
                 withCredentials: true,
                 data: {

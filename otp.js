@@ -1,6 +1,7 @@
 const otplib = require('otplib');
 const redis = require('redis');
-
+const dotenv = require('dotenv');
+dotenv.config();
 /* #region  Connect to Redis */
 let redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
 

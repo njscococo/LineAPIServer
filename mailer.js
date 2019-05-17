@@ -3,7 +3,6 @@ const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
 //const redis = require('redis');
 
-
 const oauth2Client = new OAuth2(
     process.env.GMAILID,
     process.env.GMAILSECRET,
