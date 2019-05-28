@@ -21,55 +21,78 @@ myLineBot.on('message', function (event) {
     //event.reply(event.message.text)
     switch (event.message.type) {
         case 'text':
-            if (event.message.text === '產品清單') {
-                //console.log('event.source.userId', event.source.userId)
-                // db.linebot.checkDBIsTmnewa(event.source.userId).then(result => {
-                //     if (result) {
-                //         axiosInstance({
-                //             url: 'products',
-                //             method: 'get'
-                //         })
-                //             .then((res) => {
-                //                 //console.log('product', res.data)
-                //                 let columns = res.data.map((elm, idx) => {
-                //                     return {
-                //                         title: elm.title,
-                //                         text: elm.price,
-                //                         actions: [{
-                //                             "type": "message",
-                //                             "label": "Yes",
-                //                             "text": "Yes"
-                //                         },
-                //                         {
-                //                             "type": "postback",
-                //                             "label": "Buy",
-                //                             "data": "action=buy&itemid=111",
-                //                             "text": "Buy"
-                //                         }
-                //                         ],
-                //                         thumbnailImageUrl: `${process.env.BASE_URL}productimg/${elm.id}`
-                //                     }
-                //                 })
-                //                 event.reply({
-                //                     "type": "template",
-                //                     "altText": "this is a carousel template",
-                //                     "template": {
-                //                         "type": "carousel",
-                //                         "imageAspectRatio": "rectangle",
-                //                         "imageSize": "cover",
-                //                         "columns": columns
-                //                     }
-                //                 })
-                //             })
-                //             .catch((err) => {
+            if (event.message.text === '查詢通路流程') {
+                console.log('event.source.userId', event.source.userId)
+                db.linebot.queryIsLinked(event.source.userId).then(result => {
+                    if (result) {
+                        let columns = [{
+                            "imageUrl": `${process.env.BASE_URL}tmnewa/getimage/22`,
+                            "action": {
+                              "type": "postback",
+                              "label": "彰銀通路流程",
+                              "data": "action=buy&itemid=111"
+                            }
+                          },{
+                            "imageUrl": `${process.env.BASE_URL}tmnewa/getimage/23`,
+                            "action": {
+                              "type": "postback",
+                              "label": "匯豐通路流程",
+                              "data": "action=buy&itemid=111"
+                            }
+                          }];
 
-                //             })
+                        event.reply({
+                            "type": "template",
+                            "altText": "通路流程查詢",
+                            "template": {
+                                "type": "image_carousel",
+                                
+                                "columns": columns
+                            }
+                        })
+                        // axiosInstance({
+                        //     url: 'products',
+                        //     method: 'get'
+                        // }).then((res) => {
+                        //     //console.log('product', res.data)
+                        //     let columns = res.data.map((elm, idx) => {
+                        //         return {
+                        //             title: elm.title,
+                        //             text: elm.price,
+                        //             actions: [{
+                        //                 "type": "message",
+                        //                 "label": "Yes",
+                        //                 "text": "Yes"
+                        //             },
+                        //             {
+                        //                 "type": "postback",
+                        //                 "label": "Buy",
+                        //                 "data": "action=buy&itemid=111",
+                        //                 "text": "Buy"
+                        //             }
+                        //             ],
+                        //             thumbnailImageUrl: `${process.env.BASE_URL}productimg/${elm.id}`
+                        //         }
+                        //     })
+                        //     event.reply({
+                        //         "type": "template",
+                        //         "altText": "this is a carousel template",
+                        //         "template": {
+                        //             "type": "carousel",
+                        //             "imageAspectRatio": "rectangle",
+                        //             "imageSize": "cover",
+                        //             "columns": columns
+                        //         }
+                        //     })
+                        // }).catch((err) => {
 
-                //     } else {
-                //         event.reply('請先綁定帳號')
-                //     }
+                        // })
 
-                // })
+                    } else {
+                        event.reply('請先綁定帳號')
+                    }
+
+                })
             } else if (event.message.text === '帳號綁定') {
                 db.linebot.queryIsLinked(event.source.userId)
                     .then((result) => {
@@ -116,7 +139,7 @@ myLineBot.on('message', function (event) {
                     "type": "image",
                     "originalContentUrl": `${process.env.BASE_URL}tmnewa/getimage/24`,
                     "previewImageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/24`
-                },{
+                }, {
                     "type": "image",
                     "originalContentUrl": `${process.env.BASE_URL}tmnewa/getimage/25`,
                     "previewImageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/25`

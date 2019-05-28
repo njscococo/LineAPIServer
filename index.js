@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const axios = require('axios');
 const { myLineBot } = require('./linebot');
+//const otp = require('./otp');
 
 var corsOptions = {
   origin: ['https://linetestingserver.herokuapp.com', 'http://localhost:3000', 'https://linemsgplatform.herokuapp.com','http://localhost:8000'],

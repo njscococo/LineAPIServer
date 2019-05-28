@@ -23,8 +23,8 @@ const genOTP = function (tmnewaid) {
         const token = otplib.authenticator.generate(secret);
 
         redisClient.SETEX(tmnewaid, 620, secret);
-        redisClient.set(`nonce-${tmnewaid}`, secret);
-        redisClient.set( secret, tmnewaid);
+        redisClient.SETEX(`nonce-${tmnewaid}`, 1200, secret);
+        redisClient.SETEX( secret,1200, tmnewaid);
 
         resolve(token);
     })
@@ -78,6 +78,7 @@ const validateOTP = function (token, tmnewaid) {
 }
 
 module.exports = {
+    redisClient,
     genOTP,
     validateOTP
 }
