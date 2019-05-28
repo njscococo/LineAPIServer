@@ -132,7 +132,9 @@ app.get('/line/getlinkeduser', db.linebot.queryLinkedUser)
 app.post('/tmnewa/uploadimage', db.linebot.insertImage);
 
 //由ID取得tmnewaimages的圖檔
-app.get('/tmnewa/getImage/:id', db.linebot.getImageById)
+app.get('/tmnewa/getimage/:id', db.linebot.getImageById);
+app.get('/tmnewa/getthumbnail/:id', db.linebot.getThumbnailById);
+
 
 /* #endregion */
 

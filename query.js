@@ -235,11 +235,34 @@ const queryLinkedUser = (req, res) => {
 //
 const getImageById = (req, res) => {
     const id = req.params.id;
-    pool.query(`select id, filename, image, thumbnail from tmnewaimages where id=$1`,[id], (err, result) => {
+    pool.query(`select image from tmnewaimages where id=$1`,[id], (err, result) => {
         if (err) {
             throw err;
         }
-        res.status(201).json(result.rows);
+        var image = Buffer.from(results.rows[0].image, 'base64');
+        //var thumbnail = Buffer.from(results.rows[0].thumbnail, 'base64');
+
+        res.writeHead(200, {
+            'Content-Type': 'image/jpeg',
+            'Content-Length': image.length
+        });
+        res.end(image);
+    })
+}
+
+const getThumbnailById = (req, res) => {
+    const id = req.params.id;
+    pool.query(`select  thumbnail from tmnewaimages where id=$1`,[id], (err, result) => {
+        if (err) {
+            throw err;
+        }
+        var thumbnail = Buffer.from(results.rows[0].thumbnail, 'base64');
+
+        res.writeHead(200, {
+            'Content-Type': 'image/jpeg',
+            'Content-Length': thumbnail.length
+        });
+        res.end(thumbnail);
     })
 }
 
@@ -270,7 +293,8 @@ module.exports = {
         validateOTP,
         linkMember,
         queryLinkedUser,
-        getImageById
+        getImageById,
+        getThumbnailById
     },
     todolist: {
 
