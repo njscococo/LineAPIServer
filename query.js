@@ -256,7 +256,7 @@ const getThumbnailById = (req, res) => {
         if (err) {
             throw err;
         }
-        var thumbnail = Buffer.from(results.rows[0].thumbnail, 'base64');
+        var thumbnail = Buffer.from(result.rows[0].thumbnail, 'base64');
 
         res.writeHead(200, {
             'Content-Type': 'image/jpeg',
