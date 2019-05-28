@@ -21,10 +21,13 @@ if (port == null || port == "") {
   port = 8000;
 }
 //console.log('port:', port)
-//email();
+
+
 app.use(cors(corsOptions))
 // allow preflight
 app.options('*', cors(corsOptions))
+
+//app.use(express.json({limit: '50mb'}));
 
 app.use('/binding', express.static(__dirname + '/public'));
 
@@ -32,7 +35,8 @@ app.use('/binding', express.static(__dirname + '/public'));
 const parser = bodyParser.json({
   verify: function (req, res, buf, encoding) {
     req.rawBody = buf.toString(encoding);
-  }
+  },
+  limit: '50mb'
 });
 app.use(parser)
 app.use(
@@ -52,7 +56,7 @@ app.post('/linewebhook', parser, function (req, res) {
   req.body.events.forEach((evt, idx) => {
     if (evt.type === 'accountLink') {
       db.linebot.linkMember(evt.source.userId, evt.link.nonce).then((rep) => {
-        console.log('linkMember:', rep);
+        //console.log('linkMember:', rep);
         myLineBot.push(evt.source.userId, {
           "type": "text",
           "text": `您的帳號已綁定`
@@ -67,10 +71,10 @@ app.post('/linewebhook', parser, function (req, res) {
 //broadcast message
 app.post('/line/push', (req, res) => {
   const { msgObject, userIds } = req.body;
-  console.log('/line/push:', msgObject, userIds)
+  //console.log('/line/push:', msgObject, userIds)
   myLineBot.multicast(userIds, msgObject)
     .then(resp => {
-      console.log('line push done:', resp)
+      //console.log('line push done:', resp)
       res.json({ status: 'done' })
     })
 })
@@ -112,45 +116,9 @@ app.post('/users', db.linebot.insertImage);
 //取得product的圖檔
 app.get('/productimg/:prodId', db.linebot.queryProductImageById)
 
-// app.get('/token', (req, res) => {
-//   res.status(201).json({ 'token:': process.env.BTOKEN })
-// });
-
-// app.post('/tmtoken', (req, res) => {
-//   let { client, secret } = req.body;
-//   console.log('/tmtoken:', req.headers)
-//   let config = {
-//     url: 'https://abc.com.tw/!carapp/SignIn',
-//     method: 'post',
-//     headers: {
-//       'Authorization': 'Basic ',
-//       'Content-Type': 'application/json',
-//     },
-//     data: {
-//       //url: 'https://localhost:5001/api/values',
-//       client: client,
-//       secret: secret
-//     }
-//   };
-
-//   axios(config)
-//     .then(resp => {
-//       console.log('token:', resp.data.access_token)
-
-//       res.redirect('307', 'https://abc.com.tw/Car/CAQuotation/Index');
-//       //res.json({ 'token': resp.data.access_token })
-//     })
-//     .catch(err => {
-//       console.log('nodejs err:', err)
-//       res.status(400).json(err)
-//     })
-
-
-// })
-
 app.get('/products', db.linebot.queryProducts);
 
-/* #region  Line Account Link */
+/* #region TMNEWA  Line Account Link */
 //帳號綁定，產生OTP CODE
 app.post('/linkTmnewa', db.linebot.genOTPByAccount);
 
@@ -160,7 +128,12 @@ app.post('/verifycode', db.linebot.validateOTP);
 //取得已綁定帳號之使用者
 app.get('/line/getlinkeduser', db.linebot.queryLinkedUser)
 
-app.post('/uploadimage', db.linebot.insertImage);
+//上傳圖檔
+app.post('/tmnewa/uploadimage', db.linebot.insertImage);
+
+//由ID取得tmnewaimages的圖檔
+app.get('/tmnewa/getImage/:id', db.linebot.getImageById)
+
 /* #endregion */
 
 app.listen(port, () => {

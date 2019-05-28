@@ -30,29 +30,29 @@ console.log('db setting:', process.env.DB_HOST)
 
 //console.log('dbconfig:', dbconfig.herokudb.linetest);
 const insertImage = (req, res) => {
-    const { userId, drawImage } = req.body;
+    const { image, filename } = req.body;
     //console.log('drawImage:', userId, drawImage)
     const options = { percentage: 25, responseType: 'base64' }
-    let base64Data = drawImage.split(',');
+    let base64Data = image.split(',');
     imageThumbnail(base64Data[1], options)
         .then(tb => {
-            console.log('nail', tb);
-            pool.query('insert into lineimage ( "userid","image", "thumbnail") values ($1 , $2, $3) returning id', [userId, drawImage, tb], (err, results) => {
-                if (err) {
-                    throw err;
+            //console.log('nail', tb);
+            pool.query(`insert into tmnewaimages ( "image", "thumbnail",  "filename") 
+                        values ($1, $2, $3) returning id`, [base64Data[1], tb, filename], (err, results) => {
+                    if (err) {
+                        throw err;
+                    }
+                    //console.log('result userId:', userId, results);
+                    res.status(201).json(results.rows[0]);
                 }
-                //console.log('result userId:', userId, results);
-                res.status(201).json(results.rows[0])
-
-            }
             )
-
         })
-        .catch(err=>console.log('thumbnail err:',err))
+        .catch(err => console.log('thumbnail err:', err))
 
 }
 
 const queryProductImageById = (req, res) => {
+    console.log('queryProductImageById', req.params.prodId);
     const prodId = req.params.prodId;
     pool.query('select image from products where "id"= $1 ', [prodId], (err, results) => {
         if (err) {
@@ -223,7 +223,6 @@ const validateOTP = (req, res) => {
 
 //查詢已綁定帳號之使用者
 const queryLinkedUser = (req, res) => {
-
     pool.query(`SELECT a.memberid, a.lineuserid, b.email, b.name
 	            FROM public.usermapping a, public.tmnewamember b where a.memberid = b.memberid`, (err, result) => {
             if (err) {
@@ -231,6 +230,17 @@ const queryLinkedUser = (req, res) => {
             }
             res.status(201).json(result.rows)
         })
+}
+
+//
+const getImageById = (req, res) => {
+    const id = req.params.id;
+    pool.query(`select id, filename, image, thumbnail from tmnewaimages where id=$1`,[id], (err, result) => {
+        if (err) {
+            throw err;
+        }
+        res.status(201).json(result.rows);
+    })
 }
 
 /* #endregion */
@@ -259,7 +269,8 @@ module.exports = {
         genOTPByAccount,
         validateOTP,
         linkMember,
-        queryLinkedUser
+        queryLinkedUser,
+        getImageById
     },
     todolist: {
 
