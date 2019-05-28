@@ -239,7 +239,7 @@ const getImageById = (req, res) => {
         if (err) {
             throw err;
         }
-        var image = Buffer.from(results.rows[0].image, 'base64');
+        var image = Buffer.from(result.rows[0].image, 'base64');
         //var thumbnail = Buffer.from(results.rows[0].thumbnail, 'base64');
 
         res.writeHead(200, {
