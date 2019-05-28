@@ -23,59 +23,57 @@ myLineBot.on('message', function (event) {
         case 'text':
             if (event.message.text === '產品清單') {
                 //console.log('event.source.userId', event.source.userId)
-                db.linebot.checkDBIsTmnewa(event.source.userId).then(result => {
-                    if (result) {
-                        axiosInstance({
-                            url: 'products',
-                            method: 'get'
-                        })
-                            .then((res) => {
-                                //console.log('product', res.data)
-                                let columns = res.data.map((elm, idx) => {
-                                    return {
-                                        title: elm.title,
-                                        text: elm.price,
-                                        actions: [{
-                                            "type": "message",
-                                            "label": "Yes",
-                                            "text": "Yes"
-                                        },
-                                        {
-                                            "type": "postback",
-                                            "label": "Buy",
-                                            "data": "action=buy&itemid=111",
-                                            "text": "Buy"
-                                        }
-                                        ],
-                                        thumbnailImageUrl: `${process.env.BASE_URL}productimg/${elm.id}`
-                                    }
-                                })
-                                event.reply({
-                                    "type": "template",
-                                    "altText": "this is a carousel template",
-                                    "template": {
-                                        "type": "carousel",
-                                        "imageAspectRatio": "rectangle",
-                                        "imageSize": "cover",
-                                        "columns": columns
-                                    }
-                                })
-                            })
-                            .catch((err) => {
+                // db.linebot.checkDBIsTmnewa(event.source.userId).then(result => {
+                //     if (result) {
+                //         axiosInstance({
+                //             url: 'products',
+                //             method: 'get'
+                //         })
+                //             .then((res) => {
+                //                 //console.log('product', res.data)
+                //                 let columns = res.data.map((elm, idx) => {
+                //                     return {
+                //                         title: elm.title,
+                //                         text: elm.price,
+                //                         actions: [{
+                //                             "type": "message",
+                //                             "label": "Yes",
+                //                             "text": "Yes"
+                //                         },
+                //                         {
+                //                             "type": "postback",
+                //                             "label": "Buy",
+                //                             "data": "action=buy&itemid=111",
+                //                             "text": "Buy"
+                //                         }
+                //                         ],
+                //                         thumbnailImageUrl: `${process.env.BASE_URL}productimg/${elm.id}`
+                //                     }
+                //                 })
+                //                 event.reply({
+                //                     "type": "template",
+                //                     "altText": "this is a carousel template",
+                //                     "template": {
+                //                         "type": "carousel",
+                //                         "imageAspectRatio": "rectangle",
+                //                         "imageSize": "cover",
+                //                         "columns": columns
+                //                     }
+                //                 })
+                //             })
+                //             .catch((err) => {
 
-                            })
+                //             })
 
-                    } else {
-                        event.reply('請先綁定帳號')
-                    }
+                //     } else {
+                //         event.reply('請先綁定帳號')
+                //     }
 
-                })
-
-
+                // })
             } else if (event.message.text === '帳號綁定') {
                 db.linebot.queryIsLinked(event.source.userId)
                     .then((result) => {
-                        console.log('id binding:', result)
+                        //console.log('id binding:', result)
                         if (result[0]) {
                             //已經綁定過囉
                             event.reply({
@@ -92,7 +90,7 @@ myLineBot.on('message', function (event) {
                             }
                             ).then((result) => {
                                 //取得linkToken
-                                console.log('token:', result.data.linkToken)
+                                //console.log('token:', result.data.linkToken)
                                 event.reply({
                                     "type": "template",
                                     "altText": "Account Link",
@@ -113,7 +111,19 @@ myLineBot.on('message', function (event) {
                         }
                     })
 
-            } else {
+            } else if (event.message.text === '新年快樂') {
+                event.reply([{
+                    "type": "image",
+                    "originalContentUrl": `${process.env.BASE_URL}tmnewa/getimage/24`,
+                    "previewImageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/24`
+                },{
+                    "type": "image",
+                    "originalContentUrl": `${process.env.BASE_URL}tmnewa/getimage/25`,
+                    "previewImageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/25`
+                }]);
+
+            }
+            else {
                 event.reply(event.message.text)
                     .then(function (data) {
                         console.log('Success', data);
@@ -122,7 +132,7 @@ myLineBot.on('message', function (event) {
                     });
             }
             break;
-        
+
 
     }
 });
