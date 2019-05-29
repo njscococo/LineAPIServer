@@ -24,7 +24,7 @@ myLineBot.on('message', function (event) {
     switch (event.message.type) {
         case 'text':
             if (event.message.text === '查詢通路流程') {
-                console.log('event.source.userId', event.source.userId)
+                //console.log('event.source.userId', event.source.userId)
 
                 // db.linebot.queryIsLinked(event.source.userId).then(result => {
                 //     if (result) {
@@ -36,7 +36,7 @@ myLineBot.on('message', function (event) {
                         "data": "action=buy&itemid=111"
                     }
                 }, {
-                    "imageUrl": `${process.env.BASE_URL}tmnewa/getimage/23`,
+                    "imageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/23`,
                     "action": {
                         "type": "postback",
                         "label": "匯豐通路流程",
@@ -97,10 +97,15 @@ myLineBot.on('message', function (event) {
                 // })
             } else if (event.message.text === '查詢通路流程2') {
                 if (!allUsers[event.source.userId]) {
+                    //console.log('add user');
                     allUsers[event.source.userId] = {};
                     allUsers[event.source.userId].userId = event.source.userId;
                     allUsers[event.source.userId].step = 1;
+                }else{
+                    //console.log('get user', allUsers[event.source.userId])
+                    allUsers[event.source.userId].step = 1;
                 }
+                //console.log('查詢通路流程22', allUsers);
                 event.reply('請輸入欲查詢通路別，ex：彰銀')
             }
             else if (event.message.text === '帳號綁定') {
@@ -157,7 +162,9 @@ myLineBot.on('message', function (event) {
 
             }
             else {
+                console.log('查詢通路流程21', allUsers);
                 if (allUsers[event.source.userId] && allUsers[event.source.userId].step === 1) {
+                    console.log('查詢通路流程23', allUsers);
                     switch (event.message.text) {
                         case '彰銀':
                             event.reply({
@@ -165,6 +172,7 @@ myLineBot.on('message', function (event) {
                                 "originalContentUrl": `${process.env.BASE_URL}tmnewa/getimage/22`,
                                 "previewImageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/22`
                             });
+
                             allUsers[event.source.userId].step = 0;
                             break;
                         case '匯豐':
