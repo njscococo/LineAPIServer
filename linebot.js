@@ -95,17 +95,18 @@ myLineBot.on('message', function (event) {
                 //         event.reply('請先綁定帳號')
                 //     }
                 // })
-            } else if (event.message.text === '查詢通路流程2') {
+            }
+            else if (event.message.text === '查詢通路流程2') {
                 if (!allUsers[event.source.userId]) {
                     //console.log('add user');
                     allUsers[event.source.userId] = {};
                     allUsers[event.source.userId].userId = event.source.userId;
                     allUsers[event.source.userId].step = 1;
-                }else{
+                } else {
                     //console.log('get user', allUsers[event.source.userId])
                     allUsers[event.source.userId].step = 1;
                 }
-                //console.log('查詢通路流程22', allUsers);
+                console.log('查詢通路流程22', allUsers);
                 event.reply('請輸入欲查詢通路別，ex：彰銀')
             }
             else if (event.message.text === '帳號綁定') {
@@ -167,6 +168,7 @@ myLineBot.on('message', function (event) {
                     console.log('查詢通路流程23', allUsers);
                     switch (event.message.text) {
                         case '彰銀':
+                            console.log('查詢通路流程31', event.message.text);
                             event.reply({
                                 "type": "image",
                                 "originalContentUrl": `${process.env.BASE_URL}tmnewa/getimage/22`,
@@ -176,21 +178,25 @@ myLineBot.on('message', function (event) {
                             allUsers[event.source.userId].step = 0;
                             break;
                         case '匯豐':
-                                event.reply({
-                                    "type": "image",
-                                    "originalContentUrl": `${process.env.BASE_URL}tmnewa/getimage/23`,
-                                    "previewImageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/23`
-                                });
+                                console.log('查詢通路流程32', event.message.text);
+                            event.reply({
+                                "type": "image",
+                                "originalContentUrl": `${process.env.BASE_URL}tmnewa/getimage/23`,
+                                "previewImageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/23`
+                            });
                             allUsers[event.source.userId].step = 0;
                             break;
+                        default:
+                            event.reply(event.message.text);
                     }
+                } else {
+                    event.reply(event.message.text)
+                        .then(function (data) {
+                            console.log('Success', data);
+                        }).catch(function (error) {
+                            console.log('Error', error);
+                        });
                 }
-                event.reply(event.message.text)
-                    .then(function (data) {
-                        console.log('Success', data);
-                    }).catch(function (error) {
-                        console.log('Error', error);
-                    });
             }
             break;
 
