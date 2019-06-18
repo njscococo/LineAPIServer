@@ -10,7 +10,7 @@ const { myLineBot } = require('./linebot');
 //const otp = require('./otp');
 
 var corsOptions = {
-  origin: ['https://linetestingserver.herokuapp.com', 'http://localhost:3000', 'https://linemsgplatform.herokuapp.com','http://localhost:8000'],
+  origin: ['https://linetestingserver.herokuapp.com', 'http://localhost:3000', 'https://linemsgplatform.herokuapp.com','http://localhost:8000','http://localhost:90'],
   credentials: true
 }
 
