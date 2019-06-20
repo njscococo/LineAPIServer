@@ -1,6 +1,11 @@
 @media(max-width: 568px){
     .box{
         line-height:200%;
+        
+    }
+    input{
+        height:80px !important;
+        font-size:14pt !important;
     }
     
   }
