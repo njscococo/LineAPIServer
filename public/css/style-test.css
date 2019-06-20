@@ -1,6 +1,6 @@
 @media(max-width: 568px){
     .box{
-        width: 200px
+        line-height:200%;
     }
     
   }
@@ -9,8 +9,6 @@
     /* width: 500px; */
     /* border: 1px solid #f00; */
     margin: auto;
-    margin-top: 150px;
-    text-align: left;
   }
   .box2 .content{
     display: inline-block;
