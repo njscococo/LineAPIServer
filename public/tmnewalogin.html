@@ -25,6 +25,10 @@
 <body class="text-center">
     <div id="div_login" class="box box2">
         <div class="col-md-8">
+            <span>請輸入員編及公司EMAIL進行驗證</span>
+        </div>
+
+        <div class="col-md-8">
             <input type="text" id="userid" class="form-control" placeholder="公司員編" value="" required="true"
                 autofocus="true">
         </div>
@@ -62,7 +66,7 @@
     <script>
         var axiosInstance = axios.create({
             //baseURL: 'https://69ccddb7.ngrok.io/'
-            baseURL:'https://linetestingserver.herokuapp.com/'
+            baseURL: 'https://linetestingserver.herokuapp.com/'
         })
         function countdown() {
             var today = new Date();
