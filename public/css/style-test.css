@@ -5,14 +5,9 @@
     /* border: 1px solid #f00; */
     margin: auto;
     margin-top: 150px;
-    line-height: 50px;
     text-align: left;
   }
   .box2 .content{
     display: inline-block;
-    height: auto;
-    line-height:1;
-    /* width: 400px; */
-    background: #ccc;
-      vertical-align: middle;
+    
   }

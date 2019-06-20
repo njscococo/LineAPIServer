@@ -14,54 +14,52 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <!-- <script src="./lib/countdown.min.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/vconsole@3.3.0/dist/vconsole.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vconsole@3.3.0/dist/vconsole.min.js"></script>
 
     <script>
         var vConsole = new VConsole();
-        //console.log('test123456')
-    </script>
+    </script> -->
 </header>
 
 <body class="text-center">
-    <div id="div_login" class="box box2">
-        <div class="col-md-8">
-            <span>請輸入員編及公司EMAIL進行驗證</span>
-        </div>
+    <form>
+        <div id="div_login" class="box ">
+            <div class="form-group">
+                <span>請輸入員編及公司EMAIL進行驗證</span>
+            </div>
 
-        <div class="col-md-8">
-            <input type="text" id="userid" class="form-control" placeholder="公司員編" value="" required="true"
-                autofocus="true">
-        </div>
-        <div class="col-md-8 input-group">
-            <div class="input-group">
-                <input type="text" class="form-control" id="pw" placeholder="Email" required="">
+            <div class="form-group">
+                <input type="text" id="userid" class="form-control form-control-lg" placeholder="公司員編" value=""
+                    required="true" autofocus="true">
+            </div>
+            <div class="form-group input-group">
+                <input type="text" class="form-control form-control-lg" id="pw" placeholder="Email" required="">
                 <div class="input-group-prepend">
                     <span class="input-group-text">@tmnewa.com.tw</span>
                 </div>
             </div>
+            <button id="btn_binding" class="btn btn-primary">綁定</button>
         </div>
-        <div class="col-md-6">
-            <button id="btn_binding" class="btn btn-primary btn-lg btn-block">綁定</button>
-        </div>
-    </div>
+        <div id="div_otp" style="display: none" class="col-md-6">
+            <div class="col-md-6 mb-3">
+                驗證碼已寄發至您的公司EMAIL信箱，請至EMAIL信箱取得驗證碼，並輸入至下方欄位以進行帳號綁定
+            </div>
 
-    <div id="div_otp" style="display: none" class="col-md-6">
-        <div class="col-md-6 mb-3">
-            驗證碼已寄發至您的公司EMAIL信箱，請至EMAIL信箱取得驗證碼，並輸入至下方欄位以進行帳號綁定
+            <div class="col-md-6 mb-3">
+                <label for="otpcode">請輸入6碼驗證碼</label>
+                <input type="text" name="otpcode" id="otpcode" class="form-control form-control-lg">
+                <span>剩餘時間：</span><span id='countdown'></span>
+            </div>
+            <div class="col-md-6">
+                <button id="btn_otp" class="col-md-6 btn btn-primary btn-lg btn-block">驗證</button>
+            </div>
         </div>
+        <div class="col-md-8">
+            <a href="#" id="lineurl" style="display: none">驗證通過，請點我完成帳號綁定</a>
+        </div>
+    </form>
 
-        <div class="col-md-6 mb-3">
-            <label for="otpcode">請輸入6碼驗證碼</label>
-            <input type="text" name="otpcode" id="otpcode" class="form-control">
-            <span>剩餘時間：</span><span id='countdown'></span>
-        </div>
-        <div class="col-md-6">
-            <button id="btn_otp" class="col-md-6 btn btn-primary btn-lg btn-block">驗證</button>
-        </div>
-    </div>
-    <div class="col-md-8">
-        <a href="#" id="lineurl" style="display: none">驗證通過，請點我完成帳號綁定</a>
-    </div>
+
 
     <script>
         var axiosInstance = axios.create({
