@@ -1,6 +1,6 @@
 
 html {
-    font-size: 11px;
+    font-size: 13px;
 }
 
 table {
@@ -48,6 +48,7 @@ button {
     width: 500px;
     /* border: 1px solid #f00; */
     margin: auto;
+    margin-top: 50px;
     line-height: 50px;
     text-align: left;
   }
