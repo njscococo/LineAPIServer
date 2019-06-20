@@ -1,4 +1,9 @@
-
+@media(max-width: 568px){
+    .box{
+        width: 200px
+    }
+    
+  }
 
 .box{
     /* width: 500px; */
