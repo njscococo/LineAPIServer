@@ -14,6 +14,7 @@ var corsOptions = {
   credentials: true
 }
 
+console.log('cors origin:', corsOptions.origin, corsOptions.origin.length);
 const app = express();
 app.use(cookieParser())
 
