@@ -14,7 +14,7 @@ var corsOptions = {
   credentials: true
 }
 
-console.log('cors origin:', corsOptions.origin, corsOptions.origin.length);
+//console.log('cors origin:', corsOptions.origin, corsOptions.origin.length);
 const app = express();
 app.use(cookieParser())
 
@@ -22,7 +22,6 @@ let port = process.env.PORT;
 if (port == null || port == "") {
   port = 8000;
 }
-
 
 app.use(cors(corsOptions))
 // allow preflight

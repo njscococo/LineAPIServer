@@ -3,6 +3,7 @@ const otp = require('./otp');
 
 const sendEmail = require('./mailer');
 const redis = require('redis');
+const fs = require('fs');
 const imageThumbnail = require('image-thumbnail');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -30,11 +31,12 @@ console.log('db setting:', process.env.DB_HOST)
 
 //console.log('dbconfig:', dbconfig.herokudb.linetest);
 const insertImage = (req, res) => {
+    //console.log('req', req);
     const { image, filename } = req.body;
     //console.log('drawImage:', userId, drawImage)
     const options = { percentage: 25, responseType: 'base64' }
     let base64Data = image.split(',');
-    imageThumbnail(base64Data[1], options)
+    imageThumbnail(base64Data[1], options)    
         .then(tb => {
             //console.log('nail', tb);
             pool.query(`insert into tmnewaimages ( "image", "thumbnail",  "filename") 
@@ -47,8 +49,7 @@ const insertImage = (req, res) => {
                 }
             )
         })
-        .catch(err => console.log('thumbnail err:', err))
-
+        .catch(err => console.log('thumbnail err:', err));
 }
 
 const queryProductImageById = (req, res) => {
@@ -274,6 +275,15 @@ const queryProject = (req, res) => {
     pool.query('select * from ')
 
 
+}
+
+function toBuffer(ab) {
+    var buf =  Buffer.from(ab ,0, ab.byteLength);
+    var view = new Uint8Array(ab);
+    for (var i = 0; i < buf.length; ++i) {
+        buf[i] = view[i];
+    }
+    return buf;
 }
 
 

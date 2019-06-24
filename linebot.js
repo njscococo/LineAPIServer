@@ -1,5 +1,6 @@
 const linebot = require('linebot');
 const db = require('./query');
+const replyTextRules = require('./linebot/replyrules');  
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -23,13 +24,19 @@ myLineBot.on('message', function (event) {
     //event.reply(event.message.text)
     switch (event.message.type) {
         case 'text':
+            replyTextRules.forEach((ele, idx) => {
+                if(event.message.text === ele.keyword){
+                    event.reply(ele.msgContent.text)
+                }
+            })
             if (event.message.text === '查詢通路流程') {
                 //console.log('event.source.userId', event.source.userId)
 
                 // db.linebot.queryIsLinked(event.source.userId).then(result => {
                 //     if (result) {
                 let columns = [{
-                    "imageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/22`,
+                    "imageUrl": 'https://images.unsplash.com/photo-1561067039-ba57afb43541?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2734&q=80',
+                    //"imageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/22`,
                     "action": {
                         "type": "postback",
                         "label": "彰銀通路流程",
