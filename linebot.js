@@ -1,6 +1,7 @@
 const linebot = require('linebot');
 const db = require('./query');
-const replyTextRules = require('./linebot/replyrules');  
+const {allReplyTextRules, getRulesByState, getLevelOneRule, getNextLVRule} = require('./linebot/replyrules');
+const { userStates, getUserState, deleteUserState} = require('./linebot/userStates')
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -17,15 +18,113 @@ let myLineBot = linebot({
     channelAccessToken: process.env.LINE_CHANNELACCESSTOKEN
 });
 
-let allUsers = [];
+//let userStates = [];
+myLineBot.on('message', function (event) {
+    //console.log('newbot message:', event.message);
+    //event.reply(event.message.text)
+    switch (event.message.type) {
+        case 'text':
+            //收到訊息先判斷該USER是否已存在某種狀態，如果是找出對應狀態之訊息種類
+            let userState = getUserState(event.source.userId);
+            //console.log('userState', userState);
+            if(userState.state){
+                //let stateRules = getRulesByState(userState.state);
+                //console.log('state rules:', stateRules);
+                getRulesByState(userState.state).forEach((ele) => {
+                    if(event.message.text === ele.keyword){
+                        userState.state = getNextLVRule(ele.state).length===0 ? undefined: ele.state
+                        
+                        //userState.state = ele.state;
+                        event.reply(ele.msgContent.text);
 
+
+                        console.log('level NEXT state:', getNextLVRule(ele.state));
+                    }
+                })
+
+            }else{
+                //console.log('getLevelOneRule', getLevelOneRule());
+                getLevelOneRule().forEach((ele, idx) => {
+                    //console.log('stateid', getRulesByState(ele.state)); 
+                    if(event.message.text === ele.keyword){
+                        
+                        userState.state = ele.state
+                        event.reply(ele.msgContent.text)
+
+                        console.log('level 1 state:', userState, userStates);
+                    }
+                });
+            }
+           
+            // if (event.message.text === '查詢通路流程2') {
+            //     if (!userStates[event.source.userId]) {
+            //         //console.log('add user');
+            //         userStates[event.source.userId] = {};
+            //         userStates[event.source.userId].userId = event.source.userId;
+            //         userStates[event.source.userId].state = 1;
+            //     } else {
+            //         //console.log('get user', userStates[event.source.userId])
+            //         userStates[event.source.userId].state = 1;
+            //     }
+            //     //console.log('查詢通路流程22', userStates);
+            //     event.reply('請輸入欲查詢通路別，ex：彰銀')
+            // }            
+            // else {
+            //     //console.log('查詢通路流程21', userStates);
+            //     if (userStates[event.source.userId] && userStates[event.source.userId].state === 1) {
+            //         console.log('查詢通路流程23', userStates);
+            //         switch (event.message.text) {
+            //             case '彰銀':
+            //                 console.log('查詢通路流程31', event.message.text);
+            //                 event.reply({
+            //                     "type": "image",
+            //                     "originalContentUrl": `${process.env.BASE_URL}tmnewa/getimage/22`,
+            //                     "previewImageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/22`
+            //                 });
+
+            //                 userStates[event.source.userId].state = 0;
+            //                 break;
+            //             case '匯豐':
+            //                     console.log('查詢通路流程32', event.message.text);
+            //                 event.reply({
+            //                     "type": "image",
+            //                     "originalContentUrl": `${process.env.BASE_URL}tmnewa/getimage/23`,
+            //                     "previewImageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/23`
+            //                 });
+            //                 userStates[event.source.userId].state = 0;
+            //                 break;
+            //             default:
+            //                 event.reply(event.message.text);
+            //         }
+            //     } else {
+            //         event.reply(event.message.text)
+            //             .then(function (data) {
+            //                 console.log('Success', data);
+            //             }).catch(function (error) {
+            //                 console.log('Error', error);
+            //             });
+            //     }
+            // }
+            break;
+    }
+});
+/*
 myLineBot.on('message', function (event) {
     console.log('bot message:', event.message);
     //event.reply(event.message.text)
     switch (event.message.type) {
         case 'text':
-            replyTextRules.forEach((ele, idx) => {
+            allReplyTextRules.forEach((ele, idx) => {
                 if(event.message.text === ele.keyword){
+                    if (!userStates[event.source.userId]) {
+                        //console.log('add user');
+                        userStates[event.source.userId] = {};
+                        userStates[event.source.userId].userId = event.source.userId;
+                        userStates[event.source.userId].state = ele.state;
+                    } else {
+                        //console.log('get user', userStates[event.source.userId])
+                        userStates[event.source.userId].state = 1;
+                    }
                     event.reply(ele.msgContent.text)
                 }
             })
@@ -104,16 +203,16 @@ myLineBot.on('message', function (event) {
                 // })
             }
             else if (event.message.text === '查詢通路流程2') {
-                if (!allUsers[event.source.userId]) {
+                if (!userStates[event.source.userId]) {
                     //console.log('add user');
-                    allUsers[event.source.userId] = {};
-                    allUsers[event.source.userId].userId = event.source.userId;
-                    allUsers[event.source.userId].step = 1;
+                    userStates[event.source.userId] = {};
+                    userStates[event.source.userId].userId = event.source.userId;
+                    userStates[event.source.userId].state = 1;
                 } else {
-                    //console.log('get user', allUsers[event.source.userId])
-                    allUsers[event.source.userId].step = 1;
+                    //console.log('get user', userStates[event.source.userId])
+                    userStates[event.source.userId].state = 1;
                 }
-                console.log('查詢通路流程22', allUsers);
+                console.log('查詢通路流程22', userStates);
                 event.reply('請輸入欲查詢通路別，ex：彰銀')
             }
             else if (event.message.text === '帳號綁定') {
@@ -170,9 +269,9 @@ myLineBot.on('message', function (event) {
 
             }
             else {
-                console.log('查詢通路流程21', allUsers);
-                if (allUsers[event.source.userId] && allUsers[event.source.userId].step === 1) {
-                    console.log('查詢通路流程23', allUsers);
+                console.log('查詢通路流程21', userStates);
+                if (userStates[event.source.userId] && userStates[event.source.userId].state === 1) {
+                    console.log('查詢通路流程23', userStates);
                     switch (event.message.text) {
                         case '彰銀':
                             console.log('查詢通路流程31', event.message.text);
@@ -182,7 +281,7 @@ myLineBot.on('message', function (event) {
                                 "previewImageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/22`
                             });
 
-                            allUsers[event.source.userId].step = 0;
+                            userStates[event.source.userId].state = 0;
                             break;
                         case '匯豐':
                                 console.log('查詢通路流程32', event.message.text);
@@ -191,7 +290,7 @@ myLineBot.on('message', function (event) {
                                 "originalContentUrl": `${process.env.BASE_URL}tmnewa/getimage/23`,
                                 "previewImageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/23`
                             });
-                            allUsers[event.source.userId].step = 0;
+                            userStates[event.source.userId].state = 0;
                             break;
                         default:
                             event.reply(event.message.text);
@@ -210,6 +309,7 @@ myLineBot.on('message', function (event) {
 
     }
 });
+*/
 
 module.exports = {
     myLineBot
