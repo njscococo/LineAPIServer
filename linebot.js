@@ -26,7 +26,7 @@ myLineBot.on('message', function (event) {
         case 'text':
             //收到訊息先判斷該USER是否已存在某種狀態，如果是找出對應狀態之訊息種類
             let userState = getUserState(event.source.userId);
-            //console.log('userState', userState);
+            console.log('userState', userState);
             if(userState.state){
                 //let stateRules = getRulesByState(userState.state);
                 //console.log('state rules:', stateRules);

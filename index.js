@@ -51,8 +51,8 @@ app.post('/linewebhook', parser, function (req, res) {
     return res.sendStatus(400);
   }
 
-  console.log('linewebhook req:', req.body.events)
-  console.log('linewebhook req msg:', req.body.events[0].message)
+  //console.log('linewebhook req:', req.body.events)
+  //console.log('linewebhook req msg:', req.body.events[0].message)
   req.body.events.forEach((evt, idx) => {
     if (evt.type === 'accountLink') {
       db.linebot.linkMember(evt.source.userId, evt.link.nonce).then((rep) => {
@@ -139,6 +139,6 @@ app.get('/tmnewa/getthumbnail/:id', db.linebot.getThumbnailById);
 /* #endregion */
 
 app.listen(port, () => {
-  console.log('app is working')
+  console.log('app is working:' + port)
 });
 
