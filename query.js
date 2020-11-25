@@ -184,6 +184,7 @@ const linkMember = (lineUserId, nonce) => {
 const genOTPByAccount = (req, res) => {
     const { tmnewaid, email } = req.body;
     //console.log('genOTPByAccount:', tmnewaid, `${email}@tmnewa.com.tw`);
+    console.log('genOTPByAccount:', tmnewaid, email);
     pool.query('select * from tmnewamember where memberid=$1 and LOWER(email)=LOWER($2)', [tmnewaid, `${email}@tmnewa.com.tw`], (err, result) => {
         if (err) {
             reject(err);

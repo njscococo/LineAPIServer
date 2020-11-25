@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
+const otp = require('./otp');
 const OAuth2 = google.auth.OAuth2;
 //const redis = require('redis');
 
@@ -14,8 +15,9 @@ oauth2Client.setCredentials({
 });
 
 async function sendMail(receivers, otpToken) {
-    const tokens = await oauth2Client.refreshAccessToken();
-    const accessToken = tokens.credentials.access_token;
+    const tokens = await oauth2Client.getAccessToken();
+    //console.log('sendmail', tokens)
+    const accessToken = tokens.access_token;
 
     let transporter = nodemailer.createTransport({
         service: 'gmail',

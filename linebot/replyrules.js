@@ -3,6 +3,39 @@ dotenv.config();
 
 const allReplyTextRules = [
     {
+        keyword: '查詢通路流程',
+        //state: '1-3',
+        replyMsgType: 'text',
+        msgContent: {
+            text: [
+                {
+                    "type": "template",
+                    "altText": "通路流程查詢",
+                    "template": {
+                        "type": "image_carousel",
+
+                        "columns": [{
+                            "imageUrl": 'https://images.unsplash.com/photo-1561067039-ba57afb43541?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2734&q=80',
+                            //"imageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/22`,
+                            "action": {
+                                "type": "postback",
+                                "label": "彰銀通路流程",
+                                "data": "action=buy&itemid=111"
+                            }
+                        }, {
+                            "imageUrl": `${process.env.BASE_URL}tmnewa/getthumbnail/23`,
+                            "action": {
+                                "type": "postback",
+                                "label": "匯豐通路流程",
+                                "data": "action=buy&itemid=111"
+                            }
+                        }]
+                    }
+                }
+            ]
+        }
+    },
+    {
         keyword: '新年快樂',
         //state: '1-3',
         replyMsgType: 'text',
@@ -144,8 +177,6 @@ const getNextLVRule = function (stateId) {
         return ele.state ? ele.state.startsWith(`${stateId}-`) : false;
     })
 }
-
-
 
 module.exports = {
     allReplyTextRules: allReplyTextRules,
